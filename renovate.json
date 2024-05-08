@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "maven": {
+    "enabled": true,
+    "registryUrls": [
+      "https://repo.maven.apache.org/maven2",
+      "https://maven.pkg.github.com/retex-iconic/iconic.xr.suite"
+    ]
+  },
+  "hostRules": [
+    {
+      "hostType": "maven",
+      "matchHost": "https://maven.pkg.github.com/retex-iconic/iconic.xr.suite",
+      "username": "nomed",
+      "encrypted": {
+        "token": "wcFMA/xDdHCJBTolARAAljVj3Qk8EaBIKw8QfOtbnryzNlT3BBxWt2p2mrsyl+hZbG5vzHsfd9nsf/rXZZH05Ept+0Nv1Ivso7ypTtfH7bYSTVNDpo6JsnC9z1kWEHA30CmFG5CTRWRaG7VxmrAkY05lwtMa81NieYgOobaubmrvTEFPHF6X+Cca9P1rxuA9RIlS4WELffzqV8VmxOYO66j0a8ISF8821r9yvrxmlJ/G22RmA5mCdbOAF/B5qBSoTzf7sLWQUR6+lkWXwjL5m+lI0mZhY5UGxz5aQwNdSS2h+2WaRhnnp0srPR+5pzUumtfu2jhZY4pA+KEhocPCIZ/HCIoy2oHBLIKcnRuBQOSxq34ojJ81MBTytKycOw6n2R6e/0fmiRRAgzdjU135CU+ZzUULNLVfEty7zhebASOIhVHuKRZSn5K4jA2b9ncK6qi9MoNZQGCdcwgvuvZejIlLt/iCYd2X3Q6aVZP6+xp1bCiIOa/bpAvp6HAEXElvBHhMMxO8WRjcMXPR50g4SvN7E+4KPbshwaQYifGQNYmPelVzDrf7kIO7SIgjmx0r89H4PB1/iq2O2BUg1KuXaVflTOf1bhuxAQqdFR6XFg97XvlnoH7OuQapZobiGJd/IHL2yVH1lYAds1DkamPYfQer1RJq02op6BlpZBVCDSMvdTKiPzUWV7jJ2v08Oe7SjwFZUyf6nyYi72f8mc+LDwB4oRMT/JGlcrmQARMC3H9tnOPOTJL8fYs6SmxJvR+lsY2Ngfi80wUpnRfbJtf3WEgXa8EwSKofyf8ivT1L3Gue7P8zF9tCAQZ/ALiBw2lJ3fEzDApy2yo67BTURd7fSK5go6xUl5sCX754mUNagPv2Us6A0ozJCf/N75eGxYDU"
+      }
+    }
+  ]
+}
