@@ -1,6 +1,24 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
@@ -12,22 +30,6 @@ import com.retexspa.xr.ms.masterdata.main.core.searchRequest.FornitoreSearchRequ
 import com.retexspa.xr.ms.masterdata.main.query.entities.FornitoreQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.FornitoreQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.FornitoreRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
-import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 @Service
 public class FornitoreQueryServiceImpl implements FornitoreQueryService {
@@ -38,11 +40,9 @@ public class FornitoreQueryServiceImpl implements FornitoreQueryService {
 
   @PersistenceContext EntityManager entityManager;
 
-  QueryGateway queryGateway;
 
-  public FornitoreQueryServiceImpl(
-      QueryGateway queryGateway, FornitoreRepository fornitoreRepository) {
-    this.queryGateway = queryGateway;
+  public FornitoreQueryServiceImpl(FornitoreRepository fornitoreRepository) {
+  
     this.fornitoreRepository = fornitoreRepository;
   }
 

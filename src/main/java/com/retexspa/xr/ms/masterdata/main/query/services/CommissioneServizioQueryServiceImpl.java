@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.axonframework.queryhandling.QueryGateway;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,11 +34,9 @@ public class CommissioneServizioQueryServiceImpl implements CommissioneServizioQ
 
   @PersistenceContext EntityManager entityManager;
 
-  QueryGateway queryGateway;
 
-  public CommissioneServizioQueryServiceImpl(
-      QueryGateway queryGateway, CommissioneServizioRepository commissioneServizioRepository) {
-    this.queryGateway = queryGateway;
+
+  public CommissioneServizioQueryServiceImpl( CommissioneServizioRepository commissioneServizioRepository) {
     this.commissioneServizioRepository = commissioneServizioRepository;
   }
 

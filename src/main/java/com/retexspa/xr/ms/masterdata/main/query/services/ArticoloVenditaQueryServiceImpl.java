@@ -19,7 +19,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
-import org.axonframework.queryhandling.QueryGateway;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,8 +37,7 @@ public class ArticoloVenditaQueryServiceImpl implements ArticoloVenditaQueryServ
 
   @PersistenceContext private EntityManager entityManager;
 
-  public ArticoloVenditaQueryServiceImpl(
-      QueryGateway queryGateway, ArticoloVenditaRepository articoloVenditaRepository) {
+  public ArticoloVenditaQueryServiceImpl( ArticoloVenditaRepository articoloVenditaRepository) {
     this.articoloVenditaRepository = articoloVenditaRepository;
   }
 

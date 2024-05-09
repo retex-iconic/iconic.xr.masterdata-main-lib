@@ -1,6 +1,24 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
@@ -11,22 +29,6 @@ import com.retexspa.xr.ms.masterdata.main.core.searchRequest.TassonomiaSearchReq
 import com.retexspa.xr.ms.masterdata.main.query.entities.TassonomiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.TassonomiaQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.TassonomiaRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
-import org.axonframework.queryhandling.QueryGateway;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TassonomiaQueryServiceImpl implements TassonomiaQueryService {
@@ -36,8 +38,7 @@ public class TassonomiaQueryServiceImpl implements TassonomiaQueryService {
   @Autowired private TassonomiaQueryMapper tassonomiaQueryMapper;
   @PersistenceContext private EntityManager entityManager;
 
-  public TassonomiaQueryServiceImpl(
-      QueryGateway queryGateway, TassonomiaRepository tassonomiaRepository) {
+  public TassonomiaQueryServiceImpl( TassonomiaRepository tassonomiaRepository) {
     this.tassonomiaRepository = tassonomiaRepository;
   }
 

@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
-import org.axonframework.queryhandling.QueryGateway;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,11 +36,8 @@ public class AnagraficaServizioQueryServiceImpl implements AnagraficaServizioQue
 
   @PersistenceContext EntityManager entityManager;
 
-  QueryGateway queryGateway;
 
-  public AnagraficaServizioQueryServiceImpl(
-      QueryGateway queryGateway, AnagraficaServizioRepository anagraficaServizioRepository) {
-    this.queryGateway = queryGateway;
+  public AnagraficaServizioQueryServiceImpl(AnagraficaServizioRepository anagraficaServizioRepository) {
     this.anagraficaServizioRepository = anagraficaServizioRepository;
   }
 
