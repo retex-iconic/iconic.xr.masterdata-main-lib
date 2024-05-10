@@ -14,7 +14,8 @@ public class IvaIndexDTO {
   private LinkedList<String> repartoIds;
   private LinkedList<String> figliIds;
 
-  public IvaIndexDTO() {}
+  public IvaIndexDTO() {
+  }
 
   public IvaIndexDTO(String ivaId) {
     // this.codNeg = codNeg;
@@ -64,4 +65,21 @@ public class IvaIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameIvaRtIds() {
+    return "ivaRtIds";
+  }
+
+  public static String getDetailNameArticoloVenditaIds() {
+    return "articoloVenditaIds";
+  }
+
+  public static String getDetailNameRepartoIds() {
+    return "repartoIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
 }

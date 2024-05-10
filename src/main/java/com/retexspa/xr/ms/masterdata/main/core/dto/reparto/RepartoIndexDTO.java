@@ -14,7 +14,8 @@ public class RepartoIndexDTO {
   private LinkedList<String> articoloVenditaIds;
   private LinkedList<String> figliIds;
 
-  public RepartoIndexDTO() {}
+  public RepartoIndexDTO() {
+  }
 
   public RepartoIndexDTO(String repartoId) {
     this.repartoId = repartoId;
@@ -47,4 +48,13 @@ public class RepartoIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameArticoloVenditaIds() {
+    return "articoloVenditaIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
 }
