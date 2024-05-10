@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.retexspa.xr.ms.main.core.dto.BaseDTO;
-import com.retexspa.xr.ms.masterdata.main.core.dto.attributo.AttributoValoreDTO;
+import com.retexspa.xr.ms.main.core.dto.attributo.AttributoValoreDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;

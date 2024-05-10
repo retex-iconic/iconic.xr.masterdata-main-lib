@@ -3,20 +3,21 @@ package com.retexspa.xr.ms.masterdata.main.core.dto.attributo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.retexspa.xr.ms.main.core.dto.AggregateIndexGerarchiaBaseDTO;
+import com.retexspa.xr.ms.main.core.dto.attributo.AttributoBaseDTO;
 
 @JsonInclude(Include.NON_NULL)
-public class AttributoIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
+public class MasterDataAttributoIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
 
-  public AttributoIndexGerarchiaDTO() {}
+  public MasterDataAttributoIndexGerarchiaDTO() {}
 
-  public AttributoIndexGerarchiaDTO(String gerarchiaId) {
+  public MasterDataAttributoIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
 
   public static String getUk(AttributoBaseDTO attributo) {
     String uk =
         attributo.getChiave()
-            + AttributoIndexGerarchiaDTO.getUkSeparator()
+            + MasterDataAttributoIndexGerarchiaDTO.getUkSeparator()
             + attributo.getAggregato();
     return uk;
   }

@@ -1,26 +1,27 @@
 package com.retexspa.xr.ms.masterdata.main.core.dto.attributo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.util.LinkedList;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @JsonInclude(Include.NON_NULL)
-public class AttributoIndexDTO {
+public class MasterDataAttributoIndexDTO {
 
   private String attributoId;
   // DONE IN INDEXAGGREGATE AND EVENTHANDLER
   private LinkedList<String> articoloVenditaIds;
   private LinkedList<String> masterDataConfigIds;
 
-  public AttributoIndexDTO() {}
+  public MasterDataAttributoIndexDTO() {}
 
-  public AttributoIndexDTO(String attributoId) {
+  public MasterDataAttributoIndexDTO(String attributoId) {
     this.attributoId = attributoId;
   }
 
   public static String getIdFromAttributo(String attributoId) {
-    return UUID.nameUUIDFromBytes(("/AttributoIndex/" + attributoId).getBytes()).toString();
+    return UUID.nameUUIDFromBytes(("/MasterDataAttributoIndex/" + attributoId).getBytes()).toString();
   }
 
   public String getAttributoId() {

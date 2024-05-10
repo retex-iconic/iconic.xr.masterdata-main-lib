@@ -1,12 +1,13 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
 import com.google.common.base.Joiner;
+import com.retexspa.xr.ms.main.core.dto.attributo.AttributoBaseDTO;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.retexspa.xr.ms.masterdata.main.core.dto.attributo.AttributoBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
