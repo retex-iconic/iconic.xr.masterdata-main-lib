@@ -64,4 +64,10 @@ public class IvaIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameIvaRt() {
+    return "ivaRtIds";
+  }
+
+  public static String getDetailNameFigli() {return "figliIds";}
 }
