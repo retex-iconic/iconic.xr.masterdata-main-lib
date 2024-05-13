@@ -28,4 +28,12 @@ public class AtecoIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
     Integer uk = ateco.getAtecoNr();
     return uk;
   }
+
+  public static String getIndexName(){
+    return "AtecoIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "AtecoIndexGerarchiaAggregate";
+  }
 }

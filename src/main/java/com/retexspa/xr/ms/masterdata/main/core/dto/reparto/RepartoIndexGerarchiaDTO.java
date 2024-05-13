@@ -17,4 +17,12 @@ public class RepartoIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
     String uk = rep.getCodice();
     return uk;
   }
+
+  public static String getIndexName () {
+    return "RepartoIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName () {
+    return "RepartoIndexGerarchiaAggregate";
+  }
 }

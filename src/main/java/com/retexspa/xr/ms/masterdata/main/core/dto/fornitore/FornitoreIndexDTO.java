@@ -14,7 +14,8 @@ public class FornitoreIndexDTO {
   private String fornitoreId;
   private LinkedList<String> figliIds;
 
-  public FornitoreIndexDTO() {}
+  public FornitoreIndexDTO() {
+  }
 
   public FornitoreIndexDTO(String fornitoreId) {
     this.fornitoreId = fornitoreId;
@@ -39,4 +40,9 @@ public class FornitoreIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
 }
