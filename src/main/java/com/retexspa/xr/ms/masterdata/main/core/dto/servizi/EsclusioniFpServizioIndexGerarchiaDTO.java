@@ -42,4 +42,17 @@ public class EsclusioniFpServizioIndexGerarchiaDTO extends AggregateIndexGerarch
             + escl.getFormaPagamentoId();
     return uk;
   }
+
+  public static String getIndexName() {
+    return "EsclusioniFpServizioIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "EsclusioniFpServizioIndexGerarchiaAggregate";
+  }
+
+
+
+
+
 }

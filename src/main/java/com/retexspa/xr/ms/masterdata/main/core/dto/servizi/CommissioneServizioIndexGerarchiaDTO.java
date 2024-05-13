@@ -37,4 +37,14 @@ public class CommissioneServizioIndexGerarchiaDTO extends AggregateIndexGerarchi
             + comm.getProfilo();
     return uk;
   }
+
+  public static String getIndexName() {
+    return "CommissioneServizioIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "CommissioneServizioIndexGerarchiaAggregate";
+  }
+
+
 }
