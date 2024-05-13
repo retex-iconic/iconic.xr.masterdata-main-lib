@@ -9,7 +9,7 @@ public class AtecoIndexDTO {
 
   private String atecoId;
 
-  private LinkedList<String> ivaRTIds;
+  private LinkedList<String> ivaRtIds;
   private LinkedList<String> figliIds;
 
   public AtecoIndexDTO() {}
@@ -31,11 +31,11 @@ public class AtecoIndexDTO {
   }
 
   public LinkedList<String> getIvaRTIds() {
-    return ivaRTIds;
+    return ivaRtIds;
   }
 
-  public void setIvaRTIds(LinkedList<String> ivaRTIds) {
-    this.ivaRTIds = ivaRTIds;
+  public void setIvaRtIds(LinkedList<String> ivaRtIds) {
+    this.ivaRtIds = ivaRtIds;
   }
 
   public LinkedList<String> getFigliIds() {
@@ -44,5 +44,13 @@ public class AtecoIndexDTO {
 
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
+  }
+
+  public static String getDetailNameIvaRt() {
+    return "ivaRtIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
   }
 }
