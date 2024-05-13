@@ -10,6 +10,7 @@ public class ArticoloIndexDTO {
 
   private String articoloId;
   // DONE IN INDEXAGGREGATE AND EVENTHANDLER
+  private LinkedList<String> articoloIds;
   private LinkedList<String> tassonomiaIds;
   private LinkedList<String> articoloTassonomiaIds;
   private LinkedList<String> anagraficaServizioIds;
@@ -44,6 +45,14 @@ public class ArticoloIndexDTO {
 
   public void setArticoloVenditaIds(LinkedList<String> articoloVenditaIds) {
     this.articoloVenditaIds = articoloVenditaIds;
+  }
+
+  public LinkedList<String> getArticoloIds() {
+    return this.articoloIds;
+  }
+
+  public void setArticoloIds(LinkedList<String> articoloIds) {
+    this.articoloIds = articoloIds;
   }
 
   public LinkedList<String> getTassonomiaIds() {
@@ -108,5 +117,33 @@ public class ArticoloIndexDTO {
 
   public void setArticoloInfoServizioIds(LinkedList<String> articoloInfoServizioIds) {
     this.articoloInfoServizioIds = articoloInfoServizioIds;
+  }
+
+  public static String getDetailNameArticolo() {
+    return "Articolo";
+  }
+
+  public static String getDetailNameArticoloTassonomia() {
+    return "ArticoloTassonomia";
+  }
+
+  public static String getDetailNameArticoloVendita() {
+    return "ArticoloVendita";
+  }
+
+  public static String getDeatilNameArticoloEan() {
+    return "ArticoloEan";
+  }
+
+  public static String getDetailNameArticoloNastroPrezzi() {
+    return "ArticoloNastroPrezzi";
+  }
+
+  public static String getDetailNameArticoloInfoServiziVendita() {
+    return "ArticoloInfoServiziVendita";
+  }
+
+  public static String getDetailNameFigli() {
+    return "Figli";
   }
 }

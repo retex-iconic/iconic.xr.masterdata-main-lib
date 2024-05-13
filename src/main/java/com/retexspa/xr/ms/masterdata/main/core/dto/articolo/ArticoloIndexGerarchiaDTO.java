@@ -17,4 +17,12 @@ public class ArticoloIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
     String uk = articolo.getCodice();
     return uk;
   }
+
+  public static String getIndexName() {
+    return "ArticoloIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "ArticoloIndexGerarchiaAggregate";
+  }
 }
