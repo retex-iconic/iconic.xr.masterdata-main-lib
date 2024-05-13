@@ -20,4 +20,14 @@ public class FornitoreIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
     String uk = fornitore.getCodice();
     return uk;
   }
+  
+  public static String getIndexName () {
+    return "FornitoreIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName () {
+    return "FornitoreIndexGerarchiaAggregate";
+  }
+
+
 }
