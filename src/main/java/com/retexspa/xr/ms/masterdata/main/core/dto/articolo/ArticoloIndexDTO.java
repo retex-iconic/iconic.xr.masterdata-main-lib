@@ -20,7 +20,8 @@ public class ArticoloIndexDTO {
   private LinkedList<String> articoloEanIds;
   private LinkedList<String> commissioniServizioIds;
 
-  public ArticoloIndexDTO() {}
+  public ArticoloIndexDTO() {
+  }
 
   public ArticoloIndexDTO(String articoloId) {
     this.articoloId = articoloId;
@@ -109,4 +110,41 @@ public class ArticoloIndexDTO {
   public void setArticoloInfoServizioIds(LinkedList<String> articoloInfoServizioIds) {
     this.articoloInfoServizioIds = articoloInfoServizioIds;
   }
+
+  public static String getDetailNameTassonomiaIds() {
+    return "tassonomiaIds";
+  }
+
+  public static String getDetailNameArticoloTassonomiaIds() {
+    return "articoloTassonomiaIds";
+  }
+
+  public static String getDetailNameAnagraficaServizioIds() {
+    return "anagraficaServizioIds";
+  }
+
+  public static String getDetailNameArticoloInfoServizioIds() {
+    return "articoloInfoServizioIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
+  public static String getDetailNameArticoloVenditaIds() {
+    return "articoloVenditaIds";
+  }
+
+  public static String getDetailNameArticoloNastroPrezziIds() {
+    return "articoloNastroPrezziIds";
+  }
+
+  public static String getDetailNameArticoloEanIds() {
+    return "articoloEanIds";
+  }
+
+  public static String getDetailNameCommissioniServizioIds() {
+    return "commissioniServizioIds";
+  }
+
 }

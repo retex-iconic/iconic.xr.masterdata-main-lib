@@ -8,7 +8,8 @@ import com.retexspa.xr.ms.main.core.dto.AggregateIndexGerarchiaBaseDTO;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TipologiaServizioIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
-  public TipologiaServizioIndexGerarchiaDTO() {}
+  public TipologiaServizioIndexGerarchiaDTO() {
+  }
 
   public TipologiaServizioIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
@@ -18,4 +19,13 @@ public class TipologiaServizioIndexGerarchiaDTO extends AggregateIndexGerarchiaB
     String uk = tipo.getCodice();
     return uk;
   }
+
+  public static String getIndexName() {
+    return "TipologiaServizioIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "TipologiaServizioIndexGerarchiaAggregate";
+  }
+
 }

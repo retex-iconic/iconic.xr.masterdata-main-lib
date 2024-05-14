@@ -14,7 +14,8 @@ public class FormaPagamentoIndexDTO {
   private LinkedList<String> esclusioniFPServizioIds;
   private LinkedList<String> figliIds;
 
-  public FormaPagamentoIndexDTO() {}
+  public FormaPagamentoIndexDTO() {
+  }
 
   public FormaPagamentoIndexDTO(String formaPagamentoId) {
     this.formaPagamentoId = formaPagamentoId;
@@ -56,4 +57,17 @@ public class FormaPagamentoIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameFormaPagamentoCassaIds() {
+    return "formaPagamentoCassaIds";
+  }
+
+  public static String getDetailNameEsclusioniFPServizioIds() {
+    return "esclusioniFPServizioIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
 }

@@ -18,4 +18,13 @@ public class AnagraficaServizioIndexGerarchiaDTO extends AggregateIndexGerarchia
     String uk = anag.getCodice();
     return uk;
   }
+  public static String getIndexName() {
+    return "AnagraficaServizioIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "AnagraficaServizioIndexGerarchiaAggregate";
+  }
+
+
 }
