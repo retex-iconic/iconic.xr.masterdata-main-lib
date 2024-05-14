@@ -12,4 +12,12 @@ public class TipoTassonomiaIndexGerarchiaDTO extends AggregateIndexGerarchiaBase
   public TipoTassonomiaIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName(){
+    return "TipoTassonomiaIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "TipoTassonomiaIndexGerarchiaAggregate";
+  }
 }

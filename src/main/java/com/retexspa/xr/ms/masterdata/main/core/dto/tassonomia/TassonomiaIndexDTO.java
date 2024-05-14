@@ -82,4 +82,16 @@ public class TassonomiaIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameArticoloTassonomia() {
+    return "articoloTassonomiaIds";
+  }
+
+  public static String getDetailNameNodo() {
+    return "nodoIds";
+  }
+
+  public static String getDetailNameFigli() {
+    return "figliIds";
+  }
 }
