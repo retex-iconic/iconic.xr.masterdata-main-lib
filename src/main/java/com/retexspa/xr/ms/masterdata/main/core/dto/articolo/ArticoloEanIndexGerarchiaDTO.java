@@ -10,4 +10,12 @@ public class ArticoloEanIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO
   public ArticoloEanIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName() {
+    return "ArticoloEanIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "ArticoloEanIndexGerarchiaAggregate";
+  }
 }

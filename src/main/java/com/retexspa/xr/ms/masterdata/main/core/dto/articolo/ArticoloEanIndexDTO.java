@@ -25,4 +25,12 @@ public class ArticoloEanIndexDTO {
   public String getEanId() {
     return this.eanId;
   }
+
+  public static String getDeatilNameArticoloEan() {
+    return "ArticoloEan";
+  }
+
+  public static String getDeatilNameArticoloEanAggregate() {
+    return "ArticoloEanAggregate";
+  }
 }

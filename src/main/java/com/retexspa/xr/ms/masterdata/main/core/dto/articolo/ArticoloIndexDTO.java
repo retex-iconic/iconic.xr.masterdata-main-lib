@@ -123,16 +123,16 @@ public class ArticoloIndexDTO {
     return "Articolo";
   }
 
+  public static String getDetailNameArticoloAggregate() {
+    return "ArticoloAggregate";
+  }
+
   public static String getDetailNameArticoloTassonomia() {
     return "ArticoloTassonomia";
   }
 
   public static String getDetailNameArticoloVendita() {
     return "ArticoloVendita";
-  }
-
-  public static String getDeatilNameArticoloEan() {
-    return "ArticoloEan";
   }
 
   public static String getDetailNameArticoloNastroPrezzi() {
@@ -143,6 +143,9 @@ public class ArticoloIndexDTO {
     return "ArticoloInfoServiziVendita";
   }
 
+  public static String getDetailNameCommissioneServizio() {
+    return "CommissioneServizio";
+  }
   public static String getDetailNameFigli() {
     return "Figli";
   }
