@@ -30,7 +30,7 @@ public class AtecoIndexDTO {
     this.atecoId = atecoId;
   }
 
-  public LinkedList<String> getIvaRTIds() {
+  public LinkedList<String> getIvaRtIds() {
     return ivaRtIds;
   }
 
@@ -50,7 +50,7 @@ public class AtecoIndexDTO {
     return "ivaRtIds";
   }
 
-  public static String getDetailNameFigliIds() {
+  public static String getDetailNameFigli() {
     return "figliIds";
   }
 }
