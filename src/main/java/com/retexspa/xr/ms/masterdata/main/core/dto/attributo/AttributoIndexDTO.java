@@ -1,35 +1,22 @@
 package com.retexspa.xr.ms.masterdata.main.core.dto.attributo;
 
 import java.util.LinkedList;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
-public class MasterDataAttributoIndexDTO {
+public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attributo.AttributoIndexDTO {
 
-  private String attributoId;
   // DONE IN INDEXAGGREGATE AND EVENTHANDLER
   private LinkedList<String> articoloVenditaIds;
   private LinkedList<String> masterDataConfigIds;
 
-  public MasterDataAttributoIndexDTO() {}
-
-  public MasterDataAttributoIndexDTO(String attributoId) {
-    this.attributoId = attributoId;
+  public AttributoIndexDTO() {
   }
 
-  public static String getIdFromAttributo(String attributoId) {
-    return UUID.nameUUIDFromBytes(("/MasterDataAttributoIndex/" + attributoId).getBytes()).toString();
-  }
-
-  public String getAttributoId() {
-    return this.attributoId;
-  }
-
-  public void setAttributoId(String attributoId) {
-    this.attributoId = attributoId;
+  public AttributoIndexDTO(String attributoId) {
+    super(attributoId);
   }
 
   public LinkedList<String> getMasterDataConfigIds() {
@@ -46,5 +33,13 @@ public class MasterDataAttributoIndexDTO {
 
   public void setArticoloVenditaIds(LinkedList<String> articoloVenditaIds) {
     this.articoloVenditaIds = articoloVenditaIds;
+  }
+
+  public static String getDetailNameArticoloVendita() {
+    return "ArticoloVendita";
+  }
+
+  public static String getDetailNameMasterDataConfig() {
+    return "MasterDataConfig";
   }
 }

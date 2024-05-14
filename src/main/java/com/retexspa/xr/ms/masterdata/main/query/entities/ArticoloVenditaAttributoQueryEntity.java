@@ -1,6 +1,8 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.retexspa.xr.ms.main.query.entities.AttributoQueryEntity;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
