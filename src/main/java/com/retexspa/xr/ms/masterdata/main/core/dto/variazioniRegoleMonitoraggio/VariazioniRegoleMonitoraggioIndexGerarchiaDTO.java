@@ -7,4 +7,12 @@ public class VariazioniRegoleMonitoraggioIndexGerarchiaDTO extends AggregateInde
   public VariazioniRegoleMonitoraggioIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName(){
+    return "VariazioniRegoleMonitoraggioIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "VariazioniRegoleMonitoraggioIndexGerarchiaAggregate";
+  }
 }
