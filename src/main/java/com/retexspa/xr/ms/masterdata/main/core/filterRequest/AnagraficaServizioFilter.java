@@ -1,11 +1,11 @@
-package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
+package com.retexspa.xr.ms.masterdata.main.core.filterRequest;
 
-import com.retexspa.xr.ms.main.core.queries.BaseSort;
-import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
+import java.util.LinkedHashMap;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.List;
-
-public class AnagraficaServizioSearchRequest extends BaseSortPagination {
+public class AnagraficaServizioFilter {
 
   private String id;
   private String codice;
@@ -21,24 +21,25 @@ public class AnagraficaServizioSearchRequest extends BaseSortPagination {
   private String config; // TODO MASTERDATA
   private Long version;
 
-  public AnagraficaServizioSearchRequest(
-      Integer page,
-      Integer limit,
-      List<BaseSort> sort,
-      String id,
-      String codice,
-      String descrizione,
-      String nome,
-      String gerarchiaId,
-      String collocazione,
-      String providerId,
-      String tipologiaServizioId,
-      String fiduciaria,
-      String desScontrino,
-      String serviceType,
-      Long version,
-      String config) {
-    super(page, limit, sort);
+  public AnagraficaServizioFilter() {
+
+  }
+
+  public AnagraficaServizioFilter(
+      @JsonProperty("id") String id,
+      @JsonProperty("codice") String codice,
+      @JsonProperty("descrizione") String descrizione,
+      @JsonProperty("nome") String nome,
+      @JsonProperty("gerarchiaId") String gerarchiaId,
+      @JsonProperty("collocazione") String collocazione,
+      @JsonProperty("providerId") String providerId,
+      @JsonProperty("tipologiaServizioId") String tipologiaServizioId,
+      @JsonProperty("fiduciaria") String fiduciaria,
+      @JsonProperty("desScontrino") String desScontrino,
+      @JsonProperty("serviceType") String serviceType,
+      @JsonProperty("version") Long version,
+      @JsonProperty("config") String config) {
+
     this.id = id;
     this.codice = codice;
     this.descrizione = descrizione;
@@ -157,4 +158,44 @@ public class AnagraficaServizioSearchRequest extends BaseSortPagination {
   public void setConfig(String config) {
     this.config = config;
   }
+
+  public static AnagraficaServizioFilter createFilterFromMap(Object obj) {
+
+    ObjectMapper mapper = new ObjectMapper();
+    String json = null;
+    try {
+      json = mapper.writeValueAsString(obj);
+
+      LinkedHashMap<String, Object> map = mapper.readValue(json, LinkedHashMap.class);
+
+      AnagraficaServizioFilter filter = new AnagraficaServizioFilter();
+      if (map != null) {
+        filter.setId((String) map.get("id"));
+        filter.setCodice((String) map.get("codice"));
+        filter.setNome((String) map.get("nome"));
+        filter.setDescrizione((String) map.get("descrizione"));
+        filter.setGerarchiaId((String) map.get("gerarchiaId"));
+        filter.setCollocazione((String) map.get("collocazione"));
+        filter.setProviderId((String) map.get("providerId"));
+        filter.setTipologiaServizioId((String) map.get("tipologiaServizioId"));
+        filter.setFiduciaria((String) map.get("fiduciaria"));
+        filter.setDesScontrino((String) map.get("desScontrino"));
+        filter.setServiceType((String) map.get("serviceType"));
+        filter.setConfig((String) map.get("config"));
+
+        Object version = map.get("version");
+        if (version != null) {
+          if (version instanceof Integer) {
+            filter.setVersion(Long.valueOf((Integer) version));
+          } else if (version instanceof Long) {
+            filter.setVersion((Long) version);
+          }
+        }
+      }
+      return filter;
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }

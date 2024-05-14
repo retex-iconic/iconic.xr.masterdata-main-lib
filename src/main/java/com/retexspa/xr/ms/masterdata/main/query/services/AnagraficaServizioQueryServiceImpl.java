@@ -1,12 +1,13 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.AnagraficaServizioQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.AnagraficaServizioByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.queries.AnagraficaServizioListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.AnagraficaServizioResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.AnagraficaServizioSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.AnagraficaServizioFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.AnagraficaServizioQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.AnagraficaServizioQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.AnagraficaServizioRepository;
@@ -64,7 +65,7 @@ public class AnagraficaServizioQueryServiceImpl implements AnagraficaServizioQue
 
   @Override
   public Page<AnagraficaServizioQueryEntity> searchQueryAnagraficaServizio(
-      AnagraficaServizioSearchRequest query) {
+    GenericSearchRequest<AnagraficaServizioFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -88,84 +89,86 @@ public class AnagraficaServizioQueryServiceImpl implements AnagraficaServizioQue
 
     List<Specification<AnagraficaServizioQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    AnagraficaServizioFilter filter = AnagraficaServizioFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
 
-    if (query.getCollocazione() != null) {
+    if (filter.getCollocazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("collocazione")),
-                  "%" + query.getCollocazione().toUpperCase() + "%"));
+                  "%" + filter.getCollocazione().toUpperCase() + "%"));
     }
-    if (query.getProviderId() != null) {
+    if (filter.getProviderId() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("providerId")), "%" + query.getProviderId().toUpperCase() + "%"));
+                  c.upper(r.get("providerId")), "%" + filter.getProviderId().toUpperCase() + "%"));
     }
-    if (query.getTipologiaServizioId() != null) {
+    if (filter.getTipologiaServizioId() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("tipologiaServizio").get("id")),
-                  "%" + query.getTipologiaServizioId().toUpperCase() + "%"));
+                  "%" + filter.getTipologiaServizioId().toUpperCase() + "%"));
     }
-    if (query.getFiduciaria() != null) {
+    if (filter.getFiduciaria() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("fiduciaria")), "%" + query.getFiduciaria().toUpperCase() + "%"));
+                  c.upper(r.get("fiduciaria")), "%" + filter.getFiduciaria().toUpperCase() + "%"));
     }
-    if (query.getDesScontrino() != null) {
+    if (filter.getDesScontrino() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("desScontrino")),
-                  "%" + query.getDesScontrino().toUpperCase() + "%"));
+                  "%" + filter.getDesScontrino().toUpperCase() + "%"));
     }
-    if (query.getServiceType() != null) {
+    if (filter.getServiceType() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("serviceType")), "%" + query.getServiceType().toUpperCase() + "%"));
+                  c.upper(r.get("serviceType")), "%" + filter.getServiceType().toUpperCase() + "%"));
     }
     // TODO MASTERDATA
-    if (query.getConfig() != null) {
+    if (filter.getConfig() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("config")), "%" + query.getConfig().toUpperCase() + "%"));
+              c.like(c.upper(r.get("config")), "%" + filter.getConfig().toUpperCase() + "%"));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -198,7 +201,7 @@ public class AnagraficaServizioQueryServiceImpl implements AnagraficaServizioQue
 
   @Override
   public AnagraficaServizioResponse searchAnagraficaServizio(
-      AnagraficaServizioSearchRequest query) {
+    GenericSearchRequest<AnagraficaServizioFilter> query) {
     Page<AnagraficaServizioQueryEntity> page = searchQueryAnagraficaServizio(query);
     AnagraficaServizioResponse anagraficaServizioResponse = new AnagraficaServizioResponse();
     List<AnagraficaServizioQueryDTO> list =
