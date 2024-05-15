@@ -1,135 +1,98 @@
-package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
+package com.retexspa.xr.ms.masterdata.main.core.filterRequest;
 
-import com.retexspa.xr.ms.main.core.queries.BaseSort;
-import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.LinkedHashMap;
 
-public class RepartoSearchRequest extends BaseSortPagination {
-
+public class RepartoFilter {
   private String id;
-
   private String nome;
-
   private String codice;
-
   private String descrizione;
-
-  private BigDecimal scontoPercentuale;
-
-  private BigDecimal margineFisso;
-
-  private String accettaPagamentoTicketRestaurant;
-
-  private String erogaPunti;
-
-  private String erogaBuoni;
-
-  private String erogaSconti;
-
-  private String tracciabilitaOrtofrutta;
-
-  private String tracciabilitaMacelleria;
-
-  private String tracciabilitaPescheria;
-
-  private String tracciabilitaGastronomia;
-
-  private Integer sconto;
-
-  private String repEcr;
-
-  private String repLoc;
-
-  private String repCedi;
-
-  private Double margine;
-
-  private String flgTicket;
-
-  private String flgPunti;
-
-  private String flgBuoni;
-
-  private String flgSconti;
-
-  private String dataType;
-
-  private String dataFunc;
-
-  private String backClr;
-
-  private String flgOrto;
-
-  private String flgMacel;
-
-  private String flgPescheria;
-
-  private String flgGastro;
-
-  private String repEkom;
-
-  private LocalDateTime dataCas;
-
-  private String idSendEcr;
-
-  private String dataOraUpd;
-
-  private String bloccoPre;
-
-  private String ivaId;
-
   private String gerarchiaId;
-
+  private String ivaId;
   private String padreId;
+  private BigDecimal scontoPercentuale;
+  private Double margineFisso;
+  private String accettaPagamentoTicketRestaurant;
+  private String erogaPunti;
+  private String erogaBuoni;
+  private String erogaSconti;
+  private String tracciabilitaOrtofrutta;
+  private String tracciabilitaMacelleria;
+  private String tracciabilitaPescheria;
+  private String tracciabilitaGastronomia;
+  private Integer sconto;
+  private String repEcr;
+  private String repLoc;
+  private String repCedi;
+  private Double margine;
+  private String flgTicket;
+  private String flgPunti;
+  private String flgBuoni;
+  private String flgSconti;
+  private String dataType;
+  private String dataFunc;
+  private String backClr;
+  private String flgOrto;
+  private String flgMacel;
+  private String flgPescheria;
+  private String flgGastro;
+  private String repEkom;
+  private LocalDateTime dataCas;
+  private String idSendEcr;
+  private String dataOraUpd;
+  private String bloccoPre;
   private Long version;
 
-  public RepartoSearchRequest(
-      Integer page,
-      Integer limit,
-      List<BaseSort> sort,
-      String id,
-      String nome,
-      String codice,
-      String descrizione,
-      BigDecimal scontoPercentuale,
-      BigDecimal margineFisso,
-      String accettaPagamentoTicketRestaurant,
-      String erogaPunti,
-      String erogaBuoni,
-      String erogaSconti,
-      String tracciabilitaOrtofrutta,
-      String tracciabilitaMacelleria,
-      String tracciabilitaPescheria,
-      String tracciabilitaGastronomia,
-      Integer sconto,
-      String repEcr,
-      String repLoc,
-      String repCedi,
-      Double margine,
-      String flgTicket,
-      String flgPunti,
-      String flgBuoni,
-      String flgSconti,
-      String dataType,
-      String dataFunc,
-      String backClr,
-      String flgOrto,
-      String flgMacel,
-      String flgPescheria,
-      String flgGastro,
-      String repEkom,
-      LocalDateTime dataCas,
-      String idSendEcr,
-      String dataOraUpd,
-      String bloccoPre,
-      String ivaId,
-      String gerarchiaId,
-      String padreId,
-      Long version) {
-    super(page, limit, sort);
+  public RepartoFilter() {
+  }
+
+  public RepartoFilter(
+      @JsonProperty("id") String id,
+      @JsonProperty("nome") String nome,
+      @JsonProperty("codice") String codice,
+      @JsonProperty("descrizione") String descrizione,
+      @JsonProperty("gerarchiaId") String gerarchiaId,
+      @JsonProperty("ivaId") String ivaId,
+      @JsonProperty("padreId") String padreId,
+      @JsonProperty("scontoPercentuale") BigDecimal scontoPercentuale,
+      @JsonProperty("margineFisso") Double margineFisso,
+      @JsonProperty("accettaPagamentoTicketRestaurant") String accettaPagamentoTicketRestaurant,
+      @JsonProperty("erogaPunti") String erogaPunti,
+      @JsonProperty("erogaBuoni") String erogaBuoni,
+      @JsonProperty("erogaSconti") String erogaSconti,
+      @JsonProperty("tracciabilitaOrtofrutta") String tracciabilitaOrtofrutta,
+      @JsonProperty("tracciabilitaMacelleria") String tracciabilitaMacelleria,
+      @JsonProperty("tracciabilitaPescheria") String tracciabilitaPescheria,
+      @JsonProperty("tracciabilitaGastronomia") String tracciabilitaGastronomia,
+      @JsonProperty("sconto") Integer sconto,
+      @JsonProperty("repEcr") String repEcr,
+      @JsonProperty("repLoc") String repLoc,
+      @JsonProperty("repCedi") String repCedi,
+      @JsonProperty("margine") Double margine,
+      @JsonProperty("flgTicket") String flgTicket,
+      @JsonProperty("flgPunti") String flgPunti,
+      @JsonProperty("flgBuoni") String flgBuoni,
+      @JsonProperty("flgSconti") String flgSconti,
+      @JsonProperty("dataType") String dataType,
+      @JsonProperty("dataFunc") String dataFunc,
+      @JsonProperty("backClr") String backClr,
+      @JsonProperty("flgOrto") String flgOrto,
+      @JsonProperty("flgMacel") String flgMacel,
+      @JsonProperty("flgPescheria") String flgPescheria,
+      @JsonProperty("flgGastro") String flgGastro,
+      @JsonProperty("repEkom") String repEkom,
+      @JsonProperty("dataCas") LocalDateTime dataCas,
+      @JsonProperty("idSendEcr") String idSendEcr,
+      @JsonProperty("dataOraUpd") String dataOraUpd,
+      @JsonProperty("bloccoPre") String bloccoPre,
+      @JsonProperty("version") Long version) {
+
     this.id = id;
     this.nome = nome;
     this.codice = codice;
@@ -211,11 +174,11 @@ public class RepartoSearchRequest extends BaseSortPagination {
     this.scontoPercentuale = scontoPercentuale;
   }
 
-  public BigDecimal getMargineFisso() {
+  public Double getMargineFisso() {
     return margineFisso;
   }
 
-  public void setMargineFisso(BigDecimal margineFisso) {
+  public void setMargineFisso(Double margineFisso) {
     this.margineFisso = margineFisso;
   }
 
@@ -482,4 +445,71 @@ public class RepartoSearchRequest extends BaseSortPagination {
   public void setVersion(Long version) {
     this.version = version;
   }
+
+  public static RepartoFilter createFilterFromMap(Object obj) {
+
+    ObjectMapper mapper = new ObjectMapper();
+    String json = null;
+    try {
+      json = mapper.writeValueAsString(obj);
+
+      LinkedHashMap<String, Object> map = mapper.readValue(json, LinkedHashMap.class);
+
+      RepartoFilter filter = new RepartoFilter();
+      if (map != null) {
+        filter.setId((String) map.get("id"));
+        filter.setCodice((String) map.get("codice"));
+        filter.setNome((String) map.get("nome"));
+        filter.setDescrizione((String) map.get("descrizione"));
+        filter.setScontoPercentuale((BigDecimal) map.get("scontoPercentuale"));
+        filter.setMargineFisso((Double) map.get("margineFisso"));
+
+        filter.setAccettaPagamentoTicketRestaurant((String) map.get("accettaPagamentoTicketRestaurant"));
+        filter.setErogaPunti((String) map.get("erogaPunti"));
+        filter.setErogaBuoni((String) map.get("erogaBuoni"));
+        filter.setErogaSconti((String) map.get("erogaSconti"));
+        filter.setTracciabilitaOrtofrutta((String) map.get("tracciabilitaOrtofrutta"));
+        filter.setTracciabilitaMacelleria((String) map.get("tracciabilitaMacelleria"));
+        filter.setTracciabilitaPescheria((String) map.get("tracciabilitaPescheria"));
+        filter.setTracciabilitaGastronomia((String) map.get("tracciabilitaGastronomia"));
+        filter.setSconto((Integer) map.get("sconto"));
+        filter.setRepEcr((String) map.get("repEcr"));
+        filter.setRepLoc((String) map.get("repLoc"));
+        filter.setRepCedi((String) map.get("repCedi"));
+        filter.setMargine((Double) map.get("margine"));
+        filter.setFlgTicket((String) map.get("flgTicket"));
+        filter.setFlgPunti((String) map.get("flgPunti"));
+        filter.setFlgBuoni((String) map.get("flgBuoni"));
+        filter.setFlgSconti((String) map.get("flgSconti"));
+        filter.setDataType((String) map.get("dataType"));
+        filter.setDataFunc((String) map.get("dataFunc"));
+        filter.setBackClr((String) map.get("backClr"));
+        filter.setFlgOrto((String) map.get("flgOrto"));
+        filter.setFlgMacel((String) map.get("flgMacel"));
+        filter.setFlgPescheria((String) map.get("flgPescheria"));
+        filter.setFlgGastro((String) map.get("flgGastro"));
+        filter.setRepEkom((String) map.get("repEkom"));
+        filter.setDataCas((LocalDateTime) map.get("dataCas"));
+        filter.setIdSendEcr((String) map.get("idSendEcr"));
+        filter.setDataOraUpd((String) map.get("dataOraUpd"));
+        filter.setBloccoPre((String) map.get("bloccoPre"));
+        filter.setIvaId((String) map.get("ivaId"));
+        filter.setGerarchiaId((String) map.get("gerarchiaId"));
+        filter.setPadreId((String) map.get("padreId"));
+        Object version = map.get("version");
+        if (version != null) {
+          if (version instanceof Integer) {
+            filter.setVersion(Long.valueOf((Integer) version));
+          } else if (version instanceof Long) {
+            filter.setVersion((Long) version);
+          }
+        }
+      }
+      return filter;
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
 }
