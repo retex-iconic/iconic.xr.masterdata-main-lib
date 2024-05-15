@@ -2,12 +2,13 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.EsclusioniFpServizioQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.EsclusioniFpServizioAggregateGetByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.queries.EsclusioniFpServizioListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.EsclusioniFpServizioResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.EsclusioniFpServizioSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.EsclusioniFpServizioFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.EsclusioniFpServizioQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.EsclusioniFpServizioQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.EsclusioniFpServizioRepository;
@@ -66,7 +67,7 @@ public class EsclusioniFpServizioQueryServiceImpl implements EsclusioniFpServizi
 
   @Override
   public EsclusioniFpServizioResponse searchEsclusioniFpServizio(
-      EsclusioniFpServizioSearchRequest query) {
+    GenericSearchRequest<EsclusioniFpServizioFilter>  query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -119,52 +120,54 @@ public class EsclusioniFpServizioQueryServiceImpl implements EsclusioniFpServizi
 
     List<Specification<EsclusioniFpServizioQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    EsclusioniFpServizioFilter filter = EsclusioniFpServizioFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescSegnalazione() != null) {
+    if (filter.getDescSegnalazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("descSegnalazione")),
-                  "%" + query.getDescSegnalazione().toUpperCase() + "%"));
+                  "%" + filter.getDescSegnalazione().toUpperCase() + "%"));
     }
-    if (query.getFlgSegnalazione() != null) {
+    if (filter.getFlgSegnalazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgSegnalazione")),
-                  "%" + query.getFlgSegnalazione().toUpperCase() + "%"));
+                  "%" + filter.getFlgSegnalazione().toUpperCase() + "%"));
     }
-    if (query.getMassimaleCumulativo() != null) {
+    if (filter.getMassimaleCumulativo() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("massimaleCumulativo"), query.getMassimaleCumulativo()));
+          (r, q, c) -> c.equal(r.get("massimaleCumulativo"), filter.getMassimaleCumulativo()));
     }
-    if (query.getMassimaleSingolo() != null) {
+    if (filter.getMassimaleSingolo() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("massimaleSingolo"), query.getMassimaleSingolo()));
+          (r, q, c) -> c.equal(r.get("massimaleSingolo"), filter.getMassimaleSingolo()));
     }
-    if (query.getFormaPagamentoId() != null) {
+    if (filter.getFormaPagamentoId() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("formaPagamento").get("id"), query.getFormaPagamentoId()));
+          (r, q, c) -> c.equal(r.get("formaPagamento").get("id"), filter.getFormaPagamentoId()));
     }
-    if (query.getServizioId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("servizio").get("id"), query.getServizioId()));
+    if (filter.getServizioId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("servizio").get("id"), filter.getServizioId()));
     }
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("gerarchia").get("id"), query.getGerarchiaId()));
+          (r, q, c) -> c.equal(r.get("gerarchia").get("id"), filter.getGerarchiaId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     Specification<EsclusioniFpServizioQueryEntity> specification =
@@ -199,7 +202,8 @@ public class EsclusioniFpServizioQueryServiceImpl implements EsclusioniFpServizi
 
   @Override
   public Page<EsclusioniFpServizioQueryEntity> searchQueryEsclusioniFpServizio(
-      EsclusioniFpServizioSearchRequest query) {
+     // EsclusioniFpServizioSearchRequest query) {
+      GenericSearchRequest<EsclusioniFpServizioFilter>  query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -252,61 +256,64 @@ public class EsclusioniFpServizioQueryServiceImpl implements EsclusioniFpServizi
 
     List<Specification<EsclusioniFpServizioQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    EsclusioniFpServizioFilter filter = EsclusioniFpServizioFilter.createFilterFromMap(query.getFilter());
+
+    
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescSegnalazione() != null) {
+    if (filter.getDescSegnalazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("descSegnalazione")),
-                  "%" + query.getDescSegnalazione().toUpperCase() + "%"));
+                  "%" + filter.getDescSegnalazione().toUpperCase() + "%"));
     }
-    if (query.getFlgSegnalazione() != null) {
+    if (filter.getFlgSegnalazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgSegnalazione")),
-                  "%" + query.getFlgSegnalazione().toUpperCase() + "%"));
+                  "%" + filter.getFlgSegnalazione().toUpperCase() + "%"));
     }
-    if (query.getMassimaleCumulativo() != null) {
+    if (filter.getMassimaleCumulativo() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("massimaleCumulativo"), query.getMassimaleCumulativo()));
+          (r, q, c) -> c.equal(r.get("massimaleCumulativo"), filter.getMassimaleCumulativo()));
     }
-    if (query.getMassimaleSingolo() != null) {
+    if (filter.getMassimaleSingolo() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("massimaleSingolo"), query.getMassimaleSingolo()));
+          (r, q, c) -> c.equal(r.get("massimaleSingolo"), filter.getMassimaleSingolo()));
     }
-    if (query.getFormaPagamentoId() != null) {
+    if (filter.getFormaPagamentoId() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("formaPagamento").get("id"), query.getFormaPagamentoId()));
+          (r, q, c) -> c.equal(r.get("formaPagamento").get("id"), filter.getFormaPagamentoId()));
     }
-    if (query.getServizioId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("servizio").get("id"), query.getServizioId()));
+    if (filter.getServizioId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("servizio").get("id"), filter.getServizioId()));
     }
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("gerarchia").get("id"), query.getGerarchiaId()));
+          (r, q, c) -> c.equal(r.get("gerarchia").get("id"), filter.getGerarchiaId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
