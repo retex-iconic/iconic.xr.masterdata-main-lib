@@ -2,10 +2,11 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.AtecoQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.responses.AtecoResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.AtecoSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.AtecoFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.AtecoQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.AtecoQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.AtecoRepository;
@@ -15,8 +16,6 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,53 +29,29 @@ public class AtecoQueryServiceImpl implements AtecoQueryService {
 
   AtecoRepository atecoRepository;
 
-  @Autowired AtecoQueryMapper atecoQueryMapper;
+  @Autowired
+  AtecoQueryMapper atecoQueryMapper;
 
-  @PersistenceContext private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
   AtecoQueryServiceImpl(AtecoRepository atecoRepository) {
     this.atecoRepository = atecoRepository;
   }
 
   @Override
-  public Page<AtecoQueryEntity> searchQueryAteco(AtecoSearchRequest query) {
+  public Page<AtecoQueryEntity> searchQueryAteco(GenericSearchRequest<AtecoFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
       for (BaseSort baseSort : query.getSort()) {
 
-        switch (baseSort.getOrderBy()) {
-          case "id":
-            break;
-
-          case "codice":
-            break;
-
-          case "gerarchiaId":
-            break;
-
-          case "atecoNr":
-            break;
-
-          case "nome":
-            break;
-
-          case "descrizione":
-            break;
-          case "version":
-            break;
-          default:
-            throw new IllegalArgumentException("Order by is not correct");
-        }
-
-        sorts.add(
-            new Sort.Order(
-                baseSort.getOrderType() != null
-                    ? baseSort.getOrderType().equalsIgnoreCase("ASC")
-                        ? Sort.Direction.ASC
-                        : Sort.Direction.DESC
-                    : Sort.Direction.ASC,
-                baseSort.getOrderBy() != null ? baseSort.getOrderBy() : "codice"));
+        Sort.Order sort = new Sort.Order(
+            (baseSort.getOrderType() != null
+                ? (baseSort.getOrderType().equalsIgnoreCase("ASC") ? Sort.Direction.ASC : Sort.Direction.DESC)
+                : Sort.Direction.ASC),
+            (baseSort.getOrderBy() != null ? baseSort.getOrderBy() : "id"));
+        sorts.add(sort);
       }
     }
 
@@ -88,79 +63,62 @@ public class AtecoQueryServiceImpl implements AtecoQueryService {
 
     List<Specification<AtecoQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    AtecoFilter filter = AtecoFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getAtecoNr() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("atecoNr"), query.getAtecoNr()));
+    if (filter.getAtecoNr() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("atecoNr"), filter.getAtecoNr()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
-      Query hierarchiaRoots =
-          entityManager
-              .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+      Query hierarchiaRoots = entityManager
+          .createNativeQuery(gerarchNativeQuery)
+          .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
-      specifications.add(
-          (root, criteriaQuery, criteriaBuilder) -> {
-            // Define the subquery
-            Subquery<AtecoQueryEntity> subquery = criteriaQuery.subquery(AtecoQueryEntity.class);
-            Root<AtecoQueryEntity> subRoot = subquery.from(AtecoQueryEntity.class);
-
-            subquery.select(subRoot);
-            subquery.where(
-                criteriaBuilder.and(
-                    criteriaBuilder.equal(subRoot.get("padre").get("id"), root.get("id")),
-                    subRoot.get("gerarchia").get("id").in(hierarchiaRootsIds)));
-            // Integrate the subquery into the main query using criteriaBuilder
-            return criteriaBuilder.and(
-                criteriaBuilder.not(criteriaBuilder.exists(subquery)),
-                root.get("gerarchia").get("id").in(hierarchiaRootsIds));
-          });
     }
-    // }
 
-    Specification<AtecoQueryEntity> specification =
-        specifications.stream().reduce(Specification::and).orElse(null);
+    Specification<AtecoQueryEntity> specification = specifications.stream().reduce(Specification::and).orElse(null);
 
     Page<AtecoQueryEntity> page = this.atecoRepository.findAll(specification, pageable);
     return page;
   }
 
   @Override
-  public AtecoResponse searchAteco(AtecoSearchRequest query) {
+  public AtecoResponse searchAteco(GenericSearchRequest<AtecoFilter> query) {
 
     AtecoResponse atecoResponse = new AtecoResponse();
     Page<AtecoQueryEntity> page = searchQueryAteco(query);
-    atecoResponse.setPagination(Pagination.buildPagination(page));
-    List<AtecoQueryDTO> list =
-        page.getContent().stream()
-            .map(entity -> atecoQueryMapper.toDTO(entity))
-            .collect(Collectors.toList());
+
+    List<AtecoQueryDTO> list = page.getContent().stream()
+        .map(entity -> atecoQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
     atecoResponse.setRecords(list);
+
+    atecoResponse.setPagination(Pagination.buildPagination(page));
+
     return atecoResponse;
   }
 }

@@ -17,4 +17,12 @@ public class IvaIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
     String uk = iva.getCodice();
     return uk;
   }
+
+  public static String getIndexName(){
+    return "IvaIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "IvaIndexGerarchiaAggregate";
+  }
 }

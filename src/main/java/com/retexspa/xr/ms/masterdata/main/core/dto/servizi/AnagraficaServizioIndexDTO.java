@@ -13,7 +13,8 @@ public class AnagraficaServizioIndexDTO {
   private LinkedList<String> esclusioniFPServizioIds;
   private LinkedList<String> figliIds;
 
-  public AnagraficaServizioIndexDTO() {}
+  public AnagraficaServizioIndexDTO() {
+  }
 
   public AnagraficaServizioIndexDTO(String anagraficaServizioId) {
     this.anagraficaServizioId = anagraficaServizioId;
@@ -63,4 +64,21 @@ public class AnagraficaServizioIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameArticoloInfoServizioIds() {
+    return "articoloInfoServizioIds";
+  }
+
+  public static String getDetailNameCommissioneServizioIds() {
+    return "commissioneServizioIds";
+  }
+
+  public static String getDetailNameEsclusioniFPServizioIds() {
+    return "esclusioniFPServizioIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
 }

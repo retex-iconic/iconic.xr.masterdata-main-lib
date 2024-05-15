@@ -1,12 +1,12 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 
-
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.RepartoQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.responses.RepartoResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.RepartoSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.RepartoFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.RepartoQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.RepartoQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.RepartoRepository;
@@ -31,16 +31,18 @@ public class RepartoQueryServiceImpl implements RepartoQueryService {
 
   RepartoRepository repartoRepository;
 
-  @Autowired RepartoQueryMapper repartoQueryMapper;
+  @Autowired
+  RepartoQueryMapper repartoQueryMapper;
 
-  @PersistenceContext private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
   RepartoQueryServiceImpl(RepartoRepository repartoRepository) {
     this.repartoRepository = repartoRepository;
   }
 
   @Override
-  public Page<RepartoQueryEntity> searchQueryReparto(RepartoSearchRequest query) {
+  public Page<RepartoQueryEntity> searchQueryReparto(GenericSearchRequest<RepartoFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -64,42 +66,40 @@ public class RepartoQueryServiceImpl implements RepartoQueryService {
 
     List<Specification<RepartoQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    RepartoFilter filter = RepartoFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
-      Query hierarchiaRoots =
-          entityManager
-              .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+      Query hierarchiaRoots = entityManager
+          .createNativeQuery(gerarchNativeQuery)
+          .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
           (root, criteriaQuery, criteriaBuilder) -> {
             // Define the subquery
-            Subquery<RepartoQueryEntity> subquery =
-                criteriaQuery.subquery(RepartoQueryEntity.class);
+            Subquery<RepartoQueryEntity> subquery = criteriaQuery.subquery(RepartoQueryEntity.class);
             Root<RepartoQueryEntity> subRoot = subquery.from(RepartoQueryEntity.class);
 
             subquery.select(subRoot);
@@ -113,192 +113,163 @@ public class RepartoQueryServiceImpl implements RepartoQueryService {
                 root.get("gerarchia").get("id").in(hierarchiaRootsIds));
           });
     }
-    // }
 
-    if (query.getIvaId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), query.getIvaId()));
+    if (filter.getIvaId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), filter.getIvaId()));
     }
 
-    if (query.getScontoPercentuale() != null) {
+    if (filter.getScontoPercentuale() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("scontoPercentuale"), query.getScontoPercentuale()));
+          (r, q, c) -> c.equal(r.get("scontoPercentuale"), filter.getScontoPercentuale()));
     }
-    if (query.getMargineFisso() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("margineFisso"), query.getMargineFisso()));
+    if (filter.getMargineFisso() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("margineFisso"), filter.getMargineFisso()));
     }
-    if (query.getAccettaPagamentoTicketRestaurant() != null) {
+    if (filter.getAccettaPagamentoTicketRestaurant() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("accettaPagamentoTicketRestaurant")),
-                  "%" + query.getAccettaPagamentoTicketRestaurant().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("accettaPagamentoTicketRestaurant")),
+              "%" + filter.getAccettaPagamentoTicketRestaurant().toUpperCase() + "%"));
     }
-    if (query.getErogaPunti() != null) {
+    if (filter.getErogaPunti() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("erogaPunti")), "%" + query.getErogaPunti().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("erogaPunti")), "%" + filter.getErogaPunti().toUpperCase() + "%"));
     }
-    if (query.getErogaBuoni() != null) {
+    if (filter.getErogaBuoni() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("erogaBuoni")), "%" + query.getErogaBuoni().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("erogaBuoni")), "%" + filter.getErogaBuoni().toUpperCase() + "%"));
     }
-    if (query.getErogaSconti() != null) {
+    if (filter.getErogaSconti() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("erogaSconti")), "%" + query.getErogaSconti().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("erogaSconti")), "%" + filter.getErogaSconti().toUpperCase() + "%"));
     }
-    if (query.getTracciabilitaOrtofrutta() != null) {
+    if (filter.getTracciabilitaOrtofrutta() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("tracciabilitaOrtofrutta")),
-                  "%" + query.getTracciabilitaOrtofrutta().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("tracciabilitaOrtofrutta")),
+              "%" + filter.getTracciabilitaOrtofrutta().toUpperCase() + "%"));
     }
-    if (query.getTracciabilitaMacelleria() != null) {
+    if (filter.getTracciabilitaMacelleria() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("tracciabilitaMacelleria")),
-                  "%" + query.getTracciabilitaMacelleria().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("tracciabilitaMacelleria")),
+              "%" + filter.getTracciabilitaMacelleria().toUpperCase() + "%"));
     }
-    if (query.getTracciabilitaPescheria() != null) {
+    if (filter.getTracciabilitaPescheria() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("tracciabilitaPescheria")),
-                  "%" + query.getTracciabilitaPescheria().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("tracciabilitaPescheria")),
+              "%" + filter.getTracciabilitaPescheria().toUpperCase() + "%"));
     }
-    if (query.getTracciabilitaGastronomia() != null) {
+    if (filter.getTracciabilitaGastronomia() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("tracciabilitaGastronomia")),
-                  "%" + query.getTracciabilitaGastronomia().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("tracciabilitaGastronomia")),
+              "%" + filter.getTracciabilitaGastronomia().toUpperCase() + "%"));
     }
-    if (query.getSconto() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("sconto"), query.getSconto()));
+    if (filter.getSconto() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("sconto"), filter.getSconto()));
     }
-    if (query.getRepEcr() != null) {
+    if (filter.getRepEcr() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("repEcr")), "%" + query.getRepEcr().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("repEcr")), "%" + filter.getRepEcr().toUpperCase() + "%"));
     }
-    if (query.getRepLoc() != null) {
+    if (filter.getRepLoc() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("repLoc")), "%" + query.getRepLoc().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("repLoc")), "%" + filter.getRepLoc().toUpperCase() + "%"));
     }
-    if (query.getRepCedi() != null) {
+    if (filter.getRepCedi() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("repCedi")), "%" + query.getRepCedi().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("repCedi")), "%" + filter.getRepCedi().toUpperCase() + "%"));
     }
-    if (query.getMargine() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("margine"), query.getMargine()));
+    if (filter.getMargine() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("margine"), filter.getMargine()));
     }
-    if (query.getFlgTicket() != null) {
+    if (filter.getFlgTicket() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgTicket")), "%" + query.getFlgTicket().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgTicket")), "%" + filter.getFlgTicket().toUpperCase() + "%"));
     }
-    if (query.getFlgPunti() != null) {
+    if (filter.getFlgPunti() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgPunti")), "%" + query.getFlgPunti().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgPunti")), "%" + filter.getFlgPunti().toUpperCase() + "%"));
     }
-    if (query.getFlgBuoni() != null) {
+    if (filter.getFlgBuoni() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgBuoni")), "%" + query.getFlgBuoni().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgBuoni")), "%" + filter.getFlgBuoni().toUpperCase() + "%"));
     }
-    if (query.getFlgSconti() != null) {
+    if (filter.getFlgSconti() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgSconti")), "%" + query.getFlgSconti().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgSconti")), "%" + filter.getFlgSconti().toUpperCase() + "%"));
     }
-    if (query.getDataType() != null) {
+    if (filter.getDataType() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("dataType")), "%" + query.getDataType().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("dataType")), "%" + filter.getDataType().toUpperCase() + "%"));
     }
-    if (query.getDataFunc() != null) {
+    if (filter.getDataFunc() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("dataFunc")), "%" + query.getDataFunc().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("dataFunc")), "%" + filter.getDataFunc().toUpperCase() + "%"));
     }
-    if (query.getBackClr() != null) {
+    if (filter.getBackClr() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("backClr")), "%" + query.getBackClr().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("backClr")), "%" + filter.getBackClr().toUpperCase() + "%"));
     }
-    if (query.getFlgOrto() != null) {
+    if (filter.getFlgOrto() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgOrto")), "%" + query.getFlgOrto().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgOrto")), "%" + filter.getFlgOrto().toUpperCase() + "%"));
     }
-    if (query.getFlgMacel() != null) {
+    if (filter.getFlgMacel() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgMacel")), "%" + query.getFlgMacel().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgMacel")), "%" + filter.getFlgMacel().toUpperCase() + "%"));
     }
-    if (query.getFlgPescheria() != null) {
+    if (filter.getFlgPescheria() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("flgPescheria")),
-                  "%" + query.getFlgPescheria().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("flgPescheria")),
+              "%" + filter.getFlgPescheria().toUpperCase() + "%"));
     }
-    if (query.getFlgGastro() != null) {
+    if (filter.getFlgGastro() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgGastro")), "%" + query.getFlgGastro().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgGastro")), "%" + filter.getFlgGastro().toUpperCase() + "%"));
     }
-    if (query.getRepEkom() != null) {
+    if (filter.getRepEkom() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("repEkom")), "%" + query.getRepEkom().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("repEkom")), "%" + filter.getRepEkom().toUpperCase() + "%"));
     }
-    if (query.getIdSendEcr() != null) {
+    if (filter.getIdSendEcr() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("idSendEcr")), "%" + query.getIdSendEcr().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("idSendEcr")), "%" + filter.getIdSendEcr().toUpperCase() + "%"));
     }
-    if (query.getDataOraUpd() != null) {
+    if (filter.getDataOraUpd() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("dataOraUpd")), "%" + query.getDataOraUpd().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("dataOraUpd")), "%" + filter.getDataOraUpd().toUpperCase() + "%"));
     }
-    if (query.getBloccoPre() != null) {
+    if (filter.getBloccoPre() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("bloccoPre")), "%" + query.getBloccoPre().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("bloccoPre")), "%" + filter.getBloccoPre().toUpperCase() + "%"));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     // dataCas
-    Specification<RepartoQueryEntity> specification =
-        specifications.stream().reduce(Specification::and).orElse(null);
+    Specification<RepartoQueryEntity> specification = specifications.stream().reduce(Specification::and).orElse(null);
 
     Page<RepartoQueryEntity> page = this.repartoRepository.findAll(specification, pageable);
     return page;
   }
 
   @Override
-  public RepartoResponse searchReparto(RepartoSearchRequest query) {
+  public RepartoResponse searchReparto(GenericSearchRequest<RepartoFilter> query) {
 
     RepartoResponse repartoResponse = new RepartoResponse();
     Page<RepartoQueryEntity> page = searchQueryReparto(query);
     repartoResponse.setPagination(Pagination.buildPagination(page));
-    List<RepartoQueryDTO> list =
-        page.getContent().stream()
-            .map(entity -> repartoQueryMapper.toDTO(entity))
-            .collect(Collectors.toList());
+    List<RepartoQueryDTO> list = page.getContent().stream()
+        .map(entity -> repartoQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
     repartoResponse.setRecords(list);
     return repartoResponse;
   }

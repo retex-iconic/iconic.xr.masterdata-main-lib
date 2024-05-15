@@ -22,4 +22,12 @@ public class TassonomiaIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO 
             + (tassonomia.getNodoId() != null ? tassonomia.getNodoId() : "");
     return uk;
   }
+  public static String getIndexName(){
+    return "TassonomiaIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "TassonomiaIndexGerarchiaAggregate";
+  }
+
 }

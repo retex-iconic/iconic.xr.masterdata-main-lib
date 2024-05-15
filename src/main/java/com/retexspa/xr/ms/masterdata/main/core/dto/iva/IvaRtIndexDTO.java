@@ -37,4 +37,8 @@ public class IvaRtIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameFigli() {
+    return "figliIds";
+  }
 }

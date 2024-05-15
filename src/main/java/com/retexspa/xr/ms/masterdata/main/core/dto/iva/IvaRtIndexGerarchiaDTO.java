@@ -12,4 +12,12 @@ public class IvaRtIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
   public IvaRtIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName(){
+    return "IvaRtIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "IvaRtIndexGerarchiaAggregate";
+  }
 }

@@ -10,7 +10,8 @@ public class TipologiaServizioIndexDTO {
   private LinkedList<String> anagraficaServizioIds;
   private LinkedList<String> figliIds;
 
-  public TipologiaServizioIndexDTO() {}
+  public TipologiaServizioIndexDTO() {
+  }
 
   public TipologiaServizioIndexDTO(String TipologiaServizioId) {
     this.TipologiaServizioId = TipologiaServizioId;
@@ -44,4 +45,13 @@ public class TipologiaServizioIndexDTO {
   public void setFigliIds(LinkedList<String> figliIds) {
     this.figliIds = figliIds;
   }
+
+  public static String getDetailNameAnagraficaServizioIds() {
+    return "anagraficaServizioIds";
+  }
+
+  public static String getDetailNameFigliIds() {
+    return "figliIds";
+  }
+
 }

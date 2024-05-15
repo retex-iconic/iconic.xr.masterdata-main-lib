@@ -9,14 +9,14 @@ public class VariazioniCausaliIndexDTO {
   private String variazioniCausaliId;
   private LinkedList<String> figliIds;
   private LinkedList<String> variazioniCausaliOperazioniIds;
-  private LinkedList<String> VariazioniRegoleMonitoraggioIds;
+  private LinkedList<String> variazioniRegoleMonitoraggioIds;
 
   public VariazioniCausaliIndexDTO() {}
 
   public VariazioniCausaliIndexDTO(String variazioniCausaliId) {
     this.variazioniCausaliId = variazioniCausaliId;
     this.variazioniCausaliOperazioniIds = new LinkedList<>();
-    this.VariazioniRegoleMonitoraggioIds = new LinkedList<>();
+    this.variazioniRegoleMonitoraggioIds = new LinkedList<>();
   }
 
   public static String getIdFromVariazioniCausali(String variazioniCausaliId) {
@@ -49,11 +49,23 @@ public class VariazioniCausaliIndexDTO {
   }
 
   public LinkedList<String> getVariazioniRegoleMonitoraggioIds() {
-    return VariazioniRegoleMonitoraggioIds;
+    return variazioniRegoleMonitoraggioIds;
   }
 
   public void setVariazioniRegoleMonitoraggioIds(
       LinkedList<String> variazioniRegoleMonitoraggioIds) {
-    VariazioniRegoleMonitoraggioIds = variazioniRegoleMonitoraggioIds;
+    variazioniRegoleMonitoraggioIds = variazioniRegoleMonitoraggioIds;
+  }
+
+  public static String getDetailNameVariazioniCausaliOperazioni() {
+    return "variazioniCausaliOperazioniIds";
+  }
+
+  public static String getDetailNameVariazioniRegoleMonitoraggio() {
+    return "VariazioniRegoleMonitoraggioIds";
+  }
+
+  public static String getDetailNameFigli() {
+    return "figliIds";
   }
 }

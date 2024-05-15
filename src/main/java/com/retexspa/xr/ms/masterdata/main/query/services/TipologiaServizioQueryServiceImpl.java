@@ -20,12 +20,13 @@ import org.springframework.stereotype.Service;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.TipologiaServizioQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.TipologiaServizioByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.queries.TipologiaServizioListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.TipologiaServizioResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.TipologiaServizioSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.TipologiaServizioFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.TipologiaServizioQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.TipologiaServizioQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.TipologiaServizioRepository;
@@ -67,7 +68,7 @@ public class TipologiaServizioQueryServiceImpl implements TipologiaServizioQuery
 
   @Override
   public Page<TipologiaServizioQueryEntity> searchQueryTipologiaServizio(
-      TipologiaServizioSearchRequest query) {
+      GenericSearchRequest<TipologiaServizioFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -92,46 +93,48 @@ public class TipologiaServizioQueryServiceImpl implements TipologiaServizioQuery
 
     List<Specification<TipologiaServizioQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    TipologiaServizioFilter filter = TipologiaServizioFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNumMaxInScontrino() != null) {
+    if (filter.getNumMaxInScontrino() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("numMaxInScontrino"), query.getNumMaxInScontrino()));
+          (r, q, c) -> c.equal(r.get("numMaxInScontrino"), filter.getNumMaxInScontrino()));
     }
-    if (query.getValMaxInScontrino() != null) {
+    if (filter.getValMaxInScontrino() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("valMaxInScontrino"), query.getValMaxInScontrino()));
+          (r, q, c) -> c.equal(r.get("valMaxInScontrino"), filter.getValMaxInScontrino()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -163,7 +166,7 @@ public class TipologiaServizioQueryServiceImpl implements TipologiaServizioQuery
   }
 
   @Override
-  public TipologiaServizioResponse searchTipologiaServizio(TipologiaServizioSearchRequest query) {
+  public TipologiaServizioResponse searchTipologiaServizio(GenericSearchRequest<TipologiaServizioFilter> query) {
     Page<TipologiaServizioQueryEntity> page = searchQueryTipologiaServizio(query);
     TipologiaServizioResponse TipologiaServizioResponse = new TipologiaServizioResponse();
 
