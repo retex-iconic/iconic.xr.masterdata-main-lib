@@ -28,4 +28,16 @@ public class ArticoloVenditaIndexDTO {
   public void setArticoloVenditaId(String articoloVenditaId) {
     this.articoloVenditaId = articoloVenditaId;
   }
+
+  public static String getDeatilNameArticoloVendita() {
+    return "ArticoloVendita";
+  }
+
+  public static String getDeatilNameArticoloVendita2() {
+    return "Articolo Vendita";
+  }
+
+  public static String getDeatilNameArticoloVenditaAggregate() {
+    return "ArticoloVenditaAggregate";
+  }
 }

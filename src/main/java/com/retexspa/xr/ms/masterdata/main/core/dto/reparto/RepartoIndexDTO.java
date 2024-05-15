@@ -49,6 +49,14 @@ public class RepartoIndexDTO {
     this.figliIds = figliIds;
   }
 
+  public static String getDetailNameReparto() {
+    return "Reparto";
+  }
+
+  public static String getDetailNameRepartoAggregate() {
+    return "RepartoAggregate";
+  }
+
   public static String getDetailNameArticoloVenditaIds() {
     return "articoloVenditaIds";
   }

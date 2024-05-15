@@ -146,6 +146,15 @@ public class ArticoloIndexDTO {
   public static String getDetailNameCommissioneServizio() {
     return "CommissioneServizio";
   }
+
+  public static String getDetailNameTassonomia() {
+    return "Tassonomia";
+  }
+
+  public static String getDetailNameAnagraficaServizio() {
+    return "AnagraficaServizio";
+  }
+
   public static String getDetailNameFigli() {
     return "Figli";
   }
