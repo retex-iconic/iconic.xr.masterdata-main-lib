@@ -2,11 +2,12 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.IvaRtQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.IvaRtFilter;
 import com.retexspa.xr.ms.masterdata.main.core.queries.IvaRtByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.IvaRtResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.IvaRtSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.AtecoQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.entities.IvaRtQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.IvaRtQueryMapper;
@@ -49,8 +50,7 @@ public class IvaRtQueryServiceImpl implements IvaRtQueryService {
   }
 
   @Override
-  public Page<IvaRtQueryEntity> searchQueryIvaRt(IvaRtSearchRequest query) {
-    // TODO Auto-generated method stub
+  public Page<IvaRtQueryEntity> searchQueryIvaRt(GenericSearchRequest<IvaRtFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -71,60 +71,64 @@ public class IvaRtQueryServiceImpl implements IvaRtQueryService {
     }
 
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
+
     List<Specification<IvaRtQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    IvaRtFilter filter = IvaRtFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
-    if (query.getCodice() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("codice"), query.getCodice()));
+    if (filter.getCodice() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("codice"), filter.getCodice()));
     }
-    if (query.getDescrizione() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("descrizione"), query.getDescrizione()));
-    }
-    if (query.getNome() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("nome"), query.getNome()));
-    }
-    if (query.getRtTipoEsenzione() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("rtTipoEsenzione"), query.getRtTipoEsenzione()));
+              (r, q, c) -> c.equal(r.get("nome"), filter.getNome()));
     }
-    if (query.getRtTaxCode() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("rtTaxCode"), query.getRtTaxCode()));
-    }
-    if (query.getRtShortDesc() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("rtShortDesc"), query.getRtShortDesc()));
-    }
-    if (query.getRtFullDesc() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("rtFullDesc"), query.getRtFullDesc()));
-    }
-    if (query.getRtType() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("rtType"), query.getRtType()));
-    }
-    if (query.getRtDescr() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("rtDescr"), query.getRtDescr()));
-    }
-    if (query.getDataCancellazione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("dataCancellazione"), query.getDataCancellazione()));
+              (r, q, c) -> c.equal(r.get("descrizione"), filter.getDescrizione()));
     }
-    if (query.getFlgCancellato() != null) {
+    if (filter.getRtTipoEsenzione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("flgCancellato")),
-                  "%" + query.getFlgCancellato().toUpperCase() + "%"));
+          (r, q, c) -> c.equal(r.get("rtTipoEsenzione"), filter.getRtTipoEsenzione()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getRtTaxCode() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("rtTaxCode"), filter.getRtTaxCode()));
+    }
+    if (filter.getRtShortDesc() != null) {
+      specifications.add(
+              (r, q, c) -> c.equal(r.get("rtShortDesc"), filter.getRtShortDesc()));
+    }
+    if (filter.getRtFullDesc() != null) {
+      specifications.add(
+              (r, q, c) -> c.equal(r.get("rtFullDesc"), filter.getRtFullDesc()));
+    }
+    if (filter.getRtType() != null) {
+      specifications.add(
+              (r, q, c) -> c.equal(r.get("rtType"), filter.getRtType()));
+    }
+    if (filter.getRtDescr() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("rtDescr"), filter.getRtDescr()));
+    }
+    if (filter.getDataCancellazione() != null) {
+      specifications.add(
+          (r, q, c) -> c.equal(r.get("dataCancellazione"), filter.getDataCancellazione()));
+    }
+    if (filter.getFlgCancellato() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), filter.getFlgCancellato()));
+    }
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -144,14 +148,14 @@ public class IvaRtQueryServiceImpl implements IvaRtQueryService {
                 root.get("gerarchia").get("id").in(hierarchiaRootsIds));
           });
     }
-    if (query.getAtecoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("ateco").get("id"), query.getAtecoId()));
+    if (filter.getAtecoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("ateco").get("id"), filter.getAtecoId()));
     }
-    if (query.getIvaId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), query.getIvaId()));
+    if (filter.getIvaId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), filter.getIvaId()));
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
     Specification<IvaRtQueryEntity> specification =
@@ -162,7 +166,7 @@ public class IvaRtQueryServiceImpl implements IvaRtQueryService {
   }
 
   @Override
-  public IvaRtResponse searchIvaRt(IvaRtSearchRequest query) {
+  public IvaRtResponse searchIvaRt(GenericSearchRequest<IvaRtFilter> query) {
     Page<IvaRtQueryEntity> page = searchQueryIvaRt(query);
     IvaRtResponse ivaRtResponse = new IvaRtResponse();
     List<IvaRtQueryDTO> list =
