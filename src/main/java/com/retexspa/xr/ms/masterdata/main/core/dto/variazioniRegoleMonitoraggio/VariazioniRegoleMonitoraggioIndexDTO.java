@@ -15,7 +15,6 @@ public class VariazioniRegoleMonitoraggioIndexDTO {
 
   public VariazioniRegoleMonitoraggioIndexDTO(String variazioniRegoleMonitoraggioId) {
     this.variazioniRegoleMonitoraggioId = variazioniRegoleMonitoraggioId;
-    //        this.casualeIds = new ArrayList<String>();
   }
 
   public static String getIdFromVariazioniRegoleMonitoraggio(
@@ -32,12 +31,4 @@ public class VariazioniRegoleMonitoraggioIndexDTO {
   public void setVariazioniRegoleMonitoraggioId(String variazioniRegoleMonitoraggioId) {
     this.variazioniRegoleMonitoraggioId = variazioniRegoleMonitoraggioId;
   }
-
-  //    public List<String> getCasualeIds() {
-  //        return casualeIds;
-  //    }
-  //
-  //    public void setCasualeIds(List<String> casualeIds) {
-  //        this.casualeIds = casualeIds;
-  //    }
 }

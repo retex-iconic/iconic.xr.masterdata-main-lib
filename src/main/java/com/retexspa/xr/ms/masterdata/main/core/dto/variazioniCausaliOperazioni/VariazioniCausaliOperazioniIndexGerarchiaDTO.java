@@ -11,4 +11,12 @@ public class VariazioniCausaliOperazioniIndexGerarchiaDTO extends AggregateIndex
   public VariazioniCausaliOperazioniIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName(){
+    return "VariazioniCausaliOperazioniIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "VariazioniCausaliOperazioniIndexGerarchiaAggregate";
+  }
 }
