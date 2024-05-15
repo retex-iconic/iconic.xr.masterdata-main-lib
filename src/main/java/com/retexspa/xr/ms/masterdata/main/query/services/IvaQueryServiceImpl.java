@@ -2,11 +2,12 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.IvaQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.IvaFilter;
 import com.retexspa.xr.ms.masterdata.main.core.queries.IvaByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.IvaResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.IvaSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.IvaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.IvaQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.IvaRepository;
@@ -47,8 +48,7 @@ public class IvaQueryServiceImpl implements IvaQueryService {
   }
 
   @Override
-  public Page<IvaQueryEntity> searchQueryIva(IvaSearchRequest query) {
-    // TODO Auto-generated method stub
+  public Page<IvaQueryEntity> searchQueryIva(GenericSearchRequest<IvaFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -64,85 +64,87 @@ public class IvaQueryServiceImpl implements IvaQueryService {
                 baseSort.getOrderBy() != null ? baseSort.getOrderBy() : "codice"));
       }
     }
+
     if (sorts.size() == 0) {
       sorts.add(new Sort.Order(Sort.Direction.ASC, "codice"));
     }
+
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
     List<Specification<IvaQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    IvaFilter filter = IvaFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
-    if (query.getCodice() != null) {
-      specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+    if (filter.getCodice() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("codice"), filter.getCodice()));
     }
-    if (query.getCodIvaAcquisto() != null) {
+    if (filter.getCodIvaAcquisto() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codIvaAcquisto")),
-                  "%" + query.getCodIvaAcquisto().toUpperCase() + "%"));
+                  "%" + filter.getCodIvaAcquisto().toUpperCase() + "%"));
     }
-    if (query.getCodiceECommerce() != null) {
+    if (filter.getCodiceECommerce() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceECommerce")),
-                  "%" + query.getCodiceECommerce().toUpperCase() + "%"));
+                  "%" + filter.getCodiceECommerce().toUpperCase() + "%"));
     }
-    if (query.getCodiceEsterno() != null) {
+    if (filter.getCodiceEsterno() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceEsterno")),
-                  "%" + query.getCodiceEsterno().toUpperCase() + "%"));
+                  "%" + filter.getCodiceEsterno().toUpperCase() + "%"));
     }
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNaturaEsenzione() != null) {
+    if (filter.getNaturaEsenzione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("naturaEsenzione")),
-                  "%" + query.getNaturaEsenzione().toUpperCase() + "%"));
+                  "%" + filter.getNaturaEsenzione().toUpperCase() + "%"));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getNormaEsenzione() != null) {
+    if (filter.getNormaEsenzione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("normaEsenzione")),
-                  "%" + query.getNormaEsenzione().toUpperCase() + "%"));
+                  "%" + filter.getNormaEsenzione().toUpperCase() + "%"));
     }
-    if (query.getPercentuale() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("percentuale"), query.getPercentuale()));
+    if (filter.getPercentuale() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("percentuale"), filter.getPercentuale()));
     }
-    if (query.getTipoIva() != null) {
+    if (filter.getTipoIva() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("tipoIva")), "%" + query.getTipoIva().toUpperCase() + "%"));
+              c.like(c.upper(r.get("tipoIva")), "%" + filter.getTipoIva().toUpperCase() + "%"));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper nativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = nativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -162,8 +164,8 @@ public class IvaQueryServiceImpl implements IvaQueryService {
                 root.get("gerarchia").get("id").in(hierarchiaRootsIds));
           });
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
     Specification<IvaQueryEntity> specification =
@@ -175,7 +177,7 @@ public class IvaQueryServiceImpl implements IvaQueryService {
   }
 
   @Override
-  public IvaResponse searchIva(IvaSearchRequest query) {
+  public IvaResponse searchIva(GenericSearchRequest<IvaFilter> query) {
     Page<IvaQueryEntity> page = searchQueryIva(query);
     IvaResponse ivaResponse = new IvaResponse();
     List<IvaQueryDTO> list =
