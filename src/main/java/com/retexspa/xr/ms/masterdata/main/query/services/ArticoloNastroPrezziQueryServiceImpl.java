@@ -3,10 +3,11 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.ArticoloNastroPrezziQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.ArticoloNastroPrezziFilter;
 import com.retexspa.xr.ms.masterdata.main.core.responses.ArticoloNastroPrezziResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ArticoloNastroPrezziSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.ArticoloNastroPrezziQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.ArticoloNastroPrezziQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.ArticoloNastroPrezziRepository;
@@ -36,7 +37,7 @@ public class ArticoloNastroPrezziQueryServiceImpl implements ArticoloNastroPrezz
 
   @Override
   public ArticoloNastroPrezziResponse searchArticoloNastroPrezzi(
-      ArticoloNastroPrezziSearchRequest query) {
+          GenericSearchRequest<ArticoloNastroPrezziFilter> query) {
     Page<ArticoloNastroPrezziQueryEntity> page = searchQueryArticoloNastroPrezzi(query);
     ArticoloNastroPrezziResponse articoloNastroPrezziResponse = new ArticoloNastroPrezziResponse();
     List<ArticoloNastroPrezziQueryDTO> list =
@@ -52,7 +53,7 @@ public class ArticoloNastroPrezziQueryServiceImpl implements ArticoloNastroPrezz
 
   @Override
   public Page<ArticoloNastroPrezziQueryEntity> searchQueryArticoloNastroPrezzi(
-      ArticoloNastroPrezziSearchRequest query) {
+          GenericSearchRequest<ArticoloNastroPrezziFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -77,48 +78,50 @@ public class ArticoloNastroPrezziQueryServiceImpl implements ArticoloNastroPrezz
 
     List<Specification<ArticoloNastroPrezziQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    ArticoloNastroPrezziFilter filter = ArticoloNastroPrezziFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getPrezzoVendita() != null) {
+    if (filter.getPrezzoVendita() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("scontoCodiceVendita"), query.getPrezzoVendita()));
+          (r, q, c) -> c.equal(r.get("prezzoVendita"), filter.getPrezzoVendita()));
     }
 
-    if (query.getDataOraInizio() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("dataOraInizio"), query.getDataOraInizio()));
+    if (filter.getDataOraInizio() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("dataOraInizio"), filter.getDataOraInizio()));
     }
-    if (query.getDataOraFine() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("dataOraFine"), query.getDataOraFine()));
-    }
-
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getDataOraFine() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("dataOraFine"), filter.getDataOraFine()));
     }
 
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
-    if (query.getArticoloId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), query.getArticoloId()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
+    }
+
+    if (filter.getArticoloId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), filter.getArticoloId()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
