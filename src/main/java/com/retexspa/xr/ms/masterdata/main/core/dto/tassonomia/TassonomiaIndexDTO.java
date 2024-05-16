@@ -91,4 +91,12 @@ public class TassonomiaIndexDTO {
     return "TassonomiaAggregate";
   }
 
+  public static String getDetailNameFigli(){
+    return "figliIds";
+  }
+
+  public static String getDetailNameNodo(){
+    return "nodoIds";
+  }
+
 }
