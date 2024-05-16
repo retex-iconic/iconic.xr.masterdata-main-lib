@@ -2,12 +2,13 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.ArticoloQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.ArticoliByGerarchiaIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.queries.ArticoloListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.ArticoliResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ArticoloSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.ArticoloFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.ArticoloQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.ArticoloQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.ArticoloRepository;
@@ -50,7 +51,7 @@ public class ArticoloQueryServiceImpl implements ArticoloQueryService {
   }
 
   @Override
-  public Page<ArticoloQueryEntity> searchQueryArticolo(ArticoloSearchRequest query) {
+  public Page<ArticoloQueryEntity> searchQueryArticolo(GenericSearchRequest<ArticoloFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -104,51 +105,54 @@ public class ArticoloQueryServiceImpl implements ArticoloQueryService {
 
     List<Specification<ArticoloQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    ArticoloFilter filter = ArticoloFilter.createFilterFromMap(query.getFilter());
+
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getDataCancellazione() != null) {
+    if (filter.getDataCancellazione() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("dataCancellazione"), query.getDataCancellazione()));
+          (r, q, c) -> c.equal(r.get("dataCancellazione"), filter.getDataCancellazione()));
     }
-    if (query.getFlgCancellato() != null) {
+    if (filter.getFlgCancellato() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgCancellato")),
-                  "%" + query.getFlgCancellato().toUpperCase() + "%"));
+                  "%" + filter.getFlgCancellato().toUpperCase() + "%"));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -185,6 +189,7 @@ public class ArticoloQueryServiceImpl implements ArticoloQueryService {
     ArticoliResponse.setPagination(Pagination.buildPagination(page));
 
     return page;
+    
   }
 
   @Override
@@ -247,7 +252,7 @@ public class ArticoloQueryServiceImpl implements ArticoloQueryService {
   }
 
   @Override
-  public ArticoliResponse searchArticolo(ArticoloSearchRequest query) {
+  public ArticoliResponse searchArticolo(GenericSearchRequest<ArticoloFilter> query) {
     ArticoliResponse articoliResponse = new ArticoliResponse();
     Page<ArticoloQueryEntity> page = searchQueryArticolo(query);
     List<ArticoloQueryDTO> list =
