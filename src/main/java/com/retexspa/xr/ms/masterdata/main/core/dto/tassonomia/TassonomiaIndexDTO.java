@@ -83,15 +83,12 @@ public class TassonomiaIndexDTO {
     this.figliIds = figliIds;
   }
 
-  public static String getDetailNameArticoloTassonomia() {
-    return "articoloTassonomiaIds";
+  public static String getDetailNameTassonomia() {
+    return "Tassonomia";
   }
 
-  public static String getDetailNameNodo() {
-    return "nodoIds";
+  public static String getDetailNameTassonomiaAggregate() {
+    return "TassonomiaAggregate";
   }
 
-  public static String getDetailNameFigli() {
-    return "figliIds";
-  }
 }

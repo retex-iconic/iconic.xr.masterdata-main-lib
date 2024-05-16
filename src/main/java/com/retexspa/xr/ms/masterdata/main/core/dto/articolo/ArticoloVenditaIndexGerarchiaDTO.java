@@ -21,4 +21,12 @@ public class ArticoloVenditaIndexGerarchiaDTO extends AggregateIndexGerarchiaBas
     String uk = articoloVendita.getArticoloId();
     return uk;
   }
+
+  public static String getIndexName() {
+    return "ArticoloVenditaIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "ArticoloVenditaIndexGerarchiaAggregate";
+  }
 }

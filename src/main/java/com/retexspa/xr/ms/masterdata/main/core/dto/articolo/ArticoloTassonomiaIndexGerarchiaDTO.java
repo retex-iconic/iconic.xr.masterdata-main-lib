@@ -15,4 +15,12 @@ public class ArticoloTassonomiaIndexGerarchiaDTO extends AggregateIndexGerarchia
   public ArticoloTassonomiaIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName() {
+    return "ArticoloTassonomiaIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "ArticoloTassonomiaIndexGerarchiaAggregate";
+  }
 }

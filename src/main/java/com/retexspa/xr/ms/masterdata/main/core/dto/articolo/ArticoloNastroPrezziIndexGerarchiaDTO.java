@@ -12,4 +12,12 @@ public class ArticoloNastroPrezziIndexGerarchiaDTO extends AggregateIndexGerarch
   public ArticoloNastroPrezziIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName() {
+    return "ArticoloNastroPrezziIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "ArticoloNastroPrezziIndexGerarchiaAggregate";
+  }
 }

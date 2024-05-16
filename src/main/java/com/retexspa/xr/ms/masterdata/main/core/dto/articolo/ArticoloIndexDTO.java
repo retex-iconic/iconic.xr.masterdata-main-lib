@@ -10,6 +10,7 @@ public class ArticoloIndexDTO {
 
   private String articoloId;
   // DONE IN INDEXAGGREGATE AND EVENTHANDLER
+  private LinkedList<String> articoloIds;
   private LinkedList<String> tassonomiaIds;
   private LinkedList<String> articoloTassonomiaIds;
   private LinkedList<String> anagraficaServizioIds;
@@ -20,8 +21,7 @@ public class ArticoloIndexDTO {
   private LinkedList<String> articoloEanIds;
   private LinkedList<String> commissioniServizioIds;
 
-  public ArticoloIndexDTO() {
-  }
+  public ArticoloIndexDTO() {}
 
   public ArticoloIndexDTO(String articoloId) {
     this.articoloId = articoloId;
@@ -45,6 +45,14 @@ public class ArticoloIndexDTO {
 
   public void setArticoloVenditaIds(LinkedList<String> articoloVenditaIds) {
     this.articoloVenditaIds = articoloVenditaIds;
+  }
+
+  public LinkedList<String> getArticoloIds() {
+    return this.articoloIds;
+  }
+
+  public void setArticoloIds(LinkedList<String> articoloIds) {
+    this.articoloIds = articoloIds;
   }
 
   public LinkedList<String> getTassonomiaIds() {
@@ -111,40 +119,43 @@ public class ArticoloIndexDTO {
     this.articoloInfoServizioIds = articoloInfoServizioIds;
   }
 
-  public static String getDetailNameTassonomiaIds() {
-    return "tassonomiaIds";
+  public static String getDetailNameArticolo() {
+    return "Articolo";
   }
 
-  public static String getDetailNameArticoloTassonomiaIds() {
-    return "articoloTassonomiaIds";
+  public static String getDetailNameArticoloAggregate() {
+    return "ArticoloAggregate";
   }
 
-  public static String getDetailNameAnagraficaServizioIds() {
-    return "anagraficaServizioIds";
+  public static String getDetailNameArticoloTassonomia() {
+    return "ArticoloTassonomia";
   }
 
-  public static String getDetailNameArticoloInfoServizioIds() {
-    return "articoloInfoServizioIds";
+  public static String getDetailNameArticoloVendita() {
+    return "ArticoloVendita";
   }
 
-  public static String getDetailNameFigliIds() {
-    return "figliIds";
+  public static String getDetailNameArticoloNastroPrezzi() {
+    return "ArticoloNastroPrezzi";
   }
 
-  public static String getDetailNameArticoloVenditaIds() {
-    return "articoloVenditaIds";
+  public static String getDetailNameArticoloInfoServiziVendita() {
+    return "ArticoloInfoServiziVendita";
   }
 
-  public static String getDetailNameArticoloNastroPrezziIds() {
-    return "articoloNastroPrezziIds";
+  public static String getDetailNameCommissioneServizio() {
+    return "CommissioneServizio";
   }
 
-  public static String getDetailNameArticoloEanIds() {
-    return "articoloEanIds";
+  public static String getDetailNameTassonomia() {
+    return "Tassonomia";
   }
 
-  public static String getDetailNameCommissioniServizioIds() {
-    return "commissioniServizioIds";
+  public static String getDetailNameAnagraficaServizio() {
+    return "AnagraficaServizio";
   }
 
+  public static String getDetailNameFigli() {
+    return "Figli";
+  }
 }
