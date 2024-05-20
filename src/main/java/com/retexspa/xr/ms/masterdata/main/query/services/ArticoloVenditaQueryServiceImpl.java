@@ -3,11 +3,12 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.ArticoloVenditaQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.ArticoloVenditaFilter;
 import com.retexspa.xr.ms.masterdata.main.core.queries.ArticoloVenditaListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.ArticoliVenditaResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ArticoloVenditaSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.ArticoloVenditaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.ArticoloVenditaQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.ArticoloVenditaRepository;
@@ -67,7 +68,7 @@ public class ArticoloVenditaQueryServiceImpl implements ArticoloVenditaQueryServ
   }*/
 
   @Override
-  public ArticoliVenditaResponse searchArticoloVendita(ArticoloVenditaSearchRequest query) {
+  public ArticoliVenditaResponse searchArticoloVendita(GenericSearchRequest<ArticoloVenditaFilter> query) {
     Page<ArticoloVenditaQueryEntity> page = searchQueryArticoloVendita(query);
     ArticoliVenditaResponse ArticoliVenditaResponse = new ArticoliVenditaResponse();
     List<ArticoloVenditaQueryDTO> list =
@@ -83,7 +84,7 @@ public class ArticoloVenditaQueryServiceImpl implements ArticoloVenditaQueryServ
 
   @Override
   public Page<ArticoloVenditaQueryEntity> searchQueryArticoloVendita(
-      ArticoloVenditaSearchRequest query) {
+          GenericSearchRequest<ArticoloVenditaFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -107,99 +108,101 @@ public class ArticoloVenditaQueryServiceImpl implements ArticoloVenditaQueryServ
 
     List<Specification<ArticoloVenditaQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    ArticoloVenditaFilter filter = ArticoloVenditaFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getArticoloId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), query.getArticoloId()));
+    if (filter.getArticoloId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), filter.getArticoloId()));
     }
-    if (query.getStatoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("stato").get("id"), query.getStatoId()));
+    if (filter.getStatoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("stato").get("id"), filter.getStatoId()));
     }
-    if (query.getTipoArticoloVenditaId() != null) {
+    if (filter.getTipoArticoloVenditaId() != null) {
       specifications.add(
           (r, q, c) ->
-              c.equal(r.get("tipoArticoloVendita").get("id"), query.getTipoArticoloVenditaId()));
+              c.equal(r.get("tipoArticoloVendita").get("id"), filter.getTipoArticoloVenditaId()));
     }
-    if (query.getSottotipoArticoloVenditaId() != null) {
+    if (filter.getSottotipoArticoloVenditaId() != null) {
       specifications.add(
           (r, q, c) ->
               c.equal(
                   r.get("sottotipoArticoloVendita").get("id"),
-                  query.getSottotipoArticoloVenditaId()));
+                  filter.getSottotipoArticoloVenditaId()));
     }
-    if (query.getRepartoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("reparto").get("id"), query.getRepartoId()));
+    if (filter.getRepartoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("reparto").get("id"), filter.getRepartoId()));
     }
-    if (query.getIvaId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), query.getIvaId()));
+    if (filter.getIvaId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), filter.getIvaId()));
     }
-    if (query.getCosto() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("costo"), query.getCosto()));
+    if (filter.getCosto() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("costo"), filter.getCosto()));
     }
-    if (query.getTara() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("tara"), query.getTara()));
+    if (filter.getTara() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("tara"), filter.getTara()));
     }
-    if (query.getMaxArt() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("maxArt"), query.getMaxArt()));
+    if (filter.getMaxArt() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("maxArt"), filter.getMaxArt()));
     }
-    if (query.getDataOraInizio() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("dataOraInizio"), query.getDataOraInizio()));
+    if (filter.getDataOraInizio() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("dataOraInizio"), filter.getDataOraInizio()));
     }
-    if (query.getDataOraFine() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("dataOraFine"), query.getDataOraFine()));
+    if (filter.getDataOraFine() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("dataOraFine"), filter.getDataOraFine()));
     }
-    if (query.getOraFine() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("oraFine"), query.getOraFine()));
+    if (filter.getOraFine() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("oraFine"), filter.getOraFine()));
     }
-    if (query.getOraInizio() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("oraInizio"), query.getOraInizio()));
+    if (filter.getOraInizio() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("oraInizio"), filter.getOraInizio()));
     }
-    if (query.getAa3() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("aa3"), query.getAa3()));
+    if (filter.getAa3() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("aa3"), filter.getAa3()));
     }
-    if (query.getAa4() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("aa4"), query.getAa4()));
+    if (filter.getAa4() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("aa4"), filter.getAa4()));
     }
-    if (query.getFlgCancellato() != null) {
+    if (filter.getFlgCancellato() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgCancellato")),
-                  "%" + query.getFlgCancellato().toUpperCase() + "%"));
+                  "%" + filter.getFlgCancellato().toUpperCase() + "%"));
     }
-    if (query.getDataCancellazione() != null) {
+    if (filter.getDataCancellazione() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("dataCancellazione"), query.getDataCancellazione()));
+          (r, q, c) -> c.equal(r.get("dataCancellazione"), filter.getDataCancellazione()));
     }
 
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     NativeQueryHelper nativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = nativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -221,8 +224,8 @@ public class ArticoloVenditaQueryServiceImpl implements ArticoloVenditaQueryServ
                 root.get("gerarchia").get("id").in(hierarchiaRootsIds));
           });
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
     Specification<ArticoloVenditaQueryEntity> specification =
