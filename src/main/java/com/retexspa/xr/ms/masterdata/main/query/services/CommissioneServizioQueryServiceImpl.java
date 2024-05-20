@@ -2,12 +2,13 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.CommissioneServizioQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.CommissioneServizioFilter;
 import com.retexspa.xr.ms.masterdata.main.core.queries.CommissioneServizioAggregateGetByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.queries.CommissioneServizioListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.CommissioneServizioResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.CommissioneServizioSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.CommissioneServizioQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.CommissioneServizioQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.CommissioneServizioRepository;
@@ -62,10 +63,8 @@ public class CommissioneServizioQueryServiceImpl implements CommissioneServizioQ
   }
 
   @Override
-  // public CommissioneServizioResponse
-  // searchCommissioneServizio(CommissioneServizioSearchRequest query)
   public Page<CommissioneServizioQueryEntity> searchQueryCommissioneServizio(
-      CommissioneServizioSearchRequest query) {
+          GenericSearchRequest<CommissioneServizioFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -77,47 +76,49 @@ public class CommissioneServizioQueryServiceImpl implements CommissioneServizioQ
                         ? Sort.Direction.ASC
                         : Sort.Direction.DESC
                     : Sort.Direction.ASC,
-                baseSort.getOrderBy() != null ? baseSort.getOrderBy() : "profilo"));
+                baseSort.getOrderBy() != null ? baseSort.getOrderBy() : "id"));
       }
     }
 
     if (sorts.size() == 0) {
-      sorts.add(new Sort.Order(Sort.Direction.ASC, "profilo"));
+      sorts.add(new Sort.Order(Sort.Direction.ASC, "id"));
     }
 
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
     List<Specification<CommissioneServizioQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    CommissioneServizioFilter filter = CommissioneServizioFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getAnagraficaServizioId() != null) {
+    if (filter.getAnagraficaServizioId() != null) {
       specifications.add(
           (r, q, c) ->
-              c.equal(r.get("anagraficaServizio").get("id"), query.getAnagraficaServizioId()));
+              c.equal(r.get("anagraficaServizio").get("id"), filter.getAnagraficaServizioId()));
     }
-    if (query.getArticoloId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), query.getArticoloId()));
+    if (filter.getArticoloId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), filter.getArticoloId()));
     }
-    if (query.getFlgDefault() != null) {
+    if (filter.getFlgDefault() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("flgDefault")), "%" + query.getFlgDefault().toUpperCase() + "%"));
+                  c.upper(r.get("flgDefault")), "%" + filter.getFlgDefault().toUpperCase() + "%"));
     }
-    if (query.getProfilo() != null) {
+    if (filter.getProfilo() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("profilo")), "%" + query.getProfilo().toUpperCase() + "%"));
+              c.like(c.upper(r.get("profilo")), "%" + filter.getProfilo().toUpperCase() + "%"));
     }
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("gerarchia").get("id"), query.getGerarchiaId()));
+          (r, q, c) -> c.equal(r.get("gerarchia").get("id"), filter.getGerarchiaId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     Specification<CommissioneServizioQueryEntity> specification =
@@ -129,9 +130,6 @@ public class CommissioneServizioQueryServiceImpl implements CommissioneServizioQ
 
     List<CommissioneServizioQueryDTO> list =
         page.getContent().stream()
-
-            // .map(entity -> modelMapper.map(entity, CommissioneServizioQueryDTO.class))
-
             .map(entity -> commissioneServizioQueryMapper.toDTO(entity))
             .collect(Collectors.toList());
 
@@ -154,7 +152,7 @@ public class CommissioneServizioQueryServiceImpl implements CommissioneServizioQ
 
   @Override
   public CommissioneServizioResponse searchCommissioneServizio(
-      CommissioneServizioSearchRequest query) {
+          GenericSearchRequest<CommissioneServizioFilter> query) {
     CommissioneServizioResponse commissioneServizioResponse = new CommissioneServizioResponse();
     Page<CommissioneServizioQueryEntity> page = searchQueryCommissioneServizio(query);
     List<CommissioneServizioQueryDTO> list =
