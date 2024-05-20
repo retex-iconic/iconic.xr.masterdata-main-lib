@@ -2,10 +2,11 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.ArticoloEanQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.ArticoloEanFilter;
 import com.retexspa.xr.ms.masterdata.main.core.responses.ArticoloEanResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ArticoloEanSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.ArticoloEanQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.ArticoloEanQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.ArticoloEanRepository;
@@ -35,7 +36,7 @@ public class ArticoloEanQueryServiceImpl implements ArticoloEanQueryService {
   @PersistenceContext private EntityManager entityManager;
 
   @Override
-  public ArticoloEanResponse searchArticoloEan(ArticoloEanSearchRequest query) {
+  public ArticoloEanResponse searchArticoloEan(GenericSearchRequest<ArticoloEanFilter> query) {
     Page<ArticoloEanQueryEntity> page = searchQueryArticoloEan(query);
     ArticoloEanResponse articoloEanResponse = new ArticoloEanResponse();
     List<ArticoloEanQueryDTO> list =
@@ -50,7 +51,7 @@ public class ArticoloEanQueryServiceImpl implements ArticoloEanQueryService {
   }
 
   @Override
-  public Page<ArticoloEanQueryEntity> searchQueryArticoloEan(ArticoloEanSearchRequest query) {
+  public Page<ArticoloEanQueryEntity> searchQueryArticoloEan(GenericSearchRequest<ArticoloEanFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -75,111 +76,113 @@ public class ArticoloEanQueryServiceImpl implements ArticoloEanQueryService {
 
     List<Specification<ArticoloEanQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    ArticoloEanFilter filter = ArticoloEanFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
 
-    if (query.getMoltiplicatore() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("moltiplicatore"), query.getMoltiplicatore()));
+    if (filter.getMoltiplicatore() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("moltiplicatore"), filter.getMoltiplicatore()));
     }
 
-    if (query.getCodiceVenditaLocale() != null) {
+    if (filter.getCodiceVenditaLocale() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceVenditaLocale")),
-                  "%" + query.getCodiceVenditaLocale().toUpperCase() + "%"));
+                  "%" + filter.getCodiceVenditaLocale().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizioneCodiceVendita() != null) {
+    if (filter.getDescrizioneCodiceVendita() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("descrizioneCodiceVendita")),
-                  "%" + query.getDescrizioneCodiceVendita().toUpperCase() + "%"));
+                  "%" + filter.getDescrizioneCodiceVendita().toUpperCase() + "%"));
     }
 
-    if (query.getQuantitaCodiceVendita() != null) {
+    if (filter.getQuantitaCodiceVendita() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("quantitaCodiceVendita"), query.getQuantitaCodiceVendita()));
+          (r, q, c) -> c.equal(r.get("quantitaCodiceVendita"), filter.getQuantitaCodiceVendita()));
     }
 
-    if (query.getScontoCodiceVendita() != null) {
+    if (filter.getScontoCodiceVendita() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("scontoCodiceVendita"), query.getScontoCodiceVendita()));
+          (r, q, c) -> c.equal(r.get("scontoCodiceVendita"), filter.getScontoCodiceVendita()));
     }
 
-    if (query.getPrezzoCodiceVendita() != null) {
+    if (filter.getPrezzoCodiceVendita() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("prezzoCodiceVendita"), query.getPrezzoCodiceVendita()));
+          (r, q, c) -> c.equal(r.get("prezzoCodiceVendita"), filter.getPrezzoCodiceVendita()));
     }
 
-    if (query.getAnagBil() != null) {
+    if (filter.getAnagBil() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("anagBil")), "%" + query.getAnagBil().toUpperCase() + "%"));
+              c.like(c.upper(r.get("anagBil")), "%" + filter.getAnagBil().toUpperCase() + "%"));
     }
 
-    if (query.getFlgCancellato() != null) {
+    if (filter.getFlgCancellato() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgCancellato")),
-                  "%" + query.getFlgCancellato().toUpperCase() + "%"));
+                  "%" + filter.getFlgCancellato().toUpperCase() + "%"));
     }
 
-    if (query.getDataCancellazione() != null) {
+    if (filter.getDataCancellazione() != null) {
       specifications.add(
-          (r, q, c) -> c.equal(r.get("dataCancellazione"), query.getDataCancellazione()));
+          (r, q, c) -> c.equal(r.get("dataCancellazione"), filter.getDataCancellazione()));
     }
 
-    if (query.getArticoloId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), query.getArticoloId()));
+    if (filter.getArticoloId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("articolo").get("id"), filter.getArticoloId()));
     }
 
-    if (query.getCodiceMoltiplicatoreId() != null) {
+    if (filter.getCodiceMoltiplicatoreId() != null) {
       specifications.add(
           (r, q, c) ->
-              c.equal(r.get("codiceMoltiplicatore").get("id"), query.getCodiceMoltiplicatoreId()));
+              c.equal(r.get("codiceMoltiplicatore").get("id"), filter.getCodiceMoltiplicatoreId()));
     }
 
-    if (query.getStatoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("stato").get("id"), query.getStatoId()));
+    if (filter.getStatoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("stato").get("id"), filter.getStatoId()));
     }
 
-    if (query.getTipoEanId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("tipoEan").get("id"), query.getTipoEanId()));
+    if (filter.getTipoEanId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("tipoEan").get("id"), filter.getTipoEanId()));
     }
 
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
