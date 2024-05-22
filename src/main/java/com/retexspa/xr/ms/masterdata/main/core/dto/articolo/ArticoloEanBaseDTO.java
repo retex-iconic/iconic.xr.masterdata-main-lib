@@ -209,4 +209,12 @@ public class ArticoloEanBaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameArticoloEan() {
+    return "ArticoloEan";
+  }
+
+  public static String getDetailNameArticoloEanAggregate() {
+    return "ArticoloEanAggregate";
+  }
 }

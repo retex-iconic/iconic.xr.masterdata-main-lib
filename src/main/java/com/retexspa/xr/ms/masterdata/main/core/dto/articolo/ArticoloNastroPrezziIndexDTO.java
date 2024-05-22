@@ -39,15 +39,5 @@ public class ArticoloNastroPrezziIndexDTO {
     this.figliIds = figliIds;
   }
 
-  public static String getDetailNameArticoloNastroPrezzi() {
-    return "ArticoloNastroPrezzi";
-  }
-
-  public static String getDetailNameArticoloNastroPrezzi2() {
-    return "Articolo Nastro Prezzi";
-  }
-
-  public static String getDetailNameArticoloNastroPrezziAggregate() {
-    return "ArticoloNastroPrezziAggregate";
-  }
+  public static String getDetailNameFigli() { return "figliIds"; }
 }

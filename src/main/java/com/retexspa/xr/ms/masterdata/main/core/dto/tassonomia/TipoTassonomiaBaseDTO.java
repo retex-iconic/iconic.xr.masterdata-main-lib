@@ -61,4 +61,14 @@ public class TipoTassonomiaBaseDTO extends BaseDTO {
   public void setFlgNonCancellabile(String flgNonCancellabile) {
     this.flgNonCancellabile = flgNonCancellabile;
   }
+
+  public static String getDetailNameTipoTassonomia() { return "TipoTassonomia"; }
+
+  public static String getDetailNameTipoTassonomiaNodo() {
+    return "TipoTassonomiaNodo";
+  }
+
+  public static String getDetailNameTipoTassonomiaAggregate() {
+    return "TipoTassonomiaAggregate";
+  }
 }

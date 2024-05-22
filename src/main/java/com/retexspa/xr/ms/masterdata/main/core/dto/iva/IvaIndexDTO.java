@@ -66,27 +66,19 @@ public class IvaIndexDTO {
     this.figliIds = figliIds;
   }
 
-  public static String getDetailNameIva() {
-    return "Iva";
-  }
-
-  public static String getDetailNameIvaAggregate() {
-   return "IvaAggregate";
-  }
-
-  public static String getDetailNameIvaRtIds() {
+  public static String getDetailNameIvaRt() {
     return "ivaRtIds";
   }
 
-  public static String getDetailNameArticoloVenditaIds() {
+  public static String getDetailNameArticoloVendita() {
     return "articoloVenditaIds";
   }
 
-  public static String getDetailNameRepartoIds() {
+  public static String getDetailNameReparto() {
     return "repartoIds";
   }
 
-  public static String getDetailNameFigliIds() {
+  public static String getDetailNameFigli() {
     return "figliIds";
   }
 

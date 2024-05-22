@@ -103,4 +103,12 @@ public class VariazioniRegoleMonitoraggioBaseDTO extends BaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameVariazioniRegoleMonitoraggio() {
+    return "VariazioniRegoleMonitoraggio";
+  }
+
+  public static String getDetailNameVariazioniRegoleMonitoraggioAggregate() {
+    return "VariazioniRegoleMonitoraggioAggregate";
+  }
 }

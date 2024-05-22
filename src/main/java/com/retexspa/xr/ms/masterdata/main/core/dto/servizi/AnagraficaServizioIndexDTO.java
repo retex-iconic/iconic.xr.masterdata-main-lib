@@ -65,19 +65,19 @@ public class AnagraficaServizioIndexDTO {
     this.figliIds = figliIds;
   }
 
-  public static String getDetailNameArticoloInfoServizioIds() {
+  public static String getDetailNameArticoloInfoServizio() {
     return "articoloInfoServizioIds";
   }
 
-  public static String getDetailNameCommissioneServizioIds() {
+  public static String getDetailNameCommissioneServizio() {
     return "commissioneServizioIds";
   }
 
-  public static String getDetailNameEsclusioniFPServizioIds() {
+  public static String getDetailNameEsclusioniFPServizio() {
     return "esclusioniFPServizioIds";
   }
 
-  public static String getDetailNameFigliIds() {
+  public static String getDetailNameFigli() {
     return "figliIds";
   }
 

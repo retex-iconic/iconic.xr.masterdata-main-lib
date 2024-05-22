@@ -119,43 +119,40 @@ public class ArticoloIndexDTO {
     this.articoloInfoServizioIds = articoloInfoServizioIds;
   }
 
-  public static String getDetailNameArticolo() {
-    return "Articolo";
-  }
+  public static String getDetailNameArticolo() { return "articoloIds";}
 
-  public static String getDetailNameArticoloAggregate() {
-    return "ArticoloAggregate";
+  public static String getDetailNameTassonomia() {
+    return "tassonomiaIds";
   }
 
   public static String getDetailNameArticoloTassonomia() {
-    return "ArticoloTassonomia";
-  }
-
-  public static String getDetailNameArticoloVendita() {
-    return "ArticoloVendita";
-  }
-
-  public static String getDetailNameArticoloNastroPrezzi() {
-    return "ArticoloNastroPrezzi";
-  }
-
-  public static String getDetailNameArticoloInfoServiziVendita() {
-    return "ArticoloInfoServiziVendita";
-  }
-
-  public static String getDetailNameCommissioneServizio() {
-    return "CommissioneServizio";
-  }
-
-  public static String getDetailNameTassonomia() {
-    return "Tassonomia";
+    return "articoloTassonomiaIds";
   }
 
   public static String getDetailNameAnagraficaServizio() {
-    return "AnagraficaServizio";
+    return "anagraficaServizioIds";
   }
 
-  public static String getDetailNameFigli() {
-    return "Figli";
+  public static String getDetailNameArticoloInfoServizo() {
+    return "articoloInfoServizioIds";
   }
+
+  public static String getDetailNameFigli() { return "figliIds"; }
+
+  public static String getDetailNameArticoloVendita() {
+    return "articoloVenditaIds";
+  }
+
+  public static String getDetailNameArticoloNastroPrezzi() {
+    return "articoloNastroPrezziIds";
+  }
+
+  public static String getDetailNameArticoloEan() {
+    return "articoloEanIds";
+  }
+
+  public static String getDetailNameCommissioneServizio() {
+    return "commissioniServizioIds";
+  }
+
 }

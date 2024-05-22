@@ -10,5 +10,31 @@ import com.retexspa.xr.ms.main.core.dto.config.ConfigBaseDTO;
 @JsonInclude(Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MasterDataConfigBaseDTO extends ConfigBaseDTO{
+    public static String getDetailNameMasterDataConfig() {
+        return "MasterDataConfig";
+    }
 
+    public static String getDetailNameMoltiplicatoreConfig() {
+        return "MasterDataConfigCodiceMoltiplicatore";
+    }
+
+    public static String getDetailNameStatoConfig() {
+        return "MasterDataConfigStato";
+    }
+
+    public static String getDetailNameTipoEanConfig() {
+        return "MasterDataConfigTipoEan";
+    }
+
+    public static String getDetailNameTipoVenditaConfig() {
+        return "MasterDataConfigTipoArticoloVendita";
+    }
+
+    public static String getDetailNameSottoTipoVenditaConfig() {
+        return "MasterDataConfigSottotipoArticoloVendita";
+    }
+
+    public static String getDetailNameMasterDataConfigAggregate() {
+        return "MasterDataConfigAggregate";
+    }
 }

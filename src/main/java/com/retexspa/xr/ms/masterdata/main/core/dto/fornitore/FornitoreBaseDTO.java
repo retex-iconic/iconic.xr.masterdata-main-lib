@@ -178,4 +178,12 @@ public class FornitoreBaseDTO extends BaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameFornitore() {
+    return "Fornitore";
+  }
+
+  public static String getDetailNameFornitoreAggregate() {
+    return "FornitoreAggregate";
+  }
 }

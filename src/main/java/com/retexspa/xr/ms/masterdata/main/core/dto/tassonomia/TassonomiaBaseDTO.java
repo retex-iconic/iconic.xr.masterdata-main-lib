@@ -43,4 +43,14 @@ public class TassonomiaBaseDTO extends BaseDTO {
   public void setNodoId(String nodoId) {
     this.nodoId = nodoId;
   }
+
+  public static String getDetailNameTassonomia() { return "Tassonomia"; }
+
+  public static String getDetailNameTassonomiaNodo() {
+    return "TassonomiaNodo";
+  }
+
+  public static String getDetailNameTassonomiaAggregate() {
+    return "TassonomiaAggregate";
+  }
 }

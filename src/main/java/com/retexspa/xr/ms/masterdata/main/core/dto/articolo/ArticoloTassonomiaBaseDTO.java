@@ -57,4 +57,12 @@ public class ArticoloTassonomiaBaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameArticoloTassonomia() {
+    return "ArticoloTassonomia";
+  }
+
+  public static String getDetailNameArticoloTassonomiaAggregate() {
+    return "ArticoloTassonomiaAggregate";
+  }
 }
