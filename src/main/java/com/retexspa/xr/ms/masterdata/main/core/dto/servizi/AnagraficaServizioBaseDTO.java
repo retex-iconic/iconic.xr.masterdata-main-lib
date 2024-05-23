@@ -93,4 +93,13 @@ public class AnagraficaServizioBaseDTO extends BaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+
+  public static String getDetailNameAnagraficaServizio() {
+    return "AnagraficaServizio";
+  }
+
+  public static String getDetailNameAnagraficaServizioAggregate() {
+    return "AnagraficaServizioAggregate";
+  }
 }

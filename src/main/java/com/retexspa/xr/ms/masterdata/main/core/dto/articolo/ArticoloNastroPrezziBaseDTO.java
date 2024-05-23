@@ -116,4 +116,12 @@ public class ArticoloNastroPrezziBaseDTO {
     LocalDateTime dateTime = LocalDateTime.parse(date, CUSTOM_FORMATTER);
     return dateTime;
   }
+
+  public static String getDetailNameArticoloNastroPrezzi() {
+    return "ArticoloNastroPrezzi";
+  }
+
+  public static String getDetailNameArticoloNastroPrezziAggregate() {
+    return "ArticoloNastroPrezziAggregate";
+  }
 }

@@ -71,4 +71,12 @@ public class ArticoloInfoServizioBaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameArticoloInfoServizio() {
+    return "ArticoloInfoServizio";
+  }
+
+  public static String getDetailNameArticoloInfoServizioAggregate() {
+    return "ArticoloInfoServizioAggregate";
+  }
 }

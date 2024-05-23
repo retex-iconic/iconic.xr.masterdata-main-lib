@@ -79,4 +79,12 @@ public class VariazioniCausaliOperazioniBaseDTO extends BaseDTO {
   public void setFlgAttivo(String flgAttivo) {
     this.flgAttivo = (flgAttivo == null ? "S" : flgAttivo);
   }
+
+  public static String getDetailNameVariazioniCausaliOperazioni() {
+    return "VariazioniCausaliOperazioni";
+  }
+
+  public static String getDetailNameVariazioniCausaliOperazioniAggregate() {
+    return "VariazioniCausaliOperazioniAggregate";
+  }
 }

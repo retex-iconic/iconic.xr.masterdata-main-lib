@@ -46,11 +46,11 @@ public class TipologiaServizioIndexDTO {
     this.figliIds = figliIds;
   }
 
-  public static String getDetailNameAnagraficaServizioIds() {
+  public static String getDetailNameAnagraficaServizio() {
     return "anagraficaServizioIds";
   }
 
-  public static String getDetailNameFigliIds() {
+  public static String getDetailNameFigli() {
     return "figliIds";
   }
 

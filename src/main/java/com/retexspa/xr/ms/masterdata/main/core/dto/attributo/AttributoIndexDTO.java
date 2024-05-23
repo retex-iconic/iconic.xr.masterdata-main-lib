@@ -36,10 +36,10 @@ public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attribut
   }
 
   public static String getDetailNameArticoloVendita() {
-    return "ArticoloVendita";
+    return "articoloVenditaIds";
   }
 
   public static String getDetailNameMasterDataConfig() {
-    return "MasterDataConfig";
+    return "masterDataConfigIds";
   }
 }

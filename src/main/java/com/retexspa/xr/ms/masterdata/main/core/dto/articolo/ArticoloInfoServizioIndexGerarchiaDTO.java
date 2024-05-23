@@ -12,4 +12,12 @@ public class ArticoloInfoServizioIndexGerarchiaDTO extends AggregateIndexGerarch
   public ArticoloInfoServizioIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName() {
+    return "ArticoloInfoServizioIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName() {
+    return "ArticoloInfoServizioIndexGerarchiaAggregate";
+  }
 }

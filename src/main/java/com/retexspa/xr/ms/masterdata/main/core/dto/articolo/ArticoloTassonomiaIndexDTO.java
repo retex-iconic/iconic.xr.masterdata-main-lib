@@ -26,12 +26,4 @@ public class ArticoloTassonomiaIndexDTO {
     return UUID.nameUUIDFromBytes(("/ArticoloTassonomiaIndex/" + articoloTassonomiaId).getBytes())
         .toString();
   }
-  
-  public static String getDetailNameArticoloTassonomia() {
-    return "ArticoloTassonomia";
-  }
-
-  public static String getDetailNameArticoloTassonomiaAggregate() {
-    return "ArticoloTassonomiaAggregate";
-  }
 }

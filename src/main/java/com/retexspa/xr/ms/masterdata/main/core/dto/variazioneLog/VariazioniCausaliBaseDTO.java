@@ -31,4 +31,12 @@ public class VariazioniCausaliBaseDTO extends BaseDTO {
   public static String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameVariazioniCausali() {
+    return "VariazioniCausali";
+  }
+
+  public static String getDetailNameVariazioniCausaliAggregate() {
+    return "VariazioniCausaliAggregate";
+  }
 }

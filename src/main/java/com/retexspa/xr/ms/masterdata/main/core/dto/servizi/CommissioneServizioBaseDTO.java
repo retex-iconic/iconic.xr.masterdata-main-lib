@@ -82,4 +82,12 @@ public class CommissioneServizioBaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameCommissioneServizio() {
+    return "CommissioneServizio";
+  }
+
+  public static String getDetailNameCommissioneServizioAggregate() {
+    return "CommissioneServizioAggregate";
+  }
 }

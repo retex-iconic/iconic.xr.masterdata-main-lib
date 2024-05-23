@@ -41,7 +41,7 @@ public class FornitoreIndexDTO {
     this.figliIds = figliIds;
   }
 
-  public static String getDetailNameFigliIds() {
+  public static String getDetailNameFigli() {
     return "figliIds";
   }
 

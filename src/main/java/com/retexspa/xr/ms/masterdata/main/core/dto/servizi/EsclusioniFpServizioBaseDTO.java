@@ -40,4 +40,12 @@ public class EsclusioniFpServizioBaseDTO {
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }
+
+  public static String getDetailNameEsclusioniFpServizio() {
+    return "EsclusioniFpServizio";
+  }
+
+  public static String getDetailNameEsclusioniFpServizioAggregate() {
+    return "EsclusioniFpServizioAggregate";
+  }
 }
