@@ -22,4 +22,12 @@ public class MasterDataConfigIndexGerarchiaDTO extends AggregateIndexGerarchiaBa
             + master.getNodoId();
     return uk;
   }
+
+  public static String getIndexName(){
+    return "MasterDataConfigIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "MasterDataConfigIndexGerarchiaAggregate";
+  }
 }

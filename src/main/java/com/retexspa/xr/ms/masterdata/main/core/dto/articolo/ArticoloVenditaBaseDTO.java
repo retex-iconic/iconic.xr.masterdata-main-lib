@@ -200,11 +200,11 @@ public class ArticoloVenditaBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameArticoloVendita() {
+  public static String getName() {
     return "ArticoloVendita";
   }
 
-  public static String getDetailNameArticoloVenditaAggregate() {
+  public static String getAggregateName() {
     return "ArticoloVenditaAggregate";
   }
 }

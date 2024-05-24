@@ -33,11 +33,11 @@ public class AtecoBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameAteco() {
+  public static String getName() {
     return "Ateco";
   }
 
-  public static String getDetailNameAtecoAggregate() {
+  public static String getAggregateName() {
     return "AtecoAggregate";
   }
 }

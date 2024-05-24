@@ -319,11 +319,11 @@ public class RepartoBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameReparto() {
+  public static String getName() {
     return "Reparto";
   }
 
-  public static String getDetailNameRepartoAggregate() {
+  public static String getAggregateName() {
     return "RepartoAggregate";
   }
 }

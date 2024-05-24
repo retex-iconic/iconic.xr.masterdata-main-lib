@@ -17,11 +17,11 @@ public class ArticoloBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameArticolo() {
+  public static String getName() {
     return "Articolo";
   }
 
-  public static String getDetailNameArticoloAggregate() {
+  public static String getAggregateName() {
     return "ArticoloAggregate";
   }
 }

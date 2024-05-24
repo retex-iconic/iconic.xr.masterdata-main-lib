@@ -210,11 +210,11 @@ public class ArticoloEanBaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameArticoloEan() {
+  public static String getName() {
     return "ArticoloEan";
   }
 
-  public static String getDetailNameArticoloEanAggregate() {
+  public static String getAggregateName() {
     return "ArticoloEanAggregate";
   }
 }

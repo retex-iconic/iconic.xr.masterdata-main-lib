@@ -11,5 +11,10 @@ import com.retexspa.xr.ms.main.core.dto.config.ConfigContextBaseDTO;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MasterDataConfigContextBaseDTO extends ConfigContextBaseDTO {
 
-
+    public static String getName() {
+        return "MasterDataConfigContext";
+    }
+    public static String getAggregateName() {
+        return "MasterDataConfigContextAggregate";
+    }
 }

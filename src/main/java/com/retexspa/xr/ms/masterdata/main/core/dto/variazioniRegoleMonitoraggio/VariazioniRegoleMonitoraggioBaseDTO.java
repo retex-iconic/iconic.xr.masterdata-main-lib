@@ -104,11 +104,11 @@ public class VariazioniRegoleMonitoraggioBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameVariazioniRegoleMonitoraggio() {
+  public static String getName() {
     return "VariazioniRegoleMonitoraggio";
   }
 
-  public static String getDetailNameVariazioniRegoleMonitoraggioAggregate() {
+  public static String getAggregateName() {
     return "VariazioniRegoleMonitoraggioAggregate";
   }
 }

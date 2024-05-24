@@ -35,4 +35,9 @@ public class MasterDataConfigContextIndexDTO {
   public void setMasterDataConfigIds(LinkedList<String> masterDataConfigIds) {
     this.masterDataConfigIds = masterDataConfigIds;
   }
+
+  public static String getDetailNameMasterDataConfig() {
+    return "masterDataConfigIds";
+  }
+
 }
