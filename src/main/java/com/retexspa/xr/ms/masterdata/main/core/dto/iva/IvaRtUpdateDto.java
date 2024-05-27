@@ -8,10 +8,7 @@ import javax.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class IvaRtUpdateDto {
-  @NotNull(message = "nome is mandatory")
   private String nome;
-
-  @NotNull(message = "descrizione is mandatory")
   private String descrizione;
 
   private String rtDescr;

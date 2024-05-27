@@ -10,12 +10,8 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RepartoUpdateDto {
-  @NotNull(message = "nome is mandatory")
   private String nome;
-
-  @NotNull(message = "descrizione is mandatory")
   private String descrizione;
-
   private String backClr;
   private String bloccoPre;
   private LocalDateTime dataCas;
@@ -40,13 +36,11 @@ public class RepartoUpdateDto {
   private String repCedi;
   private String repEkom;
   private BigDecimal scontoPercentuale;
-
   private Integer sconto;
   private String tracciabilitaOrtofrutta;
   private String tracciabilitaMacelleria;
   private String tracciabilitaPescheria;
   private String tracciabilitaGastronomia;
-
   private String flgOrto;
   private String flgMacel;
   private String flgPescheria;

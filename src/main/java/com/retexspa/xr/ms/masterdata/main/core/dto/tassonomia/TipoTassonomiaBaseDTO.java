@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.retexspa.xr.ms.main.core.dto.BaseDTO;
 import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
+import com.retexspa.xr.ms.masterdata.main.core.dto.Enums;
 
 import java.util.UUID;
 import javax.validation.constraints.NotBlank;
@@ -17,15 +18,9 @@ import javax.validation.constraints.NotNull;
 public class TipoTassonomiaBaseDTO extends BaseDTO {
 
   // private Integer livello;
-  public enum GruppoTassonomia {
-    NEGOZIO,
-    ARTICOLO,
-    FORNITORE;
-  }
-
   private String nodoId;
 
-  @EnumValidator(enumClazz = GruppoTassonomia.class, message = "gruppoTassonomia not valid")
+  @EnumValidator(enumClazz = Enums.GruppoTassonomia.class, message = "gruppoTassonomia not valid")
   @NotNull(message = "Gruppo Tassonomia is mandatory")
   @NotEmpty(message = "Gruppo Tassonomia is mandatory")
   @NotBlank(message = "Gruppo Tassonomia is mandatory")

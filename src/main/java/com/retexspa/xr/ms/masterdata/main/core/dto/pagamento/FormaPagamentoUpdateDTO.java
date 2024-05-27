@@ -10,11 +10,7 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class FormaPagamentoUpdateDTO {
-
-  @NotNull(message = "nome is mandatory")
   private String nome;
-
-  @NotNull(message = "descrizione is mandatory")
   private String descrizione;
 
   @EnumValidator(enumClazz = Enums.CheckSN.class, message = "FlgAttivo not valid")

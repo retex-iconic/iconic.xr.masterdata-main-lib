@@ -7,22 +7,16 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.retexspa.xr.ms.main.core.dto.BaseDTO;
 import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
-
+import com.retexspa.xr.ms.masterdata.main.core.dto.Enums;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
 @JsonInclude(Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AnagraficaServizioBaseDTO extends BaseDTO {
-
-  public enum Collocazione {
-    F,
-    N
-  }
-
   @NotNull(message = "collocazione is mandatory")
   @EnumValidator(
-      enumClazz = AnagraficaServizioBaseDTO.Collocazione.class,
+      enumClazz = Enums.Collocazione.class,
       message = "Collocazione not valid")
   private String collocazione;
 

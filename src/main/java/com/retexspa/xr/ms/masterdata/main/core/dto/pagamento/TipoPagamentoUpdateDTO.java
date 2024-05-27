@@ -10,13 +10,8 @@ import javax.validation.constraints.Size;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TipoPagamentoUpdateDTO {
-
-  @NotNull(message = "nome is mandatory")
   private String nome;
-
-  @NotNull(message = "descrizione is mandatory")
   private String descrizione;
-
   @Size(min = 1, max = 1, message = "Field must have exactly 1 character")
   @Pattern(regexp = ".", message = "Field must have exactly 1 character")
   private String indicatoreFts;
