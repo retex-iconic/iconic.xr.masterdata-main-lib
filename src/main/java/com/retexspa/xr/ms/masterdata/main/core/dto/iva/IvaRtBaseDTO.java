@@ -124,11 +124,11 @@ public class IvaRtBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameIvaRt() {
+  public static String getName() {
     return "IvaRt";
   }
 
-  public static String getDetailNameIvaRtAggregate() {
+  public static String getAggregateName() {
     return "IvaRtAggregate";
   }
 }

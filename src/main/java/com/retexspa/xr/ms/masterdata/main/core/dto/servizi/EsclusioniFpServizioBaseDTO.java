@@ -41,11 +41,11 @@ public class EsclusioniFpServizioBaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameEsclusioniFpServizio() {
+  public static String getName() {
     return "EsclusioniFpServizio";
   }
 
-  public static String getDetailNameEsclusioniFpServizioAggregate() {
+  public static String getAggregateName() {
     return "EsclusioniFpServizioAggregate";
   }
 }

@@ -92,11 +92,11 @@ public class IvaBaseDTO extends BaseDTO {
     return UUID.randomUUID().toString();
   }
 
-  public static String getDetailNameIva() {
+  public static String getName() {
     return "Iva";
   }
 
-  public static String getDetailNameIvaAggregate() {
+  public static String getAggregateName() {
     return "IvaAggregate";
   }
 }

@@ -95,11 +95,11 @@ public class AnagraficaServizioBaseDTO extends BaseDTO {
   }
 
 
-  public static String getDetailNameAnagraficaServizio() {
+  public static String getName() {
     return "AnagraficaServizio";
   }
 
-  public static String getDetailNameAnagraficaServizioAggregate() {
+  public static String getAggregateName() {
     return "AnagraficaServizioAggregate";
   }
 }

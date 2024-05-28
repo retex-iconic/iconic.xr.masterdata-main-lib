@@ -38,11 +38,11 @@ public class TipologiaServizioBaseDTO extends BaseDTO {
     this.valMaxInScontrino = valMaxInScontrino;
   }
 
-  public static String getDetailNameTipologiaServizio() {
+  public static String getName() {
     return "TipologiaServizio";
   }
 
-  public static String getDetailNameTipologiaServizioAggregate() {
+  public static String getAggregateName() {
     return "TipologiaServizioAggregate";
   }
 }

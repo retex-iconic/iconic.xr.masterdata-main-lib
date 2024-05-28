@@ -117,11 +117,11 @@ public class ArticoloNastroPrezziBaseDTO {
     return dateTime;
   }
 
-  public static String getDetailNameArticoloNastroPrezzi() {
+  public static String getName() {
     return "ArticoloNastroPrezzi";
   }
 
-  public static String getDetailNameArticoloNastroPrezziAggregate() {
+  public static String getAggregateName() {
     return "ArticoloNastroPrezziAggregate";
   }
 }

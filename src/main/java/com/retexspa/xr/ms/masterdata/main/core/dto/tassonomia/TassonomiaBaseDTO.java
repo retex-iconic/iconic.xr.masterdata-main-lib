@@ -44,13 +44,13 @@ public class TassonomiaBaseDTO extends BaseDTO {
     this.nodoId = nodoId;
   }
 
-  public static String getDetailNameTassonomia() { return "Tassonomia"; }
+  public static String getName() { return "Tassonomia"; }
 
-  public static String getDetailNameTassonomiaNodo() {
+  public static String getNameNodo() {
     return "TassonomiaNodo";
   }
 
-  public static String getDetailNameTassonomiaAggregate() {
+  public static String getAggregateName() {
     return "TassonomiaAggregate";
   }
 }

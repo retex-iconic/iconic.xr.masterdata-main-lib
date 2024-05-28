@@ -63,4 +63,8 @@ public class MasterDataConfigIndexDTO {
   public void setArtVenditaSottotipoIds(LinkedList<String> artVenditaSottotipoIds) {
     this.artVenditaSottotipoIds = artVenditaSottotipoIds;
   }
+
+  public static String getDetailNameNodo() {
+    return "nodoIds";
+  }
 }

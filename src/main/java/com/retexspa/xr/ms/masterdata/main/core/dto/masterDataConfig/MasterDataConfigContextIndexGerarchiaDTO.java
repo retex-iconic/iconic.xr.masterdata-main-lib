@@ -12,4 +12,12 @@ public class MasterDataConfigContextIndexGerarchiaDTO extends AggregateIndexGera
   public MasterDataConfigContextIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
+
+  public static String getIndexName(){
+    return "MasterDataConfigContextIndexGerarchia";
+  }
+
+  public static String getIndexAggregateName(){
+    return "MasterDataConfigContextIndexGerarchiaAggregate";
+  }
 }
