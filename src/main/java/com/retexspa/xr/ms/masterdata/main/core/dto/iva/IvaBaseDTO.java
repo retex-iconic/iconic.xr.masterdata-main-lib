@@ -7,20 +7,14 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.retexspa.xr.ms.main.core.dto.BaseDTO;
 import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
+import com.retexspa.xr.ms.masterdata.main.core.dto.Enums;
 
 import java.util.UUID;
 
 @JsonInclude(Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class IvaBaseDTO extends BaseDTO {
-
-  public enum TipoIva {
-    AV, // iva acquisto vendita
-    V, // iva vendita
-    A; // iva acquisto
-  }
-
-  @EnumValidator(enumClazz = TipoIva.class, message = "tipoIva not valid")
+  @EnumValidator(enumClazz = Enums.TipoIva.class, message = "tipoIva not valid")
   private String tipoIva;
 
   // TLPoswin

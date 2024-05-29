@@ -18,4 +18,16 @@ public class Enums extends com.retexspa.xr.ms.main.core.dto.Enums  {
     ARTICOLO,
     FORNITORE
   }
+  public enum TipoIva {
+    AV, // iva acquisto vendita
+    V, // iva vendita
+    A; // iva acquisto
+  }
+
+  public enum GruppoTassonomia {
+    NEGOZIO,
+    ARTICOLO,
+    FORNITORE;
+  }
+
 }
