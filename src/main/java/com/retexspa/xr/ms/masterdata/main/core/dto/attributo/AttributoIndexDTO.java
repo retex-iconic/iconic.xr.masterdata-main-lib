@@ -10,7 +10,7 @@ public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attribut
 
   // DONE IN INDEXAGGREGATE AND EVENTHANDLER
   private LinkedList<String> articoloVenditaIds;
-  private LinkedList<String> masterDataConfigIds;
+  private LinkedList<String> configIds;
 
   public AttributoIndexDTO() {
   }
@@ -19,12 +19,12 @@ public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attribut
     super(attributoId);
   }
 
-  public LinkedList<String> getMasterDataConfigIds() {
-    return masterDataConfigIds;
+  public LinkedList<String> getConfigIds() {
+    return configIds;
   }
 
-  public void setMasterDataConfigIds(LinkedList<String> anagraficaServizioIds) {
-    this.masterDataConfigIds = anagraficaServizioIds;
+  public void setConfigIds(LinkedList<String> anagraficaServizioIds) {
+    this.configIds = anagraficaServizioIds;
   }
 
   public LinkedList<String> getArticoloVenditaIds() {
@@ -39,7 +39,7 @@ public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attribut
     return "articoloVenditaIds";
   }
 
-  public static String getDetailNameMasterDataConfig() {
-    return "masterDataConfigIds";
+  public static String getDetailNameConfig() {
+    return "configIds";
   }
 }

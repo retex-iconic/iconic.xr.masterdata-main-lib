@@ -12,7 +12,7 @@ import org.mapstruct.ReportingPolicy;
 @JsonInclude(Include.NON_NULL)
 @Data
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN)
-public class MasterDataConfigContextQueryDTO {
+public class ConfigContextQueryDTO {
   private String id;
   private String codice;
   private String nome;

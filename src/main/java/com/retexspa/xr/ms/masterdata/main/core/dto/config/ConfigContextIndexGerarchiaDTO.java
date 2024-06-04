@@ -1,4 +1,4 @@
-package com.retexspa.xr.ms.masterdata.main.core.dto.masterDataConfig;
+package com.retexspa.xr.ms.masterdata.main.core.dto.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -14,10 +14,10 @@ public class ConfigContextIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseD
   }
 
   public static String getIndexName(){
-    return "MasterDataConfigContextIndexGerarchia";
+    return "ConfigContextIndexGerarchia";
   }
 
   public static String getIndexAggregateName(){
-    return "MasterDataConfigContextIndexGerarchiaAggregate";
+    return "ConfigContextIndexGerarchiaAggregate";
   }
 }

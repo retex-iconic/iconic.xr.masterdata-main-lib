@@ -1,23 +1,23 @@
-package com.retexspa.xr.ms.masterdata.main.core.dto.masterDataConfig;
+package com.retexspa.xr.ms.masterdata.main.core.dto.config;
 
 public class ConfigBaseDTO extends com.retexspa.xr.ms.main.core.dto.config.ConfigBaseDTO {
 
     public static String getNameNodo() {
-        return "MasterDataConfigNodo";
+        return "ConfigNodo";
     }
     public static String getDetailNameMoltiplicatoreConfig() {
-        return "MasterDataConfigCodiceMoltiplicatore";
+        return "ConfigCodiceMoltiplicatore";
     }
     public static String getDetailNameStatoConfig() {
-        return "MasterDataConfigStato";
+        return "ConfigStato";
     }
     public static String getDetailNameTipoEanConfig() {
-        return "MasterDataConfigTipoEan";
+        return "ConfigTipoEan";
     }
     public static String getDetailNameTipoVenditaConfig() {
-        return "MasterDataConfigTipoArticoloVendita";
+        return "ConfigTipoArticoloVendita";
     }
     public static String getDetailNameSottoTipoVenditaConfig() {
-        return "MasterDataConfigSottotipoArticoloVendita";
+        return "ConfigSottotipoArticoloVendita";
     }
 }

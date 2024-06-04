@@ -19,17 +19,17 @@ import org.springframework.lang.NonNull;
 
 @Entity
 @Table(
-    name = "masterDataConfig",
+    name = "config",
     uniqueConstraints = {
       @UniqueConstraint(
-          name = "masterDataConfig_affiliazioni_uk",
+          name = "config_affiliazioni_uk",
           columnNames = {"context_id", "codice", "nodo_id"})
     },
     indexes = {
-      @Index(name = "index_masterDataConfig_affiliazioni_context_id", columnList = "context_id"),
-      @Index(name = "index_masterDataConfig_affiliazioni_nodo_id", columnList = "nodo_id")
+      @Index(name = "index_config_affiliazioni_context_id", columnList = "context_id"),
+      @Index(name = "index_config_affiliazioni_nodo_id", columnList = "nodo_id")
     })
-public class MasterDataConfigQueryEntity {
+public class ConfigQueryEntity {
 
   @Id @NonNull private String id;
 
@@ -45,9 +45,9 @@ public class MasterDataConfigQueryEntity {
   @Column(name = "version")
   private Long version;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "masterDataConfig")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "config")
   @JsonIgnore
-  private Set<MasterDataConfigAttributoQueryEntity> masterDataConfigAttributi;
+  private Set<ConfigAttributoQueryEntity> configAttributi;
 
   @Column(name = "flg_attivo")
   private String flgAttivo;
@@ -56,25 +56,25 @@ public class MasterDataConfigQueryEntity {
   private String flgCancellato;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity nodo;
+  private ConfigQueryEntity nodo;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "context_id", referencedColumnName = "id")
-  private MasterDataConfigContextQueryEntity context;
+  private ConfigContextQueryEntity context;
 
-  public MasterDataConfigQueryEntity() {}
+  public ConfigQueryEntity() {}
 
-  public MasterDataConfigQueryEntity(
-      @NotNull String masterDataConfigId,
-      ConfigBaseDTO masterDataConfigDTO,
+  public ConfigQueryEntity(
+      @NotNull String configId,
+      ConfigBaseDTO configDTO,
       Long version) {
-    this.id = masterDataConfigId;
+    this.id = configId;
 
-    this.codice = masterDataConfigDTO.getCodice();
-    this.descrizione = masterDataConfigDTO.getDescrizione();
-    this.nome = masterDataConfigDTO.getNome();
-    this.flgAttivo = masterDataConfigDTO.getFlgAttivo();
-    this.flgCancellato = masterDataConfigDTO.getFlgCancellato();
+    this.codice = configDTO.getCodice();
+    this.descrizione = configDTO.getDescrizione();
+    this.nome = configDTO.getNome();
+    this.flgAttivo = configDTO.getFlgAttivo();
+    this.flgCancellato = configDTO.getFlgCancellato();
     this.version = version;
   }
 
@@ -110,13 +110,13 @@ public class MasterDataConfigQueryEntity {
     this.descrizione = descrizione;
   }
 
-  public Set<MasterDataConfigAttributoQueryEntity> getMasterDataConfigAttributi() {
-    return masterDataConfigAttributi;
+  public Set<ConfigAttributoQueryEntity> getConfigAttributi() {
+    return configAttributi;
   }
 
-  public void setMasterDataConfigAttributi(
-      Set<MasterDataConfigAttributoQueryEntity> masterDataConfigAttributi) {
-    this.masterDataConfigAttributi = masterDataConfigAttributi;
+  public void setConfigAttributi(
+      Set<ConfigAttributoQueryEntity> configAttributi) {
+    this.configAttributi = configAttributi;
   }
 
   public String getFlgCancellato() {
@@ -135,27 +135,27 @@ public class MasterDataConfigQueryEntity {
     this.flgAttivo = flgAttivo;
   }
 
-  public MasterDataConfigQueryEntity getNodoId() {
+  public ConfigQueryEntity getNodoId() {
     return this.nodo;
   }
 
-  public void setNodoId(MasterDataConfigQueryEntity nodo) {
+  public void setNodoId(ConfigQueryEntity nodo) {
     this.nodo = nodo;
   }
 
-  public MasterDataConfigQueryEntity getNodo() {
+  public ConfigQueryEntity getNodo() {
     return this.nodo;
   }
 
-  public void setNodo(MasterDataConfigQueryEntity nodo) {
+  public void setNodo(ConfigQueryEntity nodo) {
     this.nodo = nodo;
   }
 
-  public MasterDataConfigContextQueryEntity getContext() {
+  public ConfigContextQueryEntity getContext() {
     return this.context;
   }
 
-  public void setContext(MasterDataConfigContextQueryEntity context) {
+  public void setContext(ConfigContextQueryEntity context) {
     this.context = context;
   }
 

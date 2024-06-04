@@ -1,4 +1,4 @@
-package com.retexspa.xr.ms.masterdata.main.core.dto.masterDataConfig;
+package com.retexspa.xr.ms.masterdata.main.core.dto.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.LinkedList;
@@ -7,7 +7,7 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConfigIndexDTO {
 
-  private String masterDataConfigId;
+  private String configId;
   private LinkedList<String> nodoIds;
   private LinkedList<String> artVenditaStatoIds;
   private LinkedList<String> artVenditaTipoIds;
@@ -15,21 +15,21 @@ public class ConfigIndexDTO {
 
   public ConfigIndexDTO() {}
 
-  public ConfigIndexDTO(String masterDataConfigId) {
-    this.masterDataConfigId = masterDataConfigId;
+  public ConfigIndexDTO(String configId) {
+    this.configId = configId;
   }
 
-  public static String getIdFromMasterDataConfig(String masterDataConfigId) {
-    return UUID.nameUUIDFromBytes(("/MasterDataConfigIndex/" + masterDataConfigId).getBytes())
+  public static String getIdFromConfig(String configId) {
+    return UUID.nameUUIDFromBytes(("/ConfigIndex/" + configId).getBytes())
         .toString();
   }
 
-  public String getMasterDataConfigId() {
-    return masterDataConfigId;
+  public String getConfigId() {
+    return configId;
   }
 
-  public void setMasterDataConfigId(String masterDataConfigId) {
-    this.masterDataConfigId = masterDataConfigId;
+  public void setConfigId(String configId) {
+    this.configId = configId;
   }
 
   public LinkedList<String> getNodoIds() {

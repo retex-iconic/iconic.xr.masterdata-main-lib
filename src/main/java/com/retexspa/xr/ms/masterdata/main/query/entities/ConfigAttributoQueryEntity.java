@@ -16,22 +16,22 @@ import org.springframework.lang.NonNull;
 
 @Entity
 @Table(
-    name = "master_data_config_attributi",
+    name = "config_attributi",
     uniqueConstraints = {
       @UniqueConstraint(
-          name = "master_data_config_attributi_uk",
-          columnNames = {"master_data_config_id", "attributo_id"})
+          name = "config_attributi_uk",
+          columnNames = {"config_id", "attributo_id"})
     })
-public class MasterDataConfigAttributoQueryEntity {
+public class ConfigAttributoQueryEntity {
 
   @Id @NonNull private String id;
 
   @ManyToOne(
       fetch = FetchType.LAZY,
-      targetEntity = MasterDataConfigQueryEntity.class,
+      targetEntity = ConfigQueryEntity.class,
       cascade = {CascadeType.PERSIST})
   @JsonIgnore
-  private MasterDataConfigQueryEntity masterDataConfig;
+  private ConfigQueryEntity config;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private AttributoQueryEntity attributo;
@@ -39,15 +39,15 @@ public class MasterDataConfigAttributoQueryEntity {
   @Column(name = "valore")
   private String valore;
 
-  public MasterDataConfigAttributoQueryEntity() {}
+  public ConfigAttributoQueryEntity() {}
 
-  public MasterDataConfigAttributoQueryEntity(
+  public ConfigAttributoQueryEntity(
       @NotNull String id,
-      MasterDataConfigQueryEntity masterDataConfig,
+      ConfigQueryEntity config,
       AttributoQueryEntity attributo,
       String valore) {
     this.id = id;
-    this.masterDataConfig = masterDataConfig;
+    this.config = config;
     this.attributo = attributo;
     this.valore = valore;
   }
@@ -60,12 +60,12 @@ public class MasterDataConfigAttributoQueryEntity {
     this.id = id;
   }
 
-  public MasterDataConfigQueryEntity getMasterDataConfig() {
-    return masterDataConfig;
+  public ConfigQueryEntity getConfig() {
+    return config;
   }
 
-  public void setMasterDataConfig(MasterDataConfigQueryEntity masterDataConfig) {
-    this.masterDataConfig = masterDataConfig;
+  public void setConfig(ConfigQueryEntity config) {
+    this.config = config;
   }
 
   public AttributoQueryEntity getAttributo() {

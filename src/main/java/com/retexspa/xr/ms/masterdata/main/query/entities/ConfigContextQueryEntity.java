@@ -10,8 +10,8 @@ import com.retexspa.xr.ms.main.core.dto.config.ConfigContextBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "masterDataConfigContext")
-public class MasterDataConfigContextQueryEntity {
+@Table(name = "configContext")
+public class ConfigContextQueryEntity {
 
   @Id @NonNull private String id;
 
@@ -30,18 +30,18 @@ public class MasterDataConfigContextQueryEntity {
   @Column(name = "version")
   private Long version;
 
-  public MasterDataConfigContextQueryEntity() {}
+  public ConfigContextQueryEntity() {}
 
-  public MasterDataConfigContextQueryEntity(
-      @NotNull String masterDataConfigContextId,
-      ConfigContextBaseDTO masterDataConfigContextDTO,
+  public ConfigContextQueryEntity(
+      @NotNull String configContextId,
+      ConfigContextBaseDTO configContextDTO,
       Long version) {
-    this.id = masterDataConfigContextId;
+    this.id = configContextId;
 
-    this.codice = masterDataConfigContextDTO.getCodice();
-    this.descrizione = masterDataConfigContextDTO.getDescrizione();
-    this.nome = masterDataConfigContextDTO.getNome();
-    this.flgCancellato = masterDataConfigContextDTO.getFlgCancellato();
+    this.codice = configContextDTO.getCodice();
+    this.descrizione = configContextDTO.getDescrizione();
+    this.nome = configContextDTO.getNome();
+    this.flgCancellato = configContextDTO.getFlgCancellato();
     this.version = version;
   }
 

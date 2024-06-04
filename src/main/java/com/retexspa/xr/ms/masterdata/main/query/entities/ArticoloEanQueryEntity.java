@@ -28,7 +28,7 @@ public class ArticoloEanQueryEntity implements Serializable {
   private String descrizione;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity codiceMoltiplicatore;
+  private ConfigQueryEntity codiceMoltiplicatore;
 
   @Column(name = "moltiplicatore")
   private Integer moltiplicatore;
@@ -49,10 +49,10 @@ public class ArticoloEanQueryEntity implements Serializable {
   private Double prezzoCodiceVendita;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity stato;
+  private ConfigQueryEntity stato;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity tipoEan;
+  private ConfigQueryEntity tipoEan;
 
   @ManyToOne(fetch = FetchType.LAZY)
   private ArticoloEanQueryEntity padre;
@@ -175,27 +175,27 @@ public class ArticoloEanQueryEntity implements Serializable {
     this.prezzoCodiceVendita = prezzoCodiceVendita;
   }
 
-  public MasterDataConfigQueryEntity getCodiceMoltiplicatore() {
+  public ConfigQueryEntity getCodiceMoltiplicatore() {
     return codiceMoltiplicatore;
   }
 
-  public void setCodiceMoltiplicatore(MasterDataConfigQueryEntity codiceMoltiplicatore) {
+  public void setCodiceMoltiplicatore(ConfigQueryEntity codiceMoltiplicatore) {
     this.codiceMoltiplicatore = codiceMoltiplicatore;
   }
 
-  public MasterDataConfigQueryEntity getStato() {
+  public ConfigQueryEntity getStato() {
     return stato;
   }
 
-  public void setStato(MasterDataConfigQueryEntity stato) {
+  public void setStato(ConfigQueryEntity stato) {
     this.stato = stato;
   }
 
-  public MasterDataConfigQueryEntity getTipoEan() {
+  public ConfigQueryEntity getTipoEan() {
     return tipoEan;
   }
 
-  public void setTipoEan(MasterDataConfigQueryEntity tipoEan) {
+  public void setTipoEan(ConfigQueryEntity tipoEan) {
     this.tipoEan = tipoEan;
   }
 

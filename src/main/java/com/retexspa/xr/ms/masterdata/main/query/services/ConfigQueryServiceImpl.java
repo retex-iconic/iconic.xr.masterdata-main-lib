@@ -2,13 +2,13 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
-import com.retexspa.xr.ms.masterdata.main.core.entities.MasterDataConfigQueryDTO;
-import com.retexspa.xr.ms.masterdata.main.core.queries.MasterDataConfigByIdQuery;
-import com.retexspa.xr.ms.masterdata.main.core.responses.MasterDataConfigResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.MasterDataConfigSearchRequest;
-import com.retexspa.xr.ms.masterdata.main.query.entities.MasterDataConfigQueryEntity;
-import com.retexspa.xr.ms.masterdata.main.query.mappers.MasterDataConfigQueryMapper;
-import com.retexspa.xr.ms.masterdata.main.query.repositories.MasterDataConfigRepository;
+import com.retexspa.xr.ms.masterdata.main.core.entities.ConfigQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.queries.ConfigByIdQuery;
+import com.retexspa.xr.ms.masterdata.main.core.responses.ConfigResponse;
+import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ConfigSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.query.entities.ConfigQueryEntity;
+import com.retexspa.xr.ms.masterdata.main.query.mappers.ConfigQueryMapper;
+import com.retexspa.xr.ms.masterdata.main.query.repositories.ConfigRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,32 +20,32 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MasterDataConfigQueryServiceImpl implements MasterDataConfigQueryService {
+public class ConfigQueryServiceImpl implements ConfigQueryService {
 
-  MasterDataConfigRepository masterDataConfigRepository;
+  ConfigRepository configRepository;
 
-  MasterDataConfigQueryMapper masterDataConfigQueryMapper;
+  ConfigQueryMapper configQueryMapper;
 
-  MasterDataConfigQueryServiceImpl(
-      MasterDataConfigRepository masterDataConfigRepository,
-      MasterDataConfigQueryMapper masterDataConfigQueryMapper) {
-    this.masterDataConfigRepository = masterDataConfigRepository;
-    this.masterDataConfigQueryMapper = masterDataConfigQueryMapper;
+  ConfigQueryServiceImpl(
+      ConfigRepository configRepository,
+      ConfigQueryMapper configQueryMapper) {
+    this.configRepository = configRepository;
+    this.configQueryMapper = configQueryMapper;
   }
 
   @Override
-  public MasterDataConfigQueryDTO getMasterDataConfigById(MasterDataConfigByIdQuery query) {
-    MasterDataConfigQueryEntity masterDataConfigQueryEntity =
-        this.masterDataConfigRepository.findById(query.getMasterDataConfigId()).orElse(null);
+  public ConfigQueryDTO getConfigById(ConfigByIdQuery query) {
+    ConfigQueryEntity configQueryEntity =
+        this.configRepository.findById(query.getConfigId()).orElse(null);
 
-    return masterDataConfigQueryMapper.toDTO(masterDataConfigQueryEntity);
+    return configQueryMapper.toDTO(configQueryEntity);
   }
 
   @Override
-  // public MasterDataConfigResponse
-  // searchMasterDataConfig(MasterDataConfigSearchRequest query) {
-  public Page<MasterDataConfigQueryEntity> searchQueryMasterdataConfig(
-      MasterDataConfigSearchRequest query) {
+  // public ConfigResponse
+  // searchConfig(ConfigSearchRequest query) {
+  public Page<ConfigQueryEntity> searchQueryConfig(
+      ConfigSearchRequest query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -92,7 +92,7 @@ public class MasterDataConfigQueryServiceImpl implements MasterDataConfigQuerySe
 
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
-    List<Specification<MasterDataConfigQueryEntity>> specifications = new ArrayList<>();
+    List<Specification<ConfigQueryEntity>> specifications = new ArrayList<>();
 
     if (query.getId() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
@@ -135,29 +135,29 @@ public class MasterDataConfigQueryServiceImpl implements MasterDataConfigQuerySe
     if (query.getVersion() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
     }
-    Specification<MasterDataConfigQueryEntity> specification =
+    Specification<ConfigQueryEntity> specification =
         specifications.stream().reduce(Specification::and).orElse(null);
 
-    Page<MasterDataConfigQueryEntity> page =
-        this.masterDataConfigRepository.findAll(specification, pageable);
+    Page<ConfigQueryEntity> page =
+        this.configRepository.findAll(specification, pageable);
 
     return page;
   }
 
   @Override
-  public MasterDataConfigResponse searchMasterDataConfig(MasterDataConfigSearchRequest query) {
+  public ConfigResponse searchConfig(ConfigSearchRequest query) {
 
-    MasterDataConfigResponse masterdataConfigResponse = new MasterDataConfigResponse();
-    Page<MasterDataConfigQueryEntity> page = searchQueryMasterdataConfig(query);
+    ConfigResponse configResponse = new ConfigResponse();
+    Page<ConfigQueryEntity> page = searchQueryConfig(query);
 
-    List<MasterDataConfigQueryDTO> list =
+    List<ConfigQueryDTO> list =
         page.getContent().stream()
-            .map(entity -> masterDataConfigQueryMapper.toDTO(entity))
+            .map(entity -> configQueryMapper.toDTO(entity))
             .collect(Collectors.toList());
 
-    masterdataConfigResponse.setRecords(list);
-    masterdataConfigResponse.setPagination(Pagination.buildPagination(page));
+    configResponse.setRecords(list);
+    configResponse.setPagination(Pagination.buildPagination(page));
 
-    return masterdataConfigResponse;
+    return configResponse;
   }
 }

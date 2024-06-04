@@ -2,13 +2,13 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
-import com.retexspa.xr.ms.masterdata.main.core.entities.MasterDataConfigContextQueryDTO;
-import com.retexspa.xr.ms.masterdata.main.core.queries.MasterDataConfigContextByIdQuery;
-import com.retexspa.xr.ms.masterdata.main.core.responses.MasterDataConfigContextResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.MasterDataConfigContextSearchRequest;
-import com.retexspa.xr.ms.masterdata.main.query.entities.MasterDataConfigContextQueryEntity;
-import com.retexspa.xr.ms.masterdata.main.query.mappers.MasterDataConfigContextQueryMapper;
-import com.retexspa.xr.ms.masterdata.main.query.repositories.MasterDataConfigContextRepository;
+import com.retexspa.xr.ms.masterdata.main.core.entities.ConfigContextQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.queries.ConfigContextByIdQuery;
+import com.retexspa.xr.ms.masterdata.main.core.responses.ConfigContextResponse;
+import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ConfigContextSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.query.entities.ConfigContextQueryEntity;
+import com.retexspa.xr.ms.masterdata.main.query.mappers.ConfigContextQueryMapper;
+import com.retexspa.xr.ms.masterdata.main.query.repositories.ConfigContextRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,32 +20,32 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MasterDataConfigContextQueryServiceImpl
-    implements MasterDataConfigContextQueryService {
+public class ConfigContextQueryServiceImpl
+    implements ConfigContextQueryService {
 
-  MasterDataConfigContextRepository masterDataConfigContextRepository;
+  ConfigContextRepository configContextRepository;
 
-  MasterDataConfigContextQueryMapper masterDataConfigContextQueryMapper;
+  ConfigContextQueryMapper configContextQueryMapper;
 
-  MasterDataConfigContextQueryServiceImpl(
-      MasterDataConfigContextRepository masterDataConfigContextRepository,
-      MasterDataConfigContextQueryMapper masterDataConfigContextQueryMapper) {
-    this.masterDataConfigContextRepository = masterDataConfigContextRepository;
-    this.masterDataConfigContextQueryMapper = masterDataConfigContextQueryMapper;
+  ConfigContextQueryServiceImpl(
+      ConfigContextRepository configContextRepository,
+      ConfigContextQueryMapper configContextQueryMapper) {
+    this.configContextRepository = configContextRepository;
+    this.configContextQueryMapper = configContextQueryMapper;
   }
 
   @Override
-  public MasterDataConfigContextQueryDTO getMasterDataConfigContextById(
-      MasterDataConfigContextByIdQuery query) {
-    MasterDataConfigContextQueryEntity masterDataConfigContextQueryEntity =
-        this.masterDataConfigContextRepository.findById(query.getMasterDataConfigId()).orElse(null);
+  public ConfigContextQueryDTO getConfigContextById(
+      ConfigContextByIdQuery query) {
+    ConfigContextQueryEntity configContextQueryEntity =
+        this.configContextRepository.findById(query.getConfigId()).orElse(null);
 
-    return masterDataConfigContextQueryMapper.toDTO(masterDataConfigContextQueryEntity);
+    return configContextQueryMapper.toDTO(configContextQueryEntity);
   }
 
   @Override
-  public MasterDataConfigContextResponse searchMasterDataConfigContext(
-      MasterDataConfigContextSearchRequest query) {
+  public ConfigContextResponse searchConfigContext(
+      ConfigContextSearchRequest query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class MasterDataConfigContextQueryServiceImpl
 
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
-    List<Specification<MasterDataConfigContextQueryEntity>> specifications = new ArrayList<>();
+    List<Specification<ConfigContextQueryEntity>> specifications = new ArrayList<>();
 
     if (query.getId() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
@@ -121,22 +121,22 @@ public class MasterDataConfigContextQueryServiceImpl
     if (query.getVersion() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
     }
-    Specification<MasterDataConfigContextQueryEntity> specification =
+    Specification<ConfigContextQueryEntity> specification =
         specifications.stream().reduce(Specification::and).orElse(null);
 
-    Page<MasterDataConfigContextQueryEntity> page =
-        this.masterDataConfigContextRepository.findAll(specification, pageable);
+    Page<ConfigContextQueryEntity> page =
+        this.configContextRepository.findAll(specification, pageable);
 
-    MasterDataConfigContextResponse masterDataConfigContextResponse =
-        new MasterDataConfigContextResponse();
-    List<MasterDataConfigContextQueryDTO> list =
+    ConfigContextResponse configContextResponse =
+        new ConfigContextResponse();
+    List<ConfigContextQueryDTO> list =
         page.getContent().stream()
-            .map(entity -> masterDataConfigContextQueryMapper.toDTO(entity))
+            .map(entity -> configContextQueryMapper.toDTO(entity))
             .collect(Collectors.toList());
-    masterDataConfigContextResponse.setRecords(list);
+    configContextResponse.setRecords(list);
 
-    masterDataConfigContextResponse.setPagination(Pagination.buildPagination(page));
+    configContextResponse.setPagination(Pagination.buildPagination(page));
 
-    return masterDataConfigContextResponse;
+    return configContextResponse;
   }
 }

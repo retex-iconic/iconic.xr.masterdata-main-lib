@@ -3,12 +3,12 @@ package com.retexspa.xr.ms.masterdata.main.core.responses;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.retexspa.xr.ms.main.core.responses.BasePaginationResponse;
-import com.retexspa.xr.ms.masterdata.main.core.entities.MasterDataConfigQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.entities.ConfigQueryDTO;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class MasterDataConfigResponse extends BasePaginationResponse<MasterDataConfigQueryDTO> {
+public class ConfigResponse extends BasePaginationResponse<ConfigQueryDTO> {
 
-  public MasterDataConfigResponse() {
+  public ConfigResponse() {
     super();
   }
 }
