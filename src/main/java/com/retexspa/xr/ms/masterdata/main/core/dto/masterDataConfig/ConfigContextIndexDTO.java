@@ -6,15 +6,15 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 @JsonInclude(Include.NON_NULL)
-public class MasterDataConfigContextIndexDTO {
+public class ConfigContextIndexDTO {
 
   private String masterDataConfigContextId;
 
   private LinkedList<String> masterDataConfigIds;
 
-  public MasterDataConfigContextIndexDTO() {}
+  public ConfigContextIndexDTO() {}
 
-  public MasterDataConfigContextIndexDTO(String masterDataConfigContextId) {
+  public ConfigContextIndexDTO(String masterDataConfigContextId) {
     this.masterDataConfigContextId = masterDataConfigContextId;
   }
 

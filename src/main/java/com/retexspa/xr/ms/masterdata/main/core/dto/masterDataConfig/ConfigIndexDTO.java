@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MasterDataConfigIndexDTO {
+public class ConfigIndexDTO {
 
   private String masterDataConfigId;
   private LinkedList<String> nodoIds;
@@ -13,9 +13,9 @@ public class MasterDataConfigIndexDTO {
   private LinkedList<String> artVenditaTipoIds;
   private LinkedList<String> artVenditaSottotipoIds;
 
-  public MasterDataConfigIndexDTO() {}
+  public ConfigIndexDTO() {}
 
-  public MasterDataConfigIndexDTO(String masterDataConfigId) {
+  public ConfigIndexDTO(String masterDataConfigId) {
     this.masterDataConfigId = masterDataConfigId;
   }
 

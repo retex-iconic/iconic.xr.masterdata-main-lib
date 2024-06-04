@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
-import com.retexspa.xr.ms.masterdata.main.core.dto.masterDataConfig.MasterDataConfigBaseDTO;
+import com.retexspa.xr.ms.main.core.dto.config.ConfigBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
@@ -66,7 +66,7 @@ public class MasterDataConfigQueryEntity {
 
   public MasterDataConfigQueryEntity(
       @NotNull String masterDataConfigId,
-      MasterDataConfigBaseDTO masterDataConfigDTO,
+      ConfigBaseDTO masterDataConfigDTO,
       Long version) {
     this.id = masterDataConfigId;
 

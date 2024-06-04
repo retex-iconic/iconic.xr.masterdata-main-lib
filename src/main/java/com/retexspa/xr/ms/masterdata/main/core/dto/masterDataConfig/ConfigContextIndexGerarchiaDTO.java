@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.retexspa.xr.ms.main.core.dto.AggregateIndexGerarchiaBaseDTO;
 
 @JsonInclude(Include.NON_NULL)
-public class MasterDataConfigContextIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
+public class ConfigContextIndexGerarchiaDTO extends AggregateIndexGerarchiaBaseDTO {
 
-  public MasterDataConfigContextIndexGerarchiaDTO() {}
+  public ConfigContextIndexGerarchiaDTO() {}
 
-  public MasterDataConfigContextIndexGerarchiaDTO(String gerarchiaId) {
+  public ConfigContextIndexGerarchiaDTO(String gerarchiaId) {
     super(gerarchiaId);
   }
 
