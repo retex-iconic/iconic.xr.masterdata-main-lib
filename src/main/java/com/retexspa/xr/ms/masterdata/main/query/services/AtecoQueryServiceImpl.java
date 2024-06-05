@@ -10,6 +10,9 @@ import com.retexspa.xr.ms.masterdata.main.core.filterRequest.AtecoFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.AtecoQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.AtecoQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.AtecoRepository;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,6 +80,18 @@ public class AtecoQueryServiceImpl implements AtecoQueryService {
     if (filter.getNome() != null) {
       specifications.add(
           (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
+    }
+
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
+    }
+    if (filter.getFlgCancellato() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), filter.getFlgCancellato()));
+    }
+    if (filter.getDataCancellazione() != null) {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+      LocalDateTime dateTime = LocalDateTime.parse(filter.getDataCancellazione(), formatter);
+      specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"), dateTime));
     }
 
     if (filter.getDescrizione() != null) {
