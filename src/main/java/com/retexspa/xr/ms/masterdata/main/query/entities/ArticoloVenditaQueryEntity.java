@@ -45,13 +45,13 @@ public class ArticoloVenditaQueryEntity {
   private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity stato;
+  private ConfigQueryEntity stato;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity tipoArticoloVendita;
+  private ConfigQueryEntity tipoArticoloVendita;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  private MasterDataConfigQueryEntity sottotipoArticoloVendita;
+  private ConfigQueryEntity sottotipoArticoloVendita;
 
   @ManyToOne private RepartoQueryEntity reparto;
 
@@ -174,27 +174,27 @@ public class ArticoloVenditaQueryEntity {
     this.codice = codice;
   }
 
-  public MasterDataConfigQueryEntity getStato() {
+  public ConfigQueryEntity getStato() {
     return stato;
   }
 
-  public void setStato(MasterDataConfigQueryEntity stato) {
+  public void setStato(ConfigQueryEntity stato) {
     this.stato = stato;
   }
 
-  public MasterDataConfigQueryEntity getTipoArticoloVendita() {
+  public ConfigQueryEntity getTipoArticoloVendita() {
     return tipoArticoloVendita;
   }
 
-  public void setTipoArticoloVendita(MasterDataConfigQueryEntity tipoArticoloVendita) {
+  public void setTipoArticoloVendita(ConfigQueryEntity tipoArticoloVendita) {
     this.tipoArticoloVendita = tipoArticoloVendita;
   }
 
-  public MasterDataConfigQueryEntity getSottotipoArticoloVendita() {
+  public ConfigQueryEntity getSottotipoArticoloVendita() {
     return sottotipoArticoloVendita;
   }
 
-  public void setSottotipoArticoloVendita(MasterDataConfigQueryEntity sottotipoArticoloVendita) {
+  public void setSottotipoArticoloVendita(ConfigQueryEntity sottotipoArticoloVendita) {
     this.sottotipoArticoloVendita = sottotipoArticoloVendita;
   }
 
