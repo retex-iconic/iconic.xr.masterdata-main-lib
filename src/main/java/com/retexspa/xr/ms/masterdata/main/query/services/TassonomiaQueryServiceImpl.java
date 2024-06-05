@@ -11,6 +11,9 @@ import javax.persistence.Query;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.AtecoFilter;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.TassonomiaFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +28,6 @@ import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.TassonomiaQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.TassonomiaListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.TassonomieResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.TassonomiaSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.TassonomiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.TassonomiaQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.TassonomiaRepository;
@@ -66,7 +68,7 @@ public class TassonomiaQueryServiceImpl implements TassonomiaQueryService {
   }*/
 
   @Override
-  public Page<TassonomiaQueryEntity> searchQueryTassonomia(TassonomiaSearchRequest query) {
+  public Page<TassonomiaQueryEntity> searchQueryTassonomia(GenericSearchRequest<TassonomiaFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -121,51 +123,52 @@ public class TassonomiaQueryServiceImpl implements TassonomiaQueryService {
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
     List<Specification<TassonomiaQueryEntity>> specifications = new ArrayList<>();
+    TassonomiaFilter filter = TassonomiaFilter.createFilterFromMap(query.getFilter());
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getTipoTassonomiaId() != null) {
+    if (filter.getTipoTassonomiaId() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("tipoTassonomia").get("id")),
-                  "%" + query.getTipoTassonomiaId().toUpperCase() + "%"));
+                  "%" + filter.getTipoTassonomiaId().toUpperCase() + "%"));
     }
-    if (query.getNodoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("nodo").get("id"), query.getNodoId()));
+    if (filter.getNodoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("nodo").get("id"), filter.getNodoId()));
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -195,7 +198,7 @@ public class TassonomiaQueryServiceImpl implements TassonomiaQueryService {
   }
 
   @Override
-  public TassonomieResponse searchTassonomia(TassonomiaSearchRequest query) {
+  public TassonomieResponse searchTassonomia(GenericSearchRequest<TassonomiaFilter>  query) {
     Page<TassonomiaQueryEntity> page = searchQueryTassonomia(query);
     TassonomieResponse tassonomiaResponse = new TassonomieResponse();
     List<TassonomiaQueryDTO> list =
