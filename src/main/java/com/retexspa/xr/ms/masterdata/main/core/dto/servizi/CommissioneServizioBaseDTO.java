@@ -24,8 +24,6 @@ public class CommissioneServizioBaseDTO {
   @NotNull(message = "articoloId is mandatory")
   private String articoloId;
 
-  private String codice;
-
   private String profilo;
 
   private String flgDefault;
@@ -52,14 +50,6 @@ public class CommissioneServizioBaseDTO {
 
   public void setArticoloId(String articoloId) {
     this.articoloId = articoloId;
-  }
-
-  public String getCodice() {
-    return codice;
-  }
-
-  public void setCodice(String codice) {
-    this.codice = codice;
   }
 
   public String getProfilo() {
