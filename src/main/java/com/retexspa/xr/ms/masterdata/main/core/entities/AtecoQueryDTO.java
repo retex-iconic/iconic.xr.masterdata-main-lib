@@ -9,6 +9,8 @@ import lombok.Data;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.time.LocalDateTime;
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(Include.NON_NULL)
 @Data
@@ -23,4 +25,7 @@ public class AtecoQueryDTO {
   private Long version;
   private ArticoloQueryDTO padre;
   private GerarchiaQueryDTO gerarchia;
+  private String  flgCancellato;
+  private LocalDateTime dataCancellazione;
+
 }

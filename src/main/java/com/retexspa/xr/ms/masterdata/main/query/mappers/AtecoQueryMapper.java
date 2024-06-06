@@ -17,6 +17,8 @@ public interface AtecoQueryMapper {
   @Mapping(target = "padre", source = "padre")
   @Mapping(target = "gerarchia", source = "gerarchia")
   @Mapping(target = "descrizione", source = "descrizione")
+  @Mapping(target = "flgCancellato", source = "flgCancellato")
+  @Mapping(target = "dataCancellazione", source = "dataCancellazione")
   @Mapping(target = "version", source = "version")
   AtecoQueryDTO toDTO(AtecoQueryEntity entity);
 }

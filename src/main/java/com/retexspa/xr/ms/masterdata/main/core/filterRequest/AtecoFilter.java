@@ -1,5 +1,6 @@
 package com.retexspa.xr.ms.masterdata.main.core.filterRequest;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +13,9 @@ public class AtecoFilter {
   private String descrizione;
   private Integer atecoNr;
   private String gerarchiaId;
+  private String padreId;
+  private String  flgCancellato;
+  private String dataCancellazione;
   private Long version;
 
   public AtecoFilter() {
@@ -24,6 +28,9 @@ public class AtecoFilter {
       @JsonProperty("descrizione") String descrizione,
       @JsonProperty("atecoNr") Integer atecoNr,
       @JsonProperty("gerarchiaId") String gerarchiaId,
+      @JsonProperty("padreId") String padreId,
+      @JsonProperty("flgCancellato") String  flgCancellato,
+      @JsonProperty("dataCancellazione") String dataCancellazione,
       @JsonProperty("version") Long version) {
 
     this.id = id;
@@ -33,6 +40,9 @@ public class AtecoFilter {
     this.atecoNr = atecoNr;
     this.gerarchiaId = gerarchiaId;
     this.version = version;
+    this.padreId=padreId;
+    this.flgCancellato= flgCancellato;
+    this.dataCancellazione =dataCancellazione;
 
   }
 
@@ -111,6 +121,9 @@ public class AtecoFilter {
         filter.setDescrizione((String) map.get("descrizione"));
         filter.setAtecoNr((Integer) map.get("atecoNr"));
         filter.setGerarchiaId((String) map.get("gerarchiaId"));
+        filter.setPadreId((String) map.get("padreId"));
+        filter.setFlgCancellato((String) map.get("flgCancellato"));
+        filter.setDataCancellazione((String) map.get("dataCancellazione"));
         Object version = map.get("version");
         if (version != null) {
           if (version instanceof Integer) {
@@ -126,6 +139,27 @@ public class AtecoFilter {
     }
   }
 
+  public String getPadreId() {
+    return padreId;
+  }
 
+  public void setPadreId(String padreId) {
+    this.padreId = padreId;
+  }
 
+  public String getFlgCancellato() {
+    return flgCancellato;
+  }
+
+  public void setFlgCancellato(String flgCancellato) {
+    this.flgCancellato = flgCancellato;
+  }
+
+  public String getDataCancellazione() {
+    return dataCancellazione;
+  }
+
+  public void setDataCancellazione(String dataCancellazione) {
+    this.dataCancellazione = dataCancellazione;
+  }
 }
