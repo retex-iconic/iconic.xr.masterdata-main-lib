@@ -1,14 +1,13 @@
-package com.retexspa.xr.ms.masterdata.main.core.filterRequest;
+package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.BaseSortPagination;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
+import java.util.List;
 
-public class RepartoFilter {
+public class RepartoSearchRequest extends BaseSortPagination {
   private String id;
   private String nome;
   private String codice;
@@ -49,13 +48,7 @@ public class RepartoFilter {
   private String bloccoPre;
   private Long version;
 
-  public RepartoFilter() {
-  }
-
-  public RepartoFilter(
-      String id,
-      String nome,
-      String codice,
+  public RepartoSearchRequest(Integer page, Integer limit, List<BaseSort> sort, String id, String nome, String codice,
       String descrizione,
       String gerarchiaId,
       String ivaId,
@@ -91,8 +84,10 @@ public class RepartoFilter {
       String idSendEcr,
       String dataOraUpd,
       String bloccoPre,
-      Long version) {
+      Long version)
 
+  {
+    super(page, limit, sort);
     this.id = id;
     this.nome = nome;
     this.codice = codice;
@@ -444,87 +439,6 @@ public class RepartoFilter {
 
   public void setVersion(Long version) {
     this.version = version;
-  }
-
-  public static RepartoFilter createFilterFromMap(Object obj) {
-
-    ObjectMapper mapper = new ObjectMapper();
-    String json = null;
-    try {
-      json = mapper.writeValueAsString(obj);
-
-      LinkedHashMap<String, Object> map = mapper.readValue(json, LinkedHashMap.class);
-
-      RepartoFilter filter = new RepartoFilter();
-      if (map != null) {
-        filter.setId((String) map.get("id"));
-        filter.setCodice((String) map.get("codice"));
-        filter.setNome((String) map.get("nome"));
-        filter.setDescrizione((String) map.get("descrizione"));
-        // filter.setScontoPercentuale((BigDecimal) map.get("scontoPercentuale"));
-        Object scontoPercentuale = map.get("scontoPercentuale");
-        if (scontoPercentuale != null) {
-          if (scontoPercentuale instanceof Double) {
-            filter.setScontoPercentuale(BigDecimal.valueOf((Double) scontoPercentuale));
-          } else if (scontoPercentuale instanceof BigDecimal) {
-            filter.setScontoPercentuale((BigDecimal) scontoPercentuale);
-          }
-        }
-        // filter.setMargineFisso((BigDecimal) map.get("margineFisso"));
-        Object margineFisso = map.get("margineFisso");
-        if (margineFisso != null) {
-          if (margineFisso instanceof Double) {
-            filter.setMargineFisso(BigDecimal.valueOf((Double) margineFisso));
-          } else if (margineFisso instanceof BigDecimal) {
-            filter.setMargineFisso((BigDecimal) margineFisso);
-          }
-        }
-        filter.setAccettaPagamentoTicketRestaurant((String) map.get("accettaPagamentoTicketRestaurant"));
-        filter.setErogaPunti((String) map.get("erogaPunti"));
-        filter.setErogaBuoni((String) map.get("erogaBuoni"));
-        filter.setErogaSconti((String) map.get("erogaSconti"));
-        filter.setTracciabilitaOrtofrutta((String) map.get("tracciabilitaOrtofrutta"));
-        filter.setTracciabilitaMacelleria((String) map.get("tracciabilitaMacelleria"));
-        filter.setTracciabilitaPescheria((String) map.get("tracciabilitaPescheria"));
-        filter.setTracciabilitaGastronomia((String) map.get("tracciabilitaGastronomia"));
-        filter.setSconto((Integer) map.get("sconto"));
-        filter.setRepEcr((String) map.get("repEcr"));
-        filter.setRepLoc((String) map.get("repLoc"));
-        filter.setRepCedi((String) map.get("repCedi"));
-        filter.setMargine((Double) map.get("margine"));
-        filter.setFlgTicket((String) map.get("flgTicket"));
-        filter.setFlgPunti((String) map.get("flgPunti"));
-        filter.setFlgBuoni((String) map.get("flgBuoni"));
-        filter.setFlgSconti((String) map.get("flgSconti"));
-        filter.setDataType((String) map.get("dataType"));
-        filter.setDataFunc((String) map.get("dataFunc"));
-        filter.setBackClr((String) map.get("backClr"));
-        filter.setFlgOrto((String) map.get("flgOrto"));
-        filter.setFlgMacel((String) map.get("flgMacel"));
-        filter.setFlgPescheria((String) map.get("flgPescheria"));
-        filter.setFlgGastro((String) map.get("flgGastro"));
-        filter.setRepEkom((String) map.get("repEkom"));
-        filter.setDataCas((LocalDateTime) map.get("dataCas"));
-        filter.setIdSendEcr((String) map.get("idSendEcr"));
-        filter.setDataOraUpd((String) map.get("dataOraUpd"));
-        filter.setBloccoPre((String) map.get("bloccoPre"));
-        filter.setIvaId((String) map.get("ivaId"));
-        filter.setGerarchiaId((String) map.get("gerarchiaId"));
-        filter.setPadreId((String) map.get("padreId"));
-        Object version = map.get("version");
-        if (version != null) {
-          if (version instanceof Integer) {
-            filter.setVersion(Long.valueOf((Integer) version));
-          } else if (version instanceof Long) {
-            filter.setVersion((Long) version);
-          }
-        }
-      }
-      return filter;
-    } catch (JsonProcessingException e) {
-      throw new RuntimeException(e);
-    }
-
   }
 
 }
