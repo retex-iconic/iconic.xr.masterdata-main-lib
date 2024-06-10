@@ -2,10 +2,11 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.TipoTassonomiaQueryDTO;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.TipoTassonomiaFilter;
 import com.retexspa.xr.ms.masterdata.main.core.responses.TipoTassonomiaResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.TipoTassonomiaSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.query.entities.TipoTassonomiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.TipoTassonomiaQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.TipoTassonomiaRepository;
@@ -39,7 +40,7 @@ public class TipoTassonomiaQueryServiceImpl implements TipoTassonomiaQueryServic
 
   @Override
   public Page<TipoTassonomiaQueryEntity> searchQueryTipoTassonomia(
-      TipoTassonomiaSearchRequest query) {
+          GenericSearchRequest<TipoTassonomiaFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -96,58 +97,59 @@ public class TipoTassonomiaQueryServiceImpl implements TipoTassonomiaQueryServic
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
     List<Specification<TipoTassonomiaQueryEntity>> specifications = new ArrayList<>();
+    TipoTassonomiaFilter filter = TipoTassonomiaFilter.createFilterFromMap(query.getFilter());
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getGruppoTassonomia() != null) {
+    if (filter.getGruppoTassonomia() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("gruppoTassonomia")),
-                  "%" + query.getGruppoTassonomia().toUpperCase() + "%"));
+                  "%" + filter.getGruppoTassonomia().toUpperCase() + "%"));
     }
-    if (query.getFlgNonCancellabile() != null) {
+    if (filter.getFlgNonCancellabile() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgNonCancellabile")),
-                  "%" + query.getFlgNonCancellabile().toUpperCase() + "%"));
+                  "%" + filter.getFlgNonCancellabile().toUpperCase() + "%"));
     }
-    if (query.getNodoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("nodo").get("id"), query.getNodoId()));
+    if (filter.getNodoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("nodo").get("id"), filter.getNodoId()));
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -180,7 +182,7 @@ public class TipoTassonomiaQueryServiceImpl implements TipoTassonomiaQueryServic
   }
 
   @Override
-  public TipoTassonomiaResponse searchTipoTassonomia(TipoTassonomiaSearchRequest query) {
+  public TipoTassonomiaResponse searchTipoTassonomia(GenericSearchRequest<TipoTassonomiaFilter> query) {
     Page<TipoTassonomiaQueryEntity> page = searchQueryTipoTassonomia(query);
     TipoTassonomiaResponse tipoTassonomiaResponse = new TipoTassonomiaResponse();
     List<TipoTassonomiaQueryDTO> list =
