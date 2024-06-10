@@ -1,5 +1,6 @@
 package com.retexspa.xr.ms.masterdata.main.core.dto.fornitore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -175,6 +176,7 @@ public class FornitoreBaseDTO extends BaseDTO {
     this.magazzino = magazzino;
   }
 
+  @JsonIgnore
   public String getAggregateId() {
     return UUID.randomUUID().toString();
   }

@@ -21,12 +21,13 @@ import org.springframework.stereotype.Service;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.FornitoreQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.FornitoreByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.queries.FornitoreListQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.FornitoriResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.FornitoreSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.FornitoreFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.FornitoreQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.FornitoreQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.FornitoreRepository;
@@ -67,7 +68,7 @@ public class FornitoreQueryServiceImpl implements FornitoreQueryService {
   }
 
   @Override
-  public Page<FornitoreQueryEntity> searchQueryFornitore(FornitoreSearchRequest query) {
+  public Page<FornitoreQueryEntity> searchQueryFornitore(GenericSearchRequest<FornitoreFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -89,122 +90,124 @@ public class FornitoreQueryServiceImpl implements FornitoreQueryService {
 
     List<Specification<FornitoreQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    FornitoreFilter filter = FornitoreFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+              c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getNumero() != null) {
-      specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("numero")), "%" + query.getNumero().toUpperCase() + "%"));
-    }
-    if (query.getIndirizzo() != null) {
+    if (filter.getNumero() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("indirizzo")), "%" + query.getIndirizzo().toUpperCase() + "%"));
+              c.like(c.upper(r.get("numero")), "%" + filter.getNumero().toUpperCase() + "%"));
     }
-    if (query.getCitta() != null) {
-      specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("citta")), "%" + query.getCitta().toUpperCase() + "%"));
-    }
-    if (query.getCap() != null) {
-      specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("cap")), "%" + query.getCap().toUpperCase() + "%"));
-    }
-    if (query.getPiva() != null) {
-      specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("piva")), "%" + query.getPiva().toUpperCase() + "%"));
-    }
-    if (query.getMagazzino() != null) {
+    if (filter.getIndirizzo() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("magazzino")), "%" + query.getMagazzino().toUpperCase() + "%"));
+              c.like(c.upper(r.get("indirizzo")), "%" + filter.getIndirizzo().toUpperCase() + "%"));
     }
-    if (query.getCodiceEsterno() != null) {
+    if (filter.getCitta() != null) {
+      specifications.add(
+          (r, q, c) -> c.like(c.upper(r.get("citta")), "%" + filter.getCitta().toUpperCase() + "%"));
+    }
+    if (filter.getCap() != null) {
+      specifications.add(
+          (r, q, c) -> c.like(c.upper(r.get("cap")), "%" + filter.getCap().toUpperCase() + "%"));
+    }
+    if (filter.getPiva() != null) {
+      specifications.add(
+          (r, q, c) -> c.like(c.upper(r.get("piva")), "%" + filter.getPiva().toUpperCase() + "%"));
+    }
+    if (filter.getMagazzino() != null) {
+      specifications.add(
+          (r, q, c) ->
+              c.like(c.upper(r.get("magazzino")), "%" + filter.getMagazzino().toUpperCase() + "%"));
+    }
+    if (filter.getCodiceEsterno() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceEsterno")),
-                  "%" + query.getCodiceEsterno().toUpperCase() + "%"));
+                  "%" + filter.getCodiceEsterno().toUpperCase() + "%"));
     }
-    if (query.getRagioneSociale() != null) {
+    if (filter.getRagioneSociale() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("ragioneSociale")),
-                  "%" + query.getRagioneSociale().toUpperCase() + "%"));
+                  "%" + filter.getRagioneSociale().toUpperCase() + "%"));
     }
-    if (query.getCodiceFiscale() != null) {
+    if (filter.getCodiceFiscale() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceFiscale")),
-                  "%" + query.getCodiceFiscale().toUpperCase() + "%"));
+                  "%" + filter.getCodiceFiscale().toUpperCase() + "%"));
     }
-    if (query.getTelefono() != null) {
+    if (filter.getTelefono() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("telefono")), "%" + query.getTelefono().toUpperCase() + "%"));
+              c.like(c.upper(r.get("telefono")), "%" + filter.getTelefono().toUpperCase() + "%"));
     }
-    if (query.getRank() != null) {
+    if (filter.getRank() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("rank")), "%" + query.getRank().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("rank")), "%" + filter.getRank().toUpperCase() + "%"));
     }
-    if (query.getTipoCod() != null) {
+    if (filter.getTipoCod() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("tipoCod")), "%" + query.getTipoCod().toUpperCase() + "%"));
+              c.like(c.upper(r.get("tipoCod")), "%" + filter.getTipoCod().toUpperCase() + "%"));
     }
-    if (query.getEmail() != null) {
+    if (filter.getEmail() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("email")), "%" + query.getEmail().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("email")), "%" + filter.getEmail().toUpperCase() + "%"));
     }
-    if (query.getCodiceEsterno2() != null) {
+    if (filter.getCodiceEsterno2() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceEsterno2")),
-                  "%" + query.getCodiceEsterno2().toUpperCase() + "%"));
+                  "%" + filter.getCodiceEsterno2().toUpperCase() + "%"));
     }
-    if (query.getCodiceContabilita() != null) {
+    if (filter.getCodiceContabilita() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codiceContabilita")),
-                  "%" + query.getCodiceContabilita().toUpperCase() + "%"));
+                  "%" + filter.getCodiceContabilita().toUpperCase() + "%"));
     }
-    if (query.getCodicePrecedenteBackOffice() != null) {
+    if (filter.getCodicePrecedenteBackOffice() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("codicePrecedenteBackOffice")),
-                  "%" + query.getCodicePrecedenteBackOffice().toUpperCase() + "%"));
+                  "%" + filter.getCodicePrecedenteBackOffice().toUpperCase() + "%"));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
     NativeQueryHelper nativeQueryHelper = new NativeQueryHelper();
 
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = nativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -225,8 +228,8 @@ public class FornitoreQueryServiceImpl implements FornitoreQueryService {
                 root.get("gerarchia").get("id").in(hierarchiaRootsIds));
           });
     }
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
     Specification<FornitoreQueryEntity> specification =
@@ -236,7 +239,7 @@ public class FornitoreQueryServiceImpl implements FornitoreQueryService {
   }
 
   @Override
-  public FornitoriResponse searchFornitore(FornitoreSearchRequest query) {
+  public FornitoriResponse searchFornitore(GenericSearchRequest<FornitoreFilter> query) {
 
     FornitoriResponse FornitoriResponse = new FornitoriResponse();
     Page<FornitoreQueryEntity> page = searchQueryFornitore(query);
