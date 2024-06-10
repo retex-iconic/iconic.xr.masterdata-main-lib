@@ -109,6 +109,10 @@ public class TipologiaServizioQueryServiceImpl implements TipologiaServizioQuery
       specifications.add(
           (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
+    if (filter.getPadreId() != null) {
+      specifications.add(
+          (r, q, c) -> c.like(c.upper(r.get("padre").get("id")), "%" + filter.getPadreId().toUpperCase() + "%"));
+    }
 
     if (filter.getDescrizione() != null) {
       specifications.add(
