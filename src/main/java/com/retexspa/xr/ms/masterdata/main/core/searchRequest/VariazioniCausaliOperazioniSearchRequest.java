@@ -18,6 +18,7 @@ public class VariazioniCausaliOperazioniSearchRequest extends BaseSortPagination
   private final Integer priorita;
   private final String flgEsecuzioneImmediata;
   private final String flgAttivo;
+  private final String padreId;
   private final Long version;
 
   public VariazioniCausaliOperazioniSearchRequest(
@@ -34,6 +35,7 @@ public class VariazioniCausaliOperazioniSearchRequest extends BaseSortPagination
       Integer priorita,
       String flgEsecuzioneImmediata,
       String flgAttivo,
+      String padreId,
       Long version) {
 
     super(page, limit, sort);
@@ -47,6 +49,7 @@ public class VariazioniCausaliOperazioniSearchRequest extends BaseSortPagination
     this.priorita = priorita;
     this.flgEsecuzioneImmediata = flgEsecuzioneImmediata;
     this.flgAttivo = flgAttivo;
+    this.padreId = padreId;
     this.version = version;
   }
 
@@ -88,6 +91,10 @@ public class VariazioniCausaliOperazioniSearchRequest extends BaseSortPagination
 
   public String getVariazioniCausaliId() {
     return variazioniCausaliId;
+  }
+
+  public String getPadreId() {
+    return padreId;
   }
 
   public Long getVersion() {
