@@ -8,12 +8,10 @@ import com.retexspa.xr.ms.masterdata.main.query.entities.TassonomiaQueryEntity;
 import org.springframework.data.domain.Page;
 
 public interface TassonomiaQueryService {
-  TassonomieResponse listTassonomia(TassonomiaListQuery query);
 
-  TassonomieResponse searchTassonomia(GenericSearchRequest<TassonomiaFilter> query);
+    Page<TassonomiaQueryEntity> searchQueryTassonomia(GenericSearchRequest<TassonomiaFilter> query);
 
-  Page<TassonomiaQueryEntity> searchQueryTassonomia(GenericSearchRequest<TassonomiaFilter>  query);
-  // TassonomiaQueryDTO getTassonomiaById(TassonomiaByIdQuery query);
+    TassonomieResponse listTassonomia(TassonomiaListQuery query);
 
-  // List<TassonomiaQueryEntity> createBatchTassonomia(TassonomiaBatchCreateQuery query);
+    TassonomieResponse searchTassonomia(GenericSearchRequest<TassonomiaFilter> query);
 }

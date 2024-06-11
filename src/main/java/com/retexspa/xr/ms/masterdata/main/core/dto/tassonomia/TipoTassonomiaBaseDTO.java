@@ -25,7 +25,7 @@ public class TipoTassonomiaBaseDTO extends BaseDTO {
   @NotEmpty(message = "Gruppo Tassonomia is mandatory")
   @NotBlank(message = "Gruppo Tassonomia is mandatory")
   private String gruppoTassonomia;
-
+  @EnumValidator(enumClazz = com.retexspa.xr.ms.main.core.dto.Enums.CheckSN.class, message = "flgNonCancellabile not valid")
   private String flgNonCancellabile;
 
   public String getGruppoTassonomia() {

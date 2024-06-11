@@ -1,6 +1,8 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.retexspa.xr.ms.main.core.dto.Enums;
+import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.core.dto.tassonomia.TipoTassonomiaBaseDTO;
 
@@ -31,6 +33,7 @@ public class TipoTassonomiaQueryEntity {
   private String gruppoTassonomia;
 
   @Column(name = "flg_non_cancellabile")
+  @EnumValidator(enumClazz = Enums.CheckSN.class, message = "flgNonCancellabile not valid")
   private String flgNonCancellabile;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
