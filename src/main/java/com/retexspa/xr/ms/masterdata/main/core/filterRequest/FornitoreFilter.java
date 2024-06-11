@@ -1,20 +1,19 @@
-package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
+package com.retexspa.xr.ms.masterdata.main.core.filterRequest;
 
-import com.retexspa.xr.ms.main.core.queries.BaseSort;
-import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
+import java.util.LinkedHashMap;
 
-import java.util.List;
 
-public class FornitoreSearchRequest extends BaseSortPagination {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+public class FornitoreFilter {
   private String id;
   private String nome;
   private String codice;
   private String descrizione;
-
   private String gerarchiaId;
   private String padreId;
-
   private String numero;
   private String indirizzo;
   private String citta;
@@ -31,37 +30,35 @@ public class FornitoreSearchRequest extends BaseSortPagination {
   private String codiceEsterno2;
   private String codiceContabilita;
   private String codicePrecedenteBackOffice;
-
   private Long version;
 
-  public FornitoreSearchRequest(
-      Integer page,
-      Integer limit,
-      List<BaseSort> sort,
-      String id,
-      String nome,
-      String codice,
-      String descrizione,
-      String gerarchiaId,
-      String padreId,
-      String numero,
-      String indirizzo,
-      String citta,
-      String cap,
-      String piva,
-      String magazzino,
-      String codiceEsterno,
-      String ragioneSociale,
-      String codiceFiscale,
-      String telefono,
-      String rank,
-      String tipoCod,
-      String email,
-      String codiceEsterno2,
-      String codiceContabilita,
-      String codicePrecedenteBackOffice,
-      Long version) {
-    super(page, limit, sort);
+  public FornitoreFilter() {
+  }
+
+  public FornitoreFilter(
+      @JsonProperty("id") String id,
+      @JsonProperty("nome") String nome,
+      @JsonProperty("codice") String codice,
+      @JsonProperty("descrizione") String descrizione,
+      @JsonProperty("gerarchiaId") String gerarchiaId,
+      @JsonProperty("padreId") String padreId,
+      @JsonProperty("numero") String numero,
+      @JsonProperty("indirizzo") String indirizzo,
+      @JsonProperty("citta") String citta,
+      @JsonProperty("cap") String cap,
+      @JsonProperty("piva") String piva,
+      @JsonProperty("magazzino") String magazzino,
+      @JsonProperty("codiceEsterno") String codiceEsterno,
+      @JsonProperty("ragioneSociale") String ragioneSociale,
+      @JsonProperty("codiceFiscale") String codiceFiscale,
+      @JsonProperty("telefono") String telefono,
+      @JsonProperty("rank") String rank,
+      @JsonProperty("tipoCod") String tipoCod,
+      @JsonProperty("email") String email,
+      @JsonProperty("codiceEsterno2") String codiceEsterno2,
+      @JsonProperty("codiceContabilita") String codiceContabilita,
+      @JsonProperty("codicePrecedenteBackOffice") String codicePrecedenteBackOffice,
+      @JsonProperty("version") Long version) {
     this.id = id;
     this.nome = nome;
     this.codice = codice;
@@ -85,6 +82,57 @@ public class FornitoreSearchRequest extends BaseSortPagination {
     this.codiceContabilita = codiceContabilita;
     this.codicePrecedenteBackOffice = codicePrecedenteBackOffice;
     this.version = version;
+  }
+
+  public static FornitoreFilter createFilterFromMap(Object obj) {
+
+    ObjectMapper mapper = new ObjectMapper();
+    String json = null;
+    try {
+      json = mapper.writeValueAsString(obj);
+      LinkedHashMap<String, Object> map = mapper.readValue(json, LinkedHashMap.class);
+      FornitoreFilter filter = new FornitoreFilter();
+      if (map != null) {
+        filter.setId((String) map.get("id"));
+        filter.setCodice((String) map.get("codice"));
+        filter.setNome((String) map.get("nome"));
+        filter.setDescrizione((String) map.get("descrizione"));
+        filter.setPadreId((String) map.get("padreId"));
+        filter.setGerarchiaId((String) map.get("gerarchiaId"));
+
+        filter.setNumero((String) map.get("numero"));
+        filter.setIndirizzo((String) map.get("indirizzo"));
+        filter.setCitta((String) map.get("citta"));
+        filter.setCap((String) map.get("cap"));
+        filter.setPiva((String) map.get("piva"));
+        filter.setRagioneSociale((String) map.get("ragionesociale"));
+        filter.setCodiceFiscale((String) map.get("codiceFiscale"));
+        filter.setTelefono((String) map.get("telefono"));
+        filter.setEmail((String) map.get("email"));
+        filter.setEmail((String) map.get("codiceEsterno"));
+        filter.setEmail((String) map.get("rank"));
+        filter.setTipoCod((String) map.get("tipocod"));
+        filter.setCodiceEsterno2((String) map.get("codiceEsterno2"));
+        filter.setCodiceContabilita((String) map.get("codiceContabilita"));
+        filter.setcodicePrecedenteBackOffice((String) map.get("codicePrecedenteBackOffice"));
+        filter.setMagazzino((String) map.get("magazzino"));
+        Object version = map.get("version");
+        if (version != null) {
+          if (version instanceof Integer) {
+            filter.setVersion(Long.valueOf((Integer) version));
+          } else if (version instanceof Long) {
+            filter.setVersion((Long) version);
+          }
+        }
+      }
+      return filter;
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+  private void setcodicePrecedenteBackOffice(String string) {
   }
 
   public String getId() {
