@@ -10,8 +10,6 @@ public class CommissioneServizioFilter {
 
     private String id;
 
-    private String codice;
-
     private String gerarchiaId;
 
     private String anagraficaServizioId;
@@ -27,7 +25,6 @@ public class CommissioneServizioFilter {
 
     public CommissioneServizioFilter(
             @JsonProperty("id") String id,
-            @JsonProperty("codice") String codice,
             @JsonProperty("gerarchiaId") String gerarchiaId,
             @JsonProperty("anagraficaServizioId") String anagraficaServizioId,
             @JsonProperty("articoloId") String articoloId,
@@ -36,7 +33,6 @@ public class CommissioneServizioFilter {
             @JsonProperty("version") Long version) {
 
         this.id = id;
-        this.codice = codice;
         this.gerarchiaId = gerarchiaId;
         this.anagraficaServizioId = anagraficaServizioId;
         this.articoloId = articoloId;
@@ -56,7 +52,6 @@ public class CommissioneServizioFilter {
             CommissioneServizioFilter filter = new CommissioneServizioFilter();
             if (map != null) {
                 filter.setId((String) map.get("id"));
-                filter.setCodice((String) map.get("codice"));
                 filter.setGerarchiaId((String) map.get("gerarchiaId"));
                 filter.setAnagraficaServizioId((String) map.get("anagraficaServizioId"));
                 filter.setArticoloId((String) map.get("articoloId"));
@@ -84,14 +79,7 @@ public class CommissioneServizioFilter {
     public void setId(String id) {
         this.id = id;
     }
-
-    public String getCodice() {
-        return codice;
-    }
-
-    public void setCodice(String codice) {
-        this.codice = codice;
-    }
+    
 
     public String getGerarchiaId() {
         return gerarchiaId;

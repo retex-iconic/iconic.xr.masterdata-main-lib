@@ -14,7 +14,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.WARN)
 public class CommissioneServizioQueryDTO {
   private String id;
-  private String codice;
   private GerarchiaQueryDTO gerarchia;
   private AnagraficaServizioQueryDTO anagraficaServizio;
   private ArticoloQueryDTO articolo;
