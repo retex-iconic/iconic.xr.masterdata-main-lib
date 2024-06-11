@@ -12,6 +12,7 @@ public class AnagraficaServizioFilter {
   private String descrizione;
   private String nome;
   private String gerarchiaId;
+  private String padreId;
   private String collocazione;
   private String providerId;
   private String tipologiaServizioId;
@@ -31,6 +32,7 @@ public class AnagraficaServizioFilter {
       @JsonProperty("descrizione") String descrizione,
       @JsonProperty("nome") String nome,
       @JsonProperty("gerarchiaId") String gerarchiaId,
+      @JsonProperty("padreId") String padreId,
       @JsonProperty("collocazione") String collocazione,
       @JsonProperty("providerId") String providerId,
       @JsonProperty("tipologiaServizioId") String tipologiaServizioId,
@@ -44,6 +46,7 @@ public class AnagraficaServizioFilter {
     this.codice = codice;
     this.descrizione = descrizione;
     this.gerarchiaId = gerarchiaId;
+    this.padreId = padreId;
     this.nome = nome;
     this.collocazione = collocazione;
     this.providerId = providerId;
@@ -175,6 +178,7 @@ public class AnagraficaServizioFilter {
         filter.setNome((String) map.get("nome"));
         filter.setDescrizione((String) map.get("descrizione"));
         filter.setGerarchiaId((String) map.get("gerarchiaId"));
+        filter.setPadreId((String) map.get("padreId"));
         filter.setCollocazione((String) map.get("collocazione"));
         filter.setProviderId((String) map.get("providerId"));
         filter.setTipologiaServizioId((String) map.get("tipologiaServizioId"));
@@ -198,4 +202,11 @@ public class AnagraficaServizioFilter {
     }
   }
 
+  public String getPadreId() {
+    return padreId;
+  }
+
+  public void setPadreId(String padreId) {
+    this.padreId = padreId;
+  }
 }
