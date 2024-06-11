@@ -11,6 +11,7 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
   private final String id;
   private final String codice;
   private final String nome;
+  private final String padreId;
   private final String description;
   private final String gerarchiaId;
   private final String tipologiaVariazione;
@@ -30,11 +31,13 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
       Integer priorita,
       String flgAttiva,
       String gerarchiaId,
-      Long version) {
+      Long version, 
+      String padreId) {
     super(page, limit, sort);
     this.id = id;
     this.nome = nome;
     this.codice = codice;
+    this.padreId = padreId;
     this.description = description;
     this.gerarchiaId = gerarchiaId;
     this.tipologiaVariazione = tipologiaVariazione;
@@ -78,4 +81,10 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
   public Long getVersion() {
     return version;
   }
+
+  public String getPadreId() {
+    return padreId;
+  }
+
+  
 }
