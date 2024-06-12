@@ -13,6 +13,8 @@ public class TipologiaServizioFilter {
   private String nome;
   private String descrizione;
   private String gerarchiaId;
+
+  private String padreId;
   private Integer numMaxInScontrino;
   private Double valMaxInScontrino;
   private Long version;
@@ -28,6 +30,7 @@ public class TipologiaServizioFilter {
       @JsonProperty("nome") String nome,
       @JsonProperty("descrizione") String descrizione,
       @JsonProperty("gerarchiaId") String gerarchiaId,
+      @JsonProperty("padreId") String padreId,
       @JsonProperty("numMaxInScontrino") Integer numMaxInScontrino,
       @JsonProperty("valMaxInScontrino") Double valMaxInScontrino,
       @JsonProperty("version") Long version) {
@@ -37,6 +40,7 @@ public class TipologiaServizioFilter {
     this.descrizione = descrizione;
     this.gerarchiaId = gerarchiaId;
     this.nome = nome;
+    this.padreId = padreId;
     this.numMaxInScontrino = numMaxInScontrino;
     this.valMaxInScontrino = valMaxInScontrino;
     this.version = version;
@@ -121,6 +125,7 @@ public class TipologiaServizioFilter {
         filter.setCodice((String) map.get("codice"));
         filter.setNome((String) map.get("nome"));
         filter.setDescrizione((String) map.get("descrizione"));
+        filter.setPadreId((String) map.get("padreId"));
         filter.setNumMaxInScontrino((Integer) map.get("numMaxInScontrino"));
         filter.setValMaxInScontrino((Double) map.get("valMaxInScontrino"));
         filter.setGerarchiaId((String) map.get("gerarchiaId"));
@@ -139,4 +144,11 @@ public class TipologiaServizioFilter {
     }
   }
 
+  public String getPadreId() {
+    return padreId;
+  }
+
+  public void setPadreId(String padreId) {
+    this.padreId = padreId;
+  }
 }
