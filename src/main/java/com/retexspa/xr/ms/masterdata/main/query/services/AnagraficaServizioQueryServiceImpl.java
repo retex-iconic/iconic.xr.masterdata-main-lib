@@ -112,6 +112,12 @@ public class AnagraficaServizioQueryServiceImpl implements AnagraficaServizioQue
               c.like(
                   c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
+    }
+    if (filter.getTipologiaServizioId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("tipologiaServizio").get("id"), filter.getTipologiaServizioId()));
+    }
 
     if (filter.getCollocazione() != null) {
       specifications.add(
