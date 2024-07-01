@@ -10,6 +10,7 @@ public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attribut
 
   // DONE IN INDEXAGGREGATE AND EVENTHANDLER
   private LinkedList<String> articoloVenditaIds;
+  private LinkedList<String> tabCasseIds;
   private LinkedList<String> configIds;
 
   public AttributoIndexDTO() {
@@ -35,11 +36,22 @@ public class AttributoIndexDTO extends com.retexspa.xr.ms.main.core.dto.attribut
     this.articoloVenditaIds = articoloVenditaIds;
   }
 
+  public LinkedList<String> getTabCasseIds() {
+    return tabCasseIds;
+  }
+
+  public void setTabCasseIds(LinkedList<String> tabCasseIds) {
+    this.tabCasseIds = tabCasseIds;
+  }
+
   public static String getDetailNameArticoloVendita() {
     return "articoloVenditaIds";
   }
 
   public static String getDetailNameConfig() {
     return "configIds";
+  }
+  public static String getDetailNameTabCasse() {
+    return "tabCasseIds";
   }
 }
