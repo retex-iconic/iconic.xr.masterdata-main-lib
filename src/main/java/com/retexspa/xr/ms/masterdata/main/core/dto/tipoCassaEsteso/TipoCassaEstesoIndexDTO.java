@@ -26,12 +26,9 @@ public class TipoCassaEstesoIndexDTO {
     }
 
 
-    public static String getDetailTipoCassaEsteso() {
-        return "tipoCassaEstesoIds";
+    public static String getDetailNameTabCasseEstessaIds() {
+        return "tabCasseEstessaIds";
     }
 
-    public static String getDetailNameTabCasse() {
-        return "tabCasseIds";
-    }
 
 }
