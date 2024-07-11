@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TipoCassaEstesoQueryServiceImpl implements TipoCassaEstesoQueryService{
+public class TipoCassaEstesoQueryServiceImpl implements TipoCassaEstesoQueryService {
     @Autowired
     TipoCassaEstesoRepository tipoCassaEstesoRepository;
     @Autowired
     TipoCassaEstesoQueryMapper tipoCassaEstesoQueryMapper;
-
 
     @Override
     public Page<TipoCassaEstesoQueryEntity> searchQueryTipoCassaEsteso(GenericSearchRequest<TipoCassaEstesoFilter> query) {
@@ -82,6 +81,11 @@ public class TipoCassaEstesoQueryServiceImpl implements TipoCassaEstesoQueryServ
         if (filter.getFlgCancellato() != null) {
             specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), filter.getFlgCancellato()));
         }
+
+        if (filter.getVersion() != null) {
+            specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
+        }
+            
         Specification<TipoCassaEstesoQueryEntity> specification =
                 specifications.stream().reduce(Specification::and).orElse(null);
 
@@ -94,10 +98,9 @@ public class TipoCassaEstesoQueryServiceImpl implements TipoCassaEstesoQueryServ
     public TipoCassaEstesoResponse searchTipoCassaEsteso(GenericSearchRequest<TipoCassaEstesoFilter> query) {
         Page<TipoCassaEstesoQueryEntity> page = searchQueryTipoCassaEsteso(query);
         TipoCassaEstesoResponse tipoCassaEstesoResponse = new TipoCassaEstesoResponse();
-        List<TipoCassaEstesoQueryDTO> list =
-                page.getContent().stream()
-                        .map(entity -> tipoCassaEstesoQueryMapper.toDTO(entity))
-                        .collect(Collectors.toList());
+        List<TipoCassaEstesoQueryDTO> list = page.getContent().stream()
+                .map(entity -> tipoCassaEstesoQueryMapper.toDTO(entity))
+                .collect(Collectors.toList());
         tipoCassaEstesoResponse.setRecords(list);
         tipoCassaEstesoResponse.setPagination(Pagination.buildPagination(page));
         return tipoCassaEstesoResponse;
