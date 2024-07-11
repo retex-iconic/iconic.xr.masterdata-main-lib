@@ -1,5 +1,60 @@
 # Changelog
 
+## 1.0.0 (2024-07-11)
+
+
+### Features
+
+* :sparkles: finished articolo index updates ([25496d1](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/25496d1e5ddfc3472bb52b3156661e4c4276d30a))
+* #IXB-449 attributo centralized, delete, graphql ([016b1d0](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/016b1d0fc77f6cea0a82677bd6585ba44d3b9930))
+* centraloize attributi and config and configcontext ([ccde825](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/ccde825ed8301816d538797c01aa7007e93de023))
+* First commit - Refactoring - Changing Masterdata architecture ([de31ee3](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/de31ee39e1b6b034f88ffac1189b3217e664b6a1))
+* IXB-442-Ateco ([5a23136](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/5a23136c0153d0190e1ab63d807a01be7b2d7aaf))
+* IXB-444-Iva ([0b3339f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/0b3339fb8b40312988102c3dfdcad7b36f37cf4b))
+* IXB-444-Iva[2] ([8844b0f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/8844b0fa82acb3dbe7b2f62115e51e3d9a63c4f2))
+* IXB-444-IvaRt ([b09b16c](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/b09b16c79cfa2fa2dd1e40f541e6017f656e0b30))
+* IXB-447-Tassonomia & TipoTassonomia ([fc8a36f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/fc8a36f3200f20e9b7b0b14147585a703c9ff260))
+* IXB-448-LOG-VARIAZIONI ([0a24478](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/0a244780ac2541a71de641d67336e4a08cc04ffb))
+* IXB-453-Iva ([033db82](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/033db820cf0f1d5d51c5140bac6dc19b303c4c47))
+* IXB-453-Iva ([e2d1389](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/e2d13893516e572e74e3c55a4e21bb54fdb44b63))
+* IXB-454-IvaRt ([bedaf0f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/bedaf0ff98a61a4e26c9a77cf28fba209afd57f4))
+* IXB-454-IvaRt ([5046bb4](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/5046bb4987e11f2151f45aa0ab972c987eb2757c))
+* IXB-458-CommissioneServizio ([cd07070](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/cd07070d71b476f603a5ae5fbf92d47525d7a423))
+* IXB-461-Api-Controller add valid request for Update ([0ed1c75](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/0ed1c75dbefd2dc92d0a732f12104c1eea36b92b))
+* IXB-465-ArticoloVendita ([57bf3d0](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/57bf3d0c937b3c5f6c6f486f4efef8d3bac50ceb))
+* IXB-467-ArticoloNastroPrezzi ([25822be](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/25822be14b9aec3fa05596a15750d9e162a37223))
+* IXB-473-Aggregate-name-parametrizzazione + fix bugs related to previous work on that ([88e29f9](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/88e29f98c3afa15970b9d155c42487f66539e5c4))
+* IXB-475 Centralizzazione-CONFIG_CONTEXT-and-CONFIG-in-Shared-main ([a399a3f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/a399a3f7370afa1be2fa1f78f893eddabe020bb8))
+* IXB-475 Centralizzazione-CONFIG_CONTEXT-and-CONFIG-in-Shared-main ([9c4dcc3](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/9c4dcc3156bfef2468d09a1bda58e143487d861b))
+* IXB-482 FIX-Ateco ([9f19397](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/9f19397138c809b183dd59a5f9fe2fd6efc1ced5))
+* IXB-484 FIX-Tipo-Tassonomie ([051cf2c](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/051cf2c3c983e3e8528d65350bbf6ae65b62a48d))
+* IXB-485 FIX-tassonomia ([e3184ef](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/e3184efc0b00953bb5050dcb0511c96e3ebaa548))
+* IXB-486 FIX-tipologiaServizio ([79524a9](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/79524a9f82deb5f55c6f9800fd1a2b19751aa8d0))
+* IXB-487 FIX-anagraficaServizio ([efff654](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/efff65486b100e202bd4e8cf0d6254158d2bb116))
+* IXB-495-TipiCassa_Aggregate ([9d86cd7](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/9d86cd751f751c39aafc99f708776e227485f14f))
+* IXB-496 TIPO_CASSA_ESTESO ([5e859d7](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/5e859d7980b9e00e7290848318dc1f3d9a83a6d2))
+* IXB-497-TabCassaAggregate ([3f784b9](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/3f784b9d174dfb048cc015fbfa9dcb235e6db4f8))
+* IXB-498 TAB_CASSE_ESTESA ([e511b68](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/e511b680bd9ffb2c42b39ca7dbc63a1d0c36875e))
+* mvn_deploy ([394ddff](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/394ddffd5ac569746527cf43bbcb9032c8b5607a))
+* new folder filterRequest ([09eefd3](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/09eefd30763ad0ee1fc953cfb92be1f1bb6a34e2))
+* pom ([1777527](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/1777527c42bca62efd99f1fce9c985550178147b))
+* POM maven-compiler-plugin.version ([0f71460](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/0f7146079bb60f15f5aeda2175676c0fd4b11449))
+* Refactoring - Changing Masterdata architecture ([0967c61](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/0967c61c198890930fdc4dc132e3ecf3884c015e))
+* renovate ([c11181b](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/c11181b5ed09f24998bba77eb317c55639557472))
+* riportata indietro versione BOM &gt;0.12.5 -> >0.12.3 ([86e8742](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/86e87424511f135e574cb21a8f15598fd51c56c6))
+* update pom ([8e40269](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/8e402697959e5593bf2a8cca8e1eef483f284d26))
+* update pom ([2ffbfe5](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/2ffbfe5e9e4410fcb5502d23ed7c078f66a52013))
+* update POM ([24453fd](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/24453fd0104ed3fdf7eadacfdf6f6fa94795f6e1))
+* update POM ([7e2f09f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/7e2f09fcaaf402c22d83189843eae0e8593297c6))
+
+
+### Bug Fixes
+
+* IXB-474-fix-naming in BaseDTO and MessageDispatcher ([a3f4997](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/a3f4997eb5155baac6f0a6a91428d2e2cd97e419))
+* new architecture ([1ebdcba](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/1ebdcbac8d2901b731e036b47b174d07f73fe649))
+* POM (rivedere) ([2b4ea64](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/2b4ea6403071d408b553c55e4681919c6e70d0c6))
+* renamed methods ([3ba0a4a](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/3ba0a4a30dd6db9eb73a4c1b74970ead4576d667))
+
 ## [0.3.0](https://github.com/retex-iconic/iconic.xr.shared-lib/compare/v0.2.0...v0.3.0) (2024-03-06)
 
 
