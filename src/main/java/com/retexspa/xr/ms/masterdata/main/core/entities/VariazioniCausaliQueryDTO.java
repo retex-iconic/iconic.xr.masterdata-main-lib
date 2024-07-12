@@ -24,4 +24,8 @@ public class VariazioniCausaliQueryDTO {
   private Integer priorita;
   private String flgAttiva;
   private Long version;
+  private String flgCancellato;
+  private String dataCancellazione;
+
+
 }

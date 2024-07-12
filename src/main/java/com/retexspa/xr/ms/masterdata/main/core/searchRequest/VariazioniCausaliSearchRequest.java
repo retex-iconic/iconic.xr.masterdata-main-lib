@@ -4,6 +4,7 @@ package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
 
+
 import java.util.List;
 
 public class VariazioniCausaliSearchRequest extends BaseSortPagination {
@@ -17,6 +18,9 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
   private final Integer priorita;
   private final String flgAttiva;
   private final Long version;
+  private final String padreId;
+  private final String flgCancellato;
+  private final String dataCancellazione; 
 
   public VariazioniCausaliSearchRequest(
       Integer page,
@@ -30,7 +34,11 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
       Integer priorita,
       String flgAttiva,
       String gerarchiaId,
-      Long version) {
+      Long version,
+      String padreId,
+      String  dataCancellazione,
+      String flgCancellato
+      ) {
     super(page, limit, sort);
     this.id = id;
     this.nome = nome;
@@ -41,6 +49,9 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
     this.priorita = priorita;
     this.flgAttiva = flgAttiva;
     this.version = version;
+    this.padreId = padreId;
+    this.dataCancellazione = dataCancellazione;
+    this.flgCancellato = flgCancellato;
   }
 
   public String getId() {
@@ -78,4 +89,22 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
   public Long getVersion() {
     return version;
   }
+
+
+  public String getPadreId() {
+    return this.padreId;
+  }
+
+
+  public String getFlgCancellato() {
+    return this.flgCancellato;
+  }
+
+
+  public String getDataCancellazione() {
+    return this.dataCancellazione;
+  }
+
+
+
 }
