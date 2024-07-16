@@ -31,6 +31,7 @@ public class VariazioniCausaliQueryEntity {
 
   private Integer priorita;
 
+  @Column(name = "flgAttiva")
   @EnumValidator(enumClazz = Enums.CheckSN.class)
   private String flgAttiva;
 
@@ -52,11 +53,15 @@ public class VariazioniCausaliQueryEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private VariazioniCausaliQueryEntity padre;
 
+  @Column(name = "flg_cancellato")
   private String flgCancellato;
+
+  @Column(name = "data_cancellazione")
   private LocalDateTime dataCancellazione;
 
   @Column(name = "version")
   private Long version;
+
 
   public VariazioniCausaliQueryEntity() {}
 
@@ -73,6 +78,7 @@ public class VariazioniCausaliQueryEntity {
     this.flgAttiva = variazioniCausaliDTO.getFlgAttiva();
     this.flgCancellato = variazioniCausaliDTO.getFlgCancellato();
     this.version = version;
+    this.dataCancellazione = variazioniCausaliDTO.getDataCancellazione();
   }
 
   public String getId() {

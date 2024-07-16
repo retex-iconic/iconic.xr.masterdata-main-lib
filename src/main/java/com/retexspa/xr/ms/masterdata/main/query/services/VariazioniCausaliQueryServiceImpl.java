@@ -105,6 +105,20 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
     if (query.getVersion() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
     }
+
+    if (query.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    }
+
+    if (query.getDataCancellazione() != null) {
+      specifications.add(
+          (r, q, c) -> c.equal(r.get("dataCancellazione"), query.getDataCancellazione()));
+    }
+
+    if (query.getFlgCancellato() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), query.getFlgCancellato()));
+    }
+
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
     if (query.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();

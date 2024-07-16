@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+
+import java.time.LocalDateTime;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -19,6 +22,9 @@ public class VariazioniCausaliQueryDTO {
   private String codice;
   private String nome;
   private String descrizione;
+
+  private String flgCancellato;
+  private LocalDateTime dataCancellazione;
 
   private String tipologiaVariazione;
   private Integer priorita;
