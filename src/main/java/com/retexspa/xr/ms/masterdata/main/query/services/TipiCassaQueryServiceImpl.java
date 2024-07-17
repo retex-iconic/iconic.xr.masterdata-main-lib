@@ -1,21 +1,19 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 
-import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
-import com.retexspa.xr.ms.masterdata.main.core.entities.IvaQueryDTO;
+
 import com.retexspa.xr.ms.masterdata.main.core.entities.TipiCassaQueryDTO;
-import com.retexspa.xr.ms.masterdata.main.core.filterRequest.IvaFilter;
+
 import com.retexspa.xr.ms.masterdata.main.core.filterRequest.TipiCassaFilter;
-import com.retexspa.xr.ms.masterdata.main.core.queries.IvaByIdQuery;
-import com.retexspa.xr.ms.masterdata.main.core.responses.IvaResponse;
+
 import com.retexspa.xr.ms.masterdata.main.core.responses.TipiCassaResponse;
-import com.retexspa.xr.ms.masterdata.main.query.entities.IvaQueryEntity;
+
 import com.retexspa.xr.ms.masterdata.main.query.entities.TipiCassaQueryEntity;
-import com.retexspa.xr.ms.masterdata.main.query.mappers.IvaQueryMapper;
+
 import com.retexspa.xr.ms.masterdata.main.query.mappers.TipiCassaQueryMapper;
-import com.retexspa.xr.ms.masterdata.main.query.repositories.IvaRepository;
+
 import com.retexspa.xr.ms.masterdata.main.query.repositories.TipiCassaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,22 +23,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TipiCassaQueryServiceImpl implements TipiCassaQueryService{
+public class TipiCassaQueryServiceImpl implements TipiCassaQueryService {
     @Autowired
     TipiCassaRepository tipiCassaRepository;
     @Autowired
     TipiCassaQueryMapper tipiCassaQueryMapper;
-
 
     @Override
     public Page<TipiCassaQueryEntity> searchQueryTipiCassa(GenericSearchRequest<TipiCassaFilter> query) {
@@ -53,8 +45,8 @@ public class TipiCassaQueryServiceImpl implements TipiCassaQueryService{
                         new Sort.Order(
                                 baseSort.getOrderType() != null
                                         ? baseSort.getOrderType().equalsIgnoreCase("ASC")
-                                        ? Sort.Direction.ASC
-                                        : Sort.Direction.DESC
+                                                ? Sort.Direction.ASC
+                                                : Sort.Direction.DESC
                                         : Sort.Direction.ASC,
                                 baseSort.getOrderBy() != null ? baseSort.getOrderBy() : "codice"));
             }
@@ -78,13 +70,12 @@ public class TipiCassaQueryServiceImpl implements TipiCassaQueryService{
         }
         if (filter.getNome() != null) {
             specifications.add(
-                    (r, q, c) ->
-                            c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
+                    (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
         }
         if (filter.getDescrizione() != null) {
             specifications.add(
-                    (r, q, c) ->
-                            c.like(c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
+                    (r, q, c) -> c.like(c.upper(r.get("descrizione")),
+                            "%" + filter.getDescrizione().toUpperCase() + "%"));
         }
         if (filter.getCassaFisica() != null) {
             specifications.add((r, q, c) -> c.equal(r.get("cassaFisica"), filter.getCassaFisica()));
@@ -95,8 +86,13 @@ public class TipiCassaQueryServiceImpl implements TipiCassaQueryService{
         if (filter.getFlgCancellato() != null) {
             specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), filter.getFlgCancellato()));
         }
-        Specification<TipiCassaQueryEntity> specification =
-                specifications.stream().reduce(Specification::and).orElse(null);
+
+        if (filter.getVersion() != null) {
+            specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
+        }
+
+        Specification<TipiCassaQueryEntity> specification = specifications.stream().reduce(Specification::and)
+                .orElse(null);
 
         Page<TipiCassaQueryEntity> page = this.tipiCassaRepository.findAll(specification, pageable);
 
@@ -107,13 +103,11 @@ public class TipiCassaQueryServiceImpl implements TipiCassaQueryService{
     public TipiCassaResponse searchTipiCassa(GenericSearchRequest<TipiCassaFilter> query) {
         Page<TipiCassaQueryEntity> page = searchQueryTipiCassa(query);
         TipiCassaResponse tipiCassaResponse = new TipiCassaResponse();
-        List<TipiCassaQueryDTO> list =
-                page.getContent().stream()
-                        .map(entity -> tipiCassaQueryMapper.toDTO(entity))
-                        .collect(Collectors.toList());
+        List<TipiCassaQueryDTO> list = page.getContent().stream()
+                .map(entity -> tipiCassaQueryMapper.toDTO(entity))
+                .collect(Collectors.toList());
         tipiCassaResponse.setRecords(list);
         tipiCassaResponse.setPagination(Pagination.buildPagination(page));
         return tipiCassaResponse;
     }
 }
-
