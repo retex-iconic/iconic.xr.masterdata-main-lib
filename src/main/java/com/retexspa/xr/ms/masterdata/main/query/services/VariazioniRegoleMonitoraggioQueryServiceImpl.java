@@ -86,6 +86,12 @@ public class VariazioniRegoleMonitoraggioQueryServiceImpl
           case "version":
             break;
 
+          case "gerarchiaId":
+            break;  
+
+            case "padreId":
+            break;  
+
           default:
             throw new IllegalArgumentException("Order by is not correct");
         }
@@ -167,6 +173,14 @@ public class VariazioniRegoleMonitoraggioQueryServiceImpl
 
     if (query.getVersion() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    }
+
+    if (query.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    }
+
+    if (query.getGerarchiaId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("gerarchia").get("id"), query.getGerarchiaId()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();

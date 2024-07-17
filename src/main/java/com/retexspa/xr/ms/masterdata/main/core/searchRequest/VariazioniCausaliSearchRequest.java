@@ -3,6 +3,7 @@ package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
 
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
   private final String flgCancellato;
   private final LocalDateTime dataCancellazione;
 
+
   public VariazioniCausaliSearchRequest(
       Integer page,
       Integer limit,
@@ -37,6 +39,9 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
       String padreId,
       String flgCancellato,
       LocalDateTime dataCancellazione) {
+      String flgCancellato
+      ) {
+
     super(page, limit, sort);
     this.id = id;
     this.nome = nome;
@@ -88,6 +93,7 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
     return version;
   }
 
+
   public String getPadreId() {
     return this.padreId;
   }
@@ -99,10 +105,9 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
 
 
   public LocalDateTime getDataCancellazione() {
+
     return this.dataCancellazione;
   }
-
-
 
 
 }

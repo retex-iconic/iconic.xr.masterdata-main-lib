@@ -9,6 +9,9 @@ import com.retexspa.xr.ms.masterdata.main.core.searchRequest.VariazioniCausaliSe
 import com.retexspa.xr.ms.masterdata.main.query.entities.VariazioniCausaliQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.VariazioniCausaliQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.VariazioniCausaliRepository;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,9 +33,11 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
 
   VariazioniCausaliRepository variazioniCausaliRepository;
 
-  @Autowired VariazioniCausaliQueryMapper variazioniCausaliQueryMapper;
+  @Autowired
+  VariazioniCausaliQueryMapper variazioniCausaliQueryMapper;
 
-  @PersistenceContext private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
   VariazioniCausaliQueryServiceImpl(VariazioniCausaliRepository variazioniCausaliRepository) {
     this.variazioniCausaliRepository = variazioniCausaliRepository;
@@ -75,23 +80,20 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
 
     if (query.getDescription() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescription().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("descrizione")), "%" + query.getDescription().toUpperCase() + "%"));
     }
 
     if (query.getCodice() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
     }
 
     if (query.getTipologiaVariazione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("tipologiaVariazione")),
-                  "%" + query.getTipologiaVariazione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("tipologiaVariazione")),
+              "%" + query.getTipologiaVariazione().toUpperCase() + "%"));
     }
 
     if (query.getPriorita() != null) {
@@ -110,32 +112,35 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
       specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
     }
 
-    if (query.getDataCancellazione() != null) {
-      specifications.add(
-          (r, q, c) -> c.equal(r.get("dataCancellazione"), query.getDataCancellazione()));
-    }
-
+ 
     if (query.getFlgCancellato() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), query.getFlgCancellato()));
     }
+
+    if (query.getDataCancellazione() != null) {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+      LocalDateTime dateTime = LocalDateTime.parse(query.getDataCancellazione(), formatter);
+
+      specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"), dateTime));
+    }
+
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
     if (query.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
 
-      Query hierarchiaRoots =
-          entityManager
-              .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+      Query hierarchiaRoots = entityManager
+          .createNativeQuery(gerarchNativeQuery)
+          .setParameter("gerarchiaid", query.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
           (root, criteriaQuery, criteriaBuilder) -> {
             // Define the subquery
-            Subquery<VariazioniCausaliQueryEntity> subquery =
-                criteriaQuery.subquery(VariazioniCausaliQueryEntity.class);
-            Root<VariazioniCausaliQueryEntity> subRoot =
-                subquery.from(VariazioniCausaliQueryEntity.class);
+            Subquery<VariazioniCausaliQueryEntity> subquery = criteriaQuery
+                .subquery(VariazioniCausaliQueryEntity.class);
+            Root<VariazioniCausaliQueryEntity> subRoot = subquery.from(VariazioniCausaliQueryEntity.class);
 
             subquery.select(subRoot);
             subquery.where(
@@ -149,17 +154,15 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
           });
     }
 
-    Specification<VariazioniCausaliQueryEntity> specification =
-        specifications.stream().reduce(Specification::and).orElse(null);
+    Specification<VariazioniCausaliQueryEntity> specification = specifications.stream().reduce(Specification::and)
+        .orElse(null);
 
-    Page<VariazioniCausaliQueryEntity> page =
-        this.variazioniCausaliRepository.findAll(specification, pageable);
+    Page<VariazioniCausaliQueryEntity> page = this.variazioniCausaliRepository.findAll(specification, pageable);
 
     VariazioniCausaliResponse variazioniCausaliResponse = new VariazioniCausaliResponse();
-    List<VariazioniCausaliQueryDTO> list =
-        page.getContent().stream()
-            .map(entity -> variazioniCausaliQueryMapper.toDTO(entity))
-            .collect(Collectors.toList());
+    List<VariazioniCausaliQueryDTO> list = page.getContent().stream()
+        .map(entity -> variazioniCausaliQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
     variazioniCausaliResponse.setRecords(list);
 
     variazioniCausaliResponse.setPagination(Pagination.buildPagination(page));
@@ -173,10 +176,9 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
     VariazioniCausaliResponse variazioniCausaliResponse = new VariazioniCausaliResponse();
     Page<VariazioniCausaliQueryEntity> page = searchQueryVariazioniCausali(query);
     variazioniCausaliResponse.setPagination(Pagination.buildPagination(page));
-    List<VariazioniCausaliQueryDTO> list =
-        page.getContent().stream()
-            .map(entity -> variazioniCausaliQueryMapper.toDTO(entity))
-            .collect(Collectors.toList());
+    List<VariazioniCausaliQueryDTO> list = page.getContent().stream()
+        .map(entity -> variazioniCausaliQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
     variazioniCausaliResponse.setRecords(list);
     return variazioniCausaliResponse;
   }
