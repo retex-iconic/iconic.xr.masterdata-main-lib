@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
-import java.util.Objects;
 
 public class VariazioniCausaliFilter {
 
