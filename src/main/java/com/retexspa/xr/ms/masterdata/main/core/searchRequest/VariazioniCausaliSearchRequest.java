@@ -1,11 +1,10 @@
 package com.retexspa.xr.ms.masterdata.main.core.searchRequest;
 
-import com.retexspa.xr.ms.main.core.queries.BaseSort;
-import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
-
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.masterdata.main.core.queries.BaseSortPagination;
 
 public class VariazioniCausaliSearchRequest extends BaseSortPagination {
 
@@ -22,7 +21,7 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
   private final String flgCancellato;
   private final LocalDateTime dataCancellazione;
 
-
+  
   public VariazioniCausaliSearchRequest(
       Integer page,
       Integer limit,
@@ -38,8 +37,7 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
       Long version,
       String padreId,
       String flgCancellato,
-      LocalDateTime dataCancellazione) {
-      String flgCancellato
+      LocalDateTime dataCancellazione
       ) {
 
     super(page, limit, sort);
@@ -93,21 +91,17 @@ public class VariazioniCausaliSearchRequest extends BaseSortPagination {
     return version;
   }
 
-
   public String getPadreId() {
     return this.padreId;
   }
-
 
   public String getFlgCancellato() {
     return this.flgCancellato;
   }
 
-
   public LocalDateTime getDataCancellazione() {
 
     return this.dataCancellazione;
   }
-
 
 }

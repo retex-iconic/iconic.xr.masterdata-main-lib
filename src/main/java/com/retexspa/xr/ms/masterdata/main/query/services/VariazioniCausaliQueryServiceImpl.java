@@ -1,5 +1,23 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
@@ -9,24 +27,6 @@ import com.retexspa.xr.ms.masterdata.main.core.searchRequest.VariazioniCausaliSe
 import com.retexspa.xr.ms.masterdata.main.query.entities.VariazioniCausaliQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.VariazioniCausaliQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.VariazioniCausaliRepository;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
 
 @Service
 public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQueryService {
@@ -117,13 +117,13 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
       specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), query.getFlgCancellato()));
     }
 
-    if (query.getDataCancellazione() != null) {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+    // if (query.getDataCancellazione() != null) {
+    //   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
 
-      LocalDateTime dateTime = LocalDateTime.parse(query.getDataCancellazione(), formatter);
+    //   LocalDateTime dateTime = LocalDateTime.parse(query.getDataCancellazione(), formatter);
 
-      specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"), dateTime));
-    }
+    //   specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"), dateTime));
+    // }
 
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();

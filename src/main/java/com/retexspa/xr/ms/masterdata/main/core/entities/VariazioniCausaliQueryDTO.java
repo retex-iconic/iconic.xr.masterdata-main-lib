@@ -1,14 +1,15 @@
 package com.retexspa.xr.ms.masterdata.main.core.entities;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+import lombok.Data;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -30,8 +31,6 @@ public class VariazioniCausaliQueryDTO {
   private Integer priorita;
   private String flgAttiva;
   private Long version;
-  private String flgCancellato;
-  private String dataCancellazione;
 
 
 }
