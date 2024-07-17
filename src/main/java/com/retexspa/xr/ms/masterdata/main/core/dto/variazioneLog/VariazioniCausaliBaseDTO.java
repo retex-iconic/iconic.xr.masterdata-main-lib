@@ -7,13 +7,15 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.retexspa.xr.ms.main.core.dto.BaseDTO;
 import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
 import com.retexspa.xr.ms.masterdata.main.core.dto.Enums;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
-import lombok.Data;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@Data
+
 public class VariazioniCausaliBaseDTO extends BaseDTO {
 
   @EnumValidator(
@@ -27,6 +29,8 @@ public class VariazioniCausaliBaseDTO extends BaseDTO {
   @EnumValidator(enumClazz = Enums.CheckSN.class, message = "Flag Attivo not valid")
   private String flgAttiva;
 
+  private LocalDateTime dataCancellazione;
+
   @JsonIgnore
   public static String getAggregateId() {
     return UUID.randomUUID().toString();
@@ -39,4 +43,39 @@ public class VariazioniCausaliBaseDTO extends BaseDTO {
   public static String getAggregateName() {
     return "VariazioniCausaliAggregate";
   }
+
+
+  public String getTipologiaVariazione() {
+    return this.tipologiaVariazione;
+  }
+
+  public void setTipologiaVariazione(String tipologiaVariazione) {
+    this.tipologiaVariazione = tipologiaVariazione;
+  }
+
+  public Integer getPriorita() {
+    return this.priorita;
+  }
+
+  public void setPriorita(Integer priorita) {
+    this.priorita = priorita;
+  }
+
+  public String getFlgAttiva() {
+    return this.flgAttiva;
+  }
+
+  public void setFlgAttiva(String flgAttiva) {
+    this.flgAttiva = (flgAttiva == null ? "S" : flgAttiva);
+  }
+
+  public LocalDateTime getDataCancellazione() {
+    return this.dataCancellazione;
+  }
+
+  public void setDataCancellazione(LocalDateTime dataCancellazione) {
+    this.dataCancellazione = dataCancellazione;
+  }
+
+
 }

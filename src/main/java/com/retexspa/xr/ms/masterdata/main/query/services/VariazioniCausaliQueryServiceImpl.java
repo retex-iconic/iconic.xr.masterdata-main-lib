@@ -109,9 +109,10 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
     }
 
     if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padreId"), query.getPadreId()));
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
     }
 
+ 
     if (query.getFlgCancellato() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), query.getFlgCancellato()));
     }
@@ -123,6 +124,7 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
 
       specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"), dateTime));
     }
+
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
     if (query.getGerarchiaId() != null) {
