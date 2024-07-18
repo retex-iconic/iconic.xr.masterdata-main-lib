@@ -4,9 +4,10 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.masterdata.main.core.entities.VariazioniCausaliOperazioniQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.responses.VariazioniCausaliOperazioniResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.VariazioniCausaliOperazioniSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.VariazioniCausaliOperazioniFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.VariazioniCausaliOperazioniQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.VariazioniCausaliOperazioniQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.VariazioniCausaliOperazioniRepository;
@@ -41,7 +42,7 @@ public class VariazioniCausaliOperazioniQueryServiceImpl
 
   @Override
   public Page<VariazioniCausaliOperazioniQueryEntity> searchQueryVariazioniCausaliOperazioni(
-      VariazioniCausaliOperazioniSearchRequest query) {
+    GenericSearchRequest<VariazioniCausaliOperazioniFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -64,70 +65,76 @@ public class VariazioniCausaliOperazioniQueryServiceImpl
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
     List<Specification<VariazioniCausaliOperazioniQueryEntity>> specifications = new ArrayList<>();
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+
+    VariazioniCausaliOperazioniFilter filter =  VariazioniCausaliOperazioniFilter.createFilterFromMap(query.getFilter()) .createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
-    if (query.getCodice() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("codice"), query.getCodice()));
+    if (filter.getCodice() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("codice"), filter.getCodice()));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getVariazioniCausaliId() != null) {
+    if (filter.getVariazioniCausaliId() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("variazioniCausali").get("id")),
-                  "%" + query.getVariazioniCausaliId().toUpperCase() + "%"));
+                  "%" + filter.getVariazioniCausaliId().toUpperCase() + "%"));
     }
-    if (query.getOperazione() != null) {
+    if (filter.getOperazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("operazione")), "%" + query.getOperazione().toUpperCase() + "%"));
+                  c.upper(r.get("operazione")), "%" + filter.getOperazione().toUpperCase() + "%"));
     }
-    if (query.getPriorita() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("priorita"), query.getPriorita()));
+    if (filter.getPriorita() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("priorita"), filter.getPriorita()));
     }
-    if (query.getFlgEsecuzioneImmediata() != null) {
+    if (filter.getFlgEsecuzioneImmediata() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgEsecuzioneImmediata")),
-                  "%" + query.getFlgEsecuzioneImmediata().toUpperCase() + "%"));
+                  "%" + filter.getFlgEsecuzioneImmediata().toUpperCase() + "%"));
     }
-    if (query.getFlgAttivo() != null) {
+    if (filter.getFlgAttivo() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("flgAttivo")), "%" + query.getFlgAttivo().toUpperCase() + "%"));
+              c.like(c.upper(r.get("flgAttivo")), "%" + filter.getFlgAttivo().toUpperCase() + "%"));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
+
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
+    }
+
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
           (root, criteriaQuery, criteriaBuilder) -> {
             // Define the subquery
-            Subquery<VariazioniCausaliOperazioniQueryEntity> subquery =
-                criteriaQuery.subquery(VariazioniCausaliOperazioniQueryEntity.class);
-            Root<VariazioniCausaliOperazioniQueryEntity> subRoot =
-                subquery.from(VariazioniCausaliOperazioniQueryEntity.class);
+            Subquery<VariazioniCausaliOperazioniQueryEntity> subquery = criteriaQuery.subquery(VariazioniCausaliOperazioniQueryEntity.class);
+            Root<VariazioniCausaliOperazioniQueryEntity> subRoot = subquery.from(VariazioniCausaliOperazioniQueryEntity.class);
 
             subquery.select(subRoot);
             subquery.where(
@@ -140,6 +147,7 @@ public class VariazioniCausaliOperazioniQueryServiceImpl
                 root.get("gerarchia").get("id").in(hierarchiaRootsIds));
           });
     }
+
     Specification<VariazioniCausaliOperazioniQueryEntity> specification =
         specifications.stream().reduce(Specification::and).orElse(null);
 
@@ -161,7 +169,7 @@ public class VariazioniCausaliOperazioniQueryServiceImpl
 
   @Override
   public VariazioniCausaliOperazioniResponse searchVariazioniCausaliOperazioni(
-      VariazioniCausaliOperazioniSearchRequest query) {
+    GenericSearchRequest<VariazioniCausaliOperazioniFilter> query) {
 
     VariazioniCausaliOperazioniResponse VariazioniCausaliOperazioniResponse =
         new VariazioniCausaliOperazioniResponse();
