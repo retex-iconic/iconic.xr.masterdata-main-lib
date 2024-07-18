@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/compare/v1.0.0...v1.1.0) (2024-07-18)
+
+
+### Features
+
+* IXB-514-Eliminare-Operatore-Pos ([4000035](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/4000035df6a77885574dac5da930aad60532b566))
+* IXB-515-Articolo-Info-Servizio-SearchFilter ([1ee244e](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/1ee244e54853ed339abc3055d79cfef467108dab))
+
+
+### Bug Fixes
+
+* commentate perti in errore per variazioni causali ([83cd874](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/83cd87441f0235f8d5d65307e62eb3b777fc50c5))
+* **deps:** update dependency com.retexspa:xr-shared-main-lib to v1.4.1 ([3afcc1f](https://github.com/retex-iconic/iconic.xr.masterdata-main-lib/commit/3afcc1f646f688c89234a4e5c4979eb26c8c80dc))
+
 ## 1.0.0 (2024-07-11)
 
 
