@@ -20,10 +20,11 @@ import org.springframework.stereotype.Service;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.VariazioniCausaliQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.responses.VariazioniCausaliResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.VariazioniCausaliSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.VariazioniCausaliFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.VariazioniCausaliQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.VariazioniCausaliQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.VariazioniCausaliRepository;
@@ -45,7 +46,7 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
 
   @Override
   public Page<VariazioniCausaliQueryEntity> searchQueryVariazioniCausali(
-      VariazioniCausaliSearchRequest query) {
+      GenericSearchRequest<VariazioniCausaliFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -68,71 +69,73 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
     Pageable pageable = PageRequest.of(query.getPage(), query.getLimit(), Sort.by(sorts));
 
     List<Specification<VariazioniCausaliQueryEntity>> specifications = new ArrayList<>();
+    VariazioniCausaliFilter filter = VariazioniCausaliFilter.createFilterFromMap(query.getFilter());
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
 
-    if (query.getDescription() != null) {
+    if (filter.getDescription() != null) {
       specifications.add(
           (r, q, c) -> c.like(
-              c.upper(r.get("descrizione")), "%" + query.getDescription().toUpperCase() + "%"));
+              c.upper(r.get("descrizione")), "%" + filter.getDescription().toUpperCase() + "%"));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getTipologiaVariazione() != null) {
+    if (filter.getTipologiaVariazione() != null) {
       specifications.add(
           (r, q, c) -> c.like(
               c.upper(r.get("tipologiaVariazione")),
-              "%" + query.getTipologiaVariazione().toUpperCase() + "%"));
+              "%" + filter.getTipologiaVariazione().toUpperCase() + "%"));
     }
 
-    if (query.getPriorita() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("priorita"), query.getPriorita()));
+    if (filter.getPriorita() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("priorita"), filter.getPriorita()));
     }
 
-    if (query.getFlgAttiva() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("flgAttiva"), query.getFlgAttiva()));
+    if (filter.getFlgAttiva() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("flgAttiva"), filter.getFlgAttiva()));
     }
 
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
- 
-    if (query.getFlgCancellato() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), query.getFlgCancellato()));
+    if (filter.getFlgCancellato() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("flgCancellato"), filter.getFlgCancellato()));
     }
 
-    // if (query.getDataCancellazione() != null) {
-    //   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+    // if (filter.getDataCancellazione() != null) {
+    // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd
+    // HH:mm:ss.SSSSSS");
 
-    //   LocalDateTime dateTime = LocalDateTime.parse(query.getDataCancellazione(), formatter);
+    // LocalDateTime dateTime = LocalDateTime.parse(filter.getDataCancellazione(),
+    // formatter);
 
-    //   specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"), dateTime));
+    // specifications.add((r, q, c) -> c.equal(r.get("dataCancellazione"),
+    // dateTime));
     // }
 
-
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
 
       Query hierarchiaRoots = entityManager
           .createNativeQuery(gerarchNativeQuery)
-          .setParameter("gerarchiaid", query.getGerarchiaId());
+          .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -171,7 +174,7 @@ public class VariazioniCausaliQueryServiceImpl implements VariazioniCausaliQuery
   }
 
   @Override
-  public VariazioniCausaliResponse searchVariazioniCausali(VariazioniCausaliSearchRequest query) {
+  public VariazioniCausaliResponse searchVariazioniCausali(GenericSearchRequest<VariazioniCausaliFilter> query) {
 
     VariazioniCausaliResponse variazioniCausaliResponse = new VariazioniCausaliResponse();
     Page<VariazioniCausaliQueryEntity> page = searchQueryVariazioniCausali(query);
