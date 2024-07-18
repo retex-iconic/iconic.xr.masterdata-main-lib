@@ -8,6 +8,8 @@ import lombok.Data;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
+import java.time.LocalDateTime;
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonInclude(Include.NON_NULL)
 @Data
@@ -18,4 +20,6 @@ public class ArticoloInfoServizioQueryDTO {
   private String articoloId;
   private String servizioId;
   private String flgCancellato;
+  private LocalDateTime dataCancellazione;
+  private Long version;
 }

@@ -3,6 +3,7 @@ package com.retexspa.xr.ms.masterdata.main.query.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,6 +34,10 @@ public class ArticoloInfoServizioQueryEntity implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   private AnagraficaServizioQueryEntity servizio;
+  @Column(name = "version")
+  private Long version;
+  @Column(name = "data_cancellazione")
+  private LocalDateTime dataCancellazione;
 
   public ArticoloInfoServizioQueryEntity() {}
 
@@ -43,6 +48,7 @@ public class ArticoloInfoServizioQueryEntity implements Serializable {
       throws IOException {
     this.id = articoloInfoServizioId;
     this.flgCancellato = articoloInfoServizioDTO.getFlgCancellato();
+    this.version = version;
   }
 
   // getters and setters
@@ -84,5 +90,21 @@ public class ArticoloInfoServizioQueryEntity implements Serializable {
 
   public void setArticolo(ArticoloQueryEntity articolo) {
     this.articolo = articolo;
+  }
+
+  public Long getVersion() {
+    return version;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
+  }
+
+  public LocalDateTime getDataCancellazione() {
+    return dataCancellazione;
+  }
+
+  public void setDataCancellazione(LocalDateTime dataCancellazione) {
+    this.dataCancellazione = dataCancellazione;
   }
 }

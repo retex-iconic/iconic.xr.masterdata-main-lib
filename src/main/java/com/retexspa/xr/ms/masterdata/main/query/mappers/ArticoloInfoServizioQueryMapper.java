@@ -16,5 +16,7 @@ public interface ArticoloInfoServizioQueryMapper {
   @Mapping(target = "articoloId", source = "articolo.id")
   @Mapping(target = "servizioId", source = "servizio.id")
   @Mapping(target = "gerarchiaId", source = "gerarchia.id")
+  @Mapping(target = "version", source = "version")
+  @Mapping(target = "dataCancellazione", source = "dataCancellazione")
   ArticoloInfoServizioQueryDTO toDTO(ArticoloInfoServizioQueryEntity entity);
 }
