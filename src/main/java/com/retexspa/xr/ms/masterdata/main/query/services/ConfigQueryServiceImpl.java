@@ -1,11 +1,12 @@
 package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.ConfigQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.queries.ConfigByIdQuery;
 import com.retexspa.xr.ms.masterdata.main.core.responses.ConfigResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.ConfigSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.ConfigFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.ConfigQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.ConfigQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.ConfigRepository;
@@ -35,8 +36,7 @@ public class ConfigQueryServiceImpl implements ConfigQueryService {
 
   @Override
   public ConfigQueryDTO getConfigById(ConfigByIdQuery query) {
-    ConfigQueryEntity configQueryEntity =
-        this.configRepository.findById(query.getConfigId()).orElse(null);
+    ConfigQueryEntity configQueryEntity = this.configRepository.findById(query.getConfigId()).orElse(null);
 
     return configQueryMapper.toDTO(configQueryEntity);
   }
@@ -45,7 +45,7 @@ public class ConfigQueryServiceImpl implements ConfigQueryService {
   // public ConfigResponse
   // searchConfig(ConfigSearchRequest query) {
   public Page<ConfigQueryEntity> searchQueryConfig(
-      ConfigSearchRequest query) {
+      GenericSearchRequest<ConfigFilter> query) {
 
     List<Sort.Order> sorts = new ArrayList<>();
 
@@ -94,66 +94,61 @@ public class ConfigQueryServiceImpl implements ConfigQueryService {
 
     List<Specification<ConfigQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    ConfigFilter filter = ConfigFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
 
-    if (query.getCodice() != null) {
+    if (filter.getCodice() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("codice")), "%" + query.getCodice().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("codice")), "%" + filter.getCodice().toUpperCase() + "%"));
     }
 
-    if (query.getDescrizione() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getFlgAttivo() != null) {
+    if (filter.getFlgAttivo() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("flgAttivo")), "%" + query.getFlgAttivo().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("flgAttivo")), "%" + filter.getFlgAttivo().toUpperCase() + "%"));
     }
-    if (query.getFlgCancellato() != null) {
+    if (filter.getFlgCancellato() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("flgCancellato")),
-                  "%" + query.getFlgCancellato().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("flgCancellato")),
+              "%" + filter.getFlgCancellato().toUpperCase() + "%"));
     }
-    if (query.getNodoId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("nodo").get("id"), query.getNodoId()));
+    if (filter.getNodoId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("nodo").get("id"), filter.getNodoId()));
     }
-    if (query.getContextId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("context").get("id"), query.getContextId()));
+    if (filter.getContextId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("context").get("id"), filter.getContextId()));
     }
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
-    Specification<ConfigQueryEntity> specification =
-        specifications.stream().reduce(Specification::and).orElse(null);
+    Specification<ConfigQueryEntity> specification = specifications.stream().reduce(Specification::and).orElse(null);
 
-    Page<ConfigQueryEntity> page =
-        this.configRepository.findAll(specification, pageable);
+    Page<ConfigQueryEntity> page = this.configRepository.findAll(specification, pageable);
 
     return page;
   }
 
   @Override
-  public ConfigResponse searchConfig(ConfigSearchRequest query) {
+  public ConfigResponse searchConfig(GenericSearchRequest<ConfigFilter> query) {
 
     ConfigResponse configResponse = new ConfigResponse();
     Page<ConfigQueryEntity> page = searchQueryConfig(query);
 
-    List<ConfigQueryDTO> list =
-        page.getContent().stream()
-            .map(entity -> configQueryMapper.toDTO(entity))
-            .collect(Collectors.toList());
+    List<ConfigQueryDTO> list = page.getContent().stream()
+        .map(entity -> configQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
 
     configResponse.setRecords(list);
     configResponse.setPagination(Pagination.buildPagination(page));
