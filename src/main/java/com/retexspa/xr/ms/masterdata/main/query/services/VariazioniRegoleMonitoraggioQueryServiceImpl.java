@@ -2,10 +2,11 @@ package com.retexspa.xr.ms.masterdata.main.query.services;
 
 import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
+import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
 import com.retexspa.xr.ms.masterdata.main.core.entities.VariazioniRegoleMonitoraggioQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.responses.VariazioniRegoleMonitoraggioResponse;
-import com.retexspa.xr.ms.masterdata.main.core.searchRequest.VariazioniRegoleMonitoraggioSearchRequest;
+import com.retexspa.xr.ms.masterdata.main.core.filterRequest.VariazioniRegoleMonitoraggioFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.VariazioniRegoleMonitoraggioQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.VariazioniRegoleMonitoraggioQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.VariazioniRegoleMonitoraggioRepository;
@@ -39,9 +40,7 @@ public class VariazioniRegoleMonitoraggioQueryServiceImpl
 
   @Override
   public Page<VariazioniRegoleMonitoraggioQueryEntity> searchQueryVariazioniRegoleMonitoraggio(
-      VariazioniRegoleMonitoraggioSearchRequest query) {
-    // public VariazioniRegoleMonitoraggioResponse
-    // searchVariazioniRegole(VariazioniRegoleMonitoraggioSearchRequest query) {
+    GenericSearchRequest<VariazioniRegoleMonitoraggioFilter> query) {
     List<Sort.Order> sorts = new ArrayList<>();
 
     if (query.getSort() != null && query.getSort().size() != 0) {
@@ -114,82 +113,84 @@ public class VariazioniRegoleMonitoraggioQueryServiceImpl
 
     List<Specification<VariazioniRegoleMonitoraggioQueryEntity>> specifications = new ArrayList<>();
 
-    if (query.getId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("id"), query.getId()));
+    VariazioniRegoleMonitoraggioFilter filter = VariazioniRegoleMonitoraggioFilter.createFilterFromMap(query.getFilter());
+
+    if (filter.getId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("id"), filter.getId()));
     }
-    if (query.getCodice() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("codice"), query.getCodice()));
+    if (filter.getCodice() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("codice"), filter.getCodice()));
     }
-    if (query.getNome() != null) {
+    if (filter.getNome() != null) {
       specifications.add(
-          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + query.getNome().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("nome")), "%" + filter.getNome().toUpperCase() + "%"));
     }
-    if (query.getDescrizione() != null) {
-      specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("descrizione")), "%" + query.getDescrizione().toUpperCase() + "%"));
-    }
-    if (query.getSchema() != null) {
-      specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("schema")), "%" + query.getSchema().toUpperCase() + "%"));
-    }
-    if (query.getNomeTabella() != null) {
+    if (filter.getDescrizione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
-                  c.upper(r.get("nomeTabella")), "%" + query.getNomeTabella().toUpperCase() + "%"));
+                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
-    if (query.getNomeCampo() != null) {
+    if (filter.getSchema() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("nomeCampo")), "%" + query.getNomeCampo().toUpperCase() + "%"));
+              c.like(c.upper(r.get("schema")), "%" + filter.getSchema().toUpperCase() + "%"));
     }
-    if (query.getRegolaConfronto() != null) {
+    if (filter.getNomeTabella() != null) {
+      specifications.add(
+          (r, q, c) ->
+              c.like(
+                  c.upper(r.get("nomeTabella")), "%" + filter.getNomeTabella().toUpperCase() + "%"));
+    }
+    if (filter.getNomeCampo() != null) {
+      specifications.add(
+          (r, q, c) ->
+              c.like(c.upper(r.get("nomeCampo")), "%" + filter.getNomeCampo().toUpperCase() + "%"));
+    }
+    if (filter.getRegolaConfronto() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("regolaConfronto")),
-                  "%" + query.getRegolaConfronto().toUpperCase() + "%"));
+                  "%" + filter.getRegolaConfronto().toUpperCase() + "%"));
     }
-    if (query.getFlgSalva() != null) {
+    if (filter.getFlgSalva() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("flgSalva")), "%" + query.getFlgSalva().toUpperCase() + "%"));
+              c.like(c.upper(r.get("flgSalva")), "%" + filter.getFlgSalva().toUpperCase() + "%"));
     }
-    if (query.getFlgSalvaCancellazione() != null) {
+    if (filter.getFlgSalvaCancellazione() != null) {
       specifications.add(
           (r, q, c) ->
               c.like(
                   c.upper(r.get("flgSalvaCancellazione")),
-                  "%" + query.getFlgSalvaCancellazione().toUpperCase() + "%"));
+                  "%" + filter.getFlgSalvaCancellazione().toUpperCase() + "%"));
     }
-    if (query.getFlgAttiva() != null) {
+    if (filter.getFlgAttiva() != null) {
       specifications.add(
           (r, q, c) ->
-              c.like(c.upper(r.get("flgAttiva")), "%" + query.getFlgAttiva().toUpperCase() + "%"));
+              c.like(c.upper(r.get("flgAttiva")), "%" + filter.getFlgAttiva().toUpperCase() + "%"));
     }
 
-    if (query.getVersion() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("version"), query.getVersion()));
+    if (filter.getVersion() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
-    if (query.getPadreId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), query.getPadreId()));
+    if (filter.getPadreId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
-    if (query.getGerarchiaId() != null) {
-      specifications.add((r, q, c) -> c.equal(r.get("gerarchia").get("id"), query.getGerarchiaId()));
+    if (filter.getGerarchiaId() != null) {
+      specifications.add((r, q, c) -> c.equal(r.get("gerarchia").get("id"), filter.getGerarchiaId()));
     }
 
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (query.getGerarchiaId() != null) {
+    if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
       Query hierarchiaRoots =
           entityManager
               .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", query.getGerarchiaId());
+              .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -210,10 +211,10 @@ public class VariazioniRegoleMonitoraggioQueryServiceImpl
           });
     }
 
-    if (query.getVariazioniCausaliId() != null) {
+    if (filter.getVariazioniCausaliId() != null) {
       specifications.add(
           (r, q, c) ->
-              c.equal(r.get("variazioniCausali").get("id"), query.getVariazioniCausaliId()));
+              c.equal(r.get("variazioniCausali").get("id"), filter.getVariazioniCausaliId()));
     }
 
     Specification<VariazioniRegoleMonitoraggioQueryEntity> specification =
@@ -239,7 +240,7 @@ public class VariazioniRegoleMonitoraggioQueryServiceImpl
 
   @Override
   public VariazioniRegoleMonitoraggioResponse searchVariazioniRegole(
-      VariazioniRegoleMonitoraggioSearchRequest query) {
+      GenericSearchRequest<VariazioniRegoleMonitoraggioFilter> query) {
 
     VariazioniRegoleMonitoraggioResponse variazioniRegoleMonitoraggioResponse =
         new VariazioniRegoleMonitoraggioResponse();
