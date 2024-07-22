@@ -33,7 +33,8 @@ public class IvaQueryServiceImpl implements IvaQueryService {
 
   IvaQueryMapper ivaQueryMapper;
 
-  @PersistenceContext private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
   IvaQueryServiceImpl(IvaRepository ivaRepository, IvaQueryMapper ivaQueryMapper) {
     this.ivaRepository = ivaRepository;
@@ -83,37 +84,32 @@ public class IvaQueryServiceImpl implements IvaQueryService {
     }
     if (filter.getCodIvaAcquisto() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("codIvaAcquisto")),
-                  "%" + filter.getCodIvaAcquisto().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("codIvaAcquisto")),
+              "%" + filter.getCodIvaAcquisto().toUpperCase() + "%"));
     }
     if (filter.getCodiceECommerce() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("codiceECommerce")),
-                  "%" + filter.getCodiceECommerce().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("codiceECommerce")),
+              "%" + filter.getCodiceECommerce().toUpperCase() + "%"));
     }
     if (filter.getCodiceEsterno() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("codiceEsterno")),
-                  "%" + filter.getCodiceEsterno().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("codiceEsterno")),
+              "%" + filter.getCodiceEsterno().toUpperCase() + "%"));
     }
     if (filter.getDescrizione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
     if (filter.getNaturaEsenzione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("naturaEsenzione")),
-                  "%" + filter.getNaturaEsenzione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("naturaEsenzione")),
+              "%" + filter.getNaturaEsenzione().toUpperCase() + "%"));
     }
     if (filter.getNome() != null) {
       specifications.add(
@@ -121,18 +117,16 @@ public class IvaQueryServiceImpl implements IvaQueryService {
     }
     if (filter.getNormaEsenzione() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(
-                  c.upper(r.get("normaEsenzione")),
-                  "%" + filter.getNormaEsenzione().toUpperCase() + "%"));
+          (r, q, c) -> c.like(
+              c.upper(r.get("normaEsenzione")),
+              "%" + filter.getNormaEsenzione().toUpperCase() + "%"));
     }
     if (filter.getPercentuale() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("percentuale"), filter.getPercentuale()));
     }
     if (filter.getTipoIva() != null) {
       specifications.add(
-          (r, q, c) ->
-              c.like(c.upper(r.get("tipoIva")), "%" + filter.getTipoIva().toUpperCase() + "%"));
+          (r, q, c) -> c.like(c.upper(r.get("tipoIva")), "%" + filter.getTipoIva().toUpperCase() + "%"));
     }
     if (filter.getVersion() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
@@ -141,10 +135,9 @@ public class IvaQueryServiceImpl implements IvaQueryService {
 
     if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = nativeQueryHelper.gerarchiaNativeQuery();
-      Query hierarchiaRoots =
-          entityManager
-              .createNativeQuery(gerarchNativeQuery)
-              .setParameter("gerarchiaid", filter.getGerarchiaId());
+      Query hierarchiaRoots = entityManager
+          .createNativeQuery(gerarchNativeQuery)
+          .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
       specifications.add(
@@ -168,10 +161,17 @@ public class IvaQueryServiceImpl implements IvaQueryService {
       specifications.add((r, q, c) -> c.equal(r.get("padre").get("id"), filter.getPadreId()));
     }
 
-    Specification<IvaQueryEntity> specification =
-        specifications.stream().reduce(Specification::and).orElse(null);
+    Specification<IvaQueryEntity> specification = specifications.stream().reduce(Specification::and).orElse(null);
 
     Page<IvaQueryEntity> page = this.ivaRepository.findAll(specification, pageable);
+
+    IvaResponse ivaResponse = new IvaResponse();
+    List<IvaQueryDTO> list = page.getContent().stream()
+        .map(entity -> ivaQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
+    ivaResponse.setRecords(list);
+
+    ivaResponse.setPagination(Pagination.buildPagination(page));
 
     return page;
   }
@@ -180,10 +180,9 @@ public class IvaQueryServiceImpl implements IvaQueryService {
   public IvaResponse searchIva(GenericSearchRequest<IvaFilter> query) {
     Page<IvaQueryEntity> page = searchQueryIva(query);
     IvaResponse ivaResponse = new IvaResponse();
-    List<IvaQueryDTO> list =
-        page.getContent().stream()
-            .map(entity -> ivaQueryMapper.toDTO(entity))
-            .collect(Collectors.toList());
+    List<IvaQueryDTO> list = page.getContent().stream()
+        .map(entity -> ivaQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
     ivaResponse.setRecords(list);
     ivaResponse.setPagination(Pagination.buildPagination(page));
     return ivaResponse;
