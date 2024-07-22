@@ -23,6 +23,7 @@ public class VariazioniCausaliOperazioniQueryEntity {
   private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
