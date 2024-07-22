@@ -235,6 +235,16 @@ public class FornitoreQueryServiceImpl implements FornitoreQueryService {
     Specification<FornitoreQueryEntity> specification =
         specifications.stream().reduce(Specification::and).orElse(null);
     Page<FornitoreQueryEntity> page = this.fornitoreRepository.findAll(specification, pageable);
+
+    FornitoriResponse fornitoriResponse = new FornitoriResponse();
+    List<FornitoreQueryDTO> list = page.getContent().stream()
+        .map(entity -> fornitoreQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
+    fornitoriResponse.setRecords(list);
+
+    fornitoriResponse.setPagination(Pagination.buildPagination(page));
+
+
     return page;
   }
 
