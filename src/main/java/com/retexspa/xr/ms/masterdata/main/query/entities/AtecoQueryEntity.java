@@ -10,13 +10,16 @@ import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "ateco", uniqueConstraints = {
-  @UniqueConstraint(name = "ateco_uk", columnNames = { "ateco_nr" })
+    @UniqueConstraint(name = "ateco_uk", columnNames = { "codice" }),
+    @UniqueConstraint(name = "ateco_nr_uk", columnNames = { "ateco_nr" })
 })
 public class AtecoQueryEntity {
 
-  @Id @NonNull private String id;
+  @Id
+  @NonNull
+  private String id;
 
-  @Column(name = "atecoNr")
+  @Column(name = "ateco_nr")
   private Integer atecoNr;
 
   @Column(name = "codice")
@@ -28,17 +31,15 @@ public class AtecoQueryEntity {
   @Column(name = "descrizione")
   private String descrizione;
 
-
-   //foreing key
+  // foreing key
   @ManyToOne(optional = true, fetch = FetchType.EAGER)
-  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_ateco"))
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_padre"))
   private AtecoQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
   //
-
 
   @Column(name = "flg_cancellato")
   private String flgCancellato;
@@ -49,7 +50,8 @@ public class AtecoQueryEntity {
   @Column(name = "version")
   private Long version;
 
-  public AtecoQueryEntity() {}
+  public AtecoQueryEntity() {
+  }
 
   public AtecoQueryEntity(@NotNull String atecoId, AtecoBaseDTO atecoDTO, Long version) {
     this.id = atecoId;

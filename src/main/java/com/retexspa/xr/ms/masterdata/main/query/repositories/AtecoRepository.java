@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface AtecoRepository
     extends JpaRepository<AtecoQueryEntity, String>, JpaSpecificationExecutor<AtecoQueryEntity> {
   List<AtecoQueryEntity> findAllByCodice(String codice);
-
   List<AtecoQueryEntity> findAllByAtecoNr(Integer atecoNr);
+  List<AtecoQueryEntity> findAllByPadreId(String id);
 }
