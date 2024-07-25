@@ -88,32 +88,6 @@ public class RepartoQueryServiceImpl implements RepartoQueryService {
               c.upper(r.get("descrizione")), "%" + filter.getDescrizione().toUpperCase() + "%"));
     }
 
-    NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
-    if (filter.getGerarchiaId() != null) {
-      String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
-      Query hierarchiaRoots = entityManager
-          .createNativeQuery(gerarchNativeQuery)
-          .setParameter("gerarchiaid", filter.getGerarchiaId());
-      List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
-
-      specifications.add(
-          (root, criteriaQuery, criteriaBuilder) -> {
-            // Define the subquery
-            Subquery<RepartoQueryEntity> subquery = criteriaQuery.subquery(RepartoQueryEntity.class);
-            Root<RepartoQueryEntity> subRoot = subquery.from(RepartoQueryEntity.class);
-
-            subquery.select(subRoot);
-            subquery.where(
-                criteriaBuilder.and(
-                    criteriaBuilder.equal(subRoot.get("padre").get("id"), root.get("id")),
-                    subRoot.get("gerarchia").get("id").in(hierarchiaRootsIds)));
-            // Integrate the subquery into the main query using criteriaBuilder
-            return criteriaBuilder.and(
-                criteriaBuilder.not(criteriaBuilder.exists(subquery)),
-                root.get("gerarchia").get("id").in(hierarchiaRootsIds));
-          });
-    }
-
     if (filter.getIvaId() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("iva").get("id"), filter.getIvaId()));
     }
@@ -254,10 +228,45 @@ public class RepartoQueryServiceImpl implements RepartoQueryService {
     if (filter.getVersion() != null) {
       specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
-    // dataCas
+
+    NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
+    if (filter.getGerarchiaId() != null) {
+      String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();
+      
+      Query hierarchiaRoots = entityManager
+          .createNativeQuery(gerarchNativeQuery)
+          .setParameter("gerarchiaid", filter.getGerarchiaId());
+      List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
+
+      specifications.add(
+          (root, criteriaQuery, criteriaBuilder) -> {
+            // Define the subquery
+            Subquery<RepartoQueryEntity> subquery = criteriaQuery.subquery(RepartoQueryEntity.class);
+            Root<RepartoQueryEntity> subRoot = subquery.from(RepartoQueryEntity.class);
+
+            subquery.select(subRoot);
+            subquery.where(
+                criteriaBuilder.and(
+                    criteriaBuilder.equal(subRoot.get("padre").get("id"), root.get("id")),
+                    subRoot.get("gerarchia").get("id").in(hierarchiaRootsIds)));
+            // Integrate the subquery into the main query using criteriaBuilder
+            return criteriaBuilder.and(
+                criteriaBuilder.not(criteriaBuilder.exists(subquery)),
+                root.get("gerarchia").get("id").in(hierarchiaRootsIds));
+          });
+    }
+
     Specification<RepartoQueryEntity> specification = specifications.stream().reduce(Specification::and).orElse(null);
 
     Page<RepartoQueryEntity> page = this.repartoRepository.findAll(specification, pageable);
+
+    RepartoResponse repartoResponse = new RepartoResponse();
+    List<RepartoQueryDTO> list = page.getContent().stream()
+        .map(entity -> repartoQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
+    repartoResponse.setRecords(list);
+    repartoResponse.setPagination(Pagination.buildPagination(page));
+
     return page;
   }
 
