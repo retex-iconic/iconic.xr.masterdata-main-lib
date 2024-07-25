@@ -9,7 +9,9 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.ateco.AtecoBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "ateco")
+@Table(name = "ateco", uniqueConstraints = {
+  @UniqueConstraint(name = "ateco_uk", columnNames = { "ateco_nr" })
+})
 public class AtecoQueryEntity {
 
   @Id @NonNull private String id;
@@ -26,11 +28,17 @@ public class AtecoQueryEntity {
   @Column(name = "descrizione")
   private String descrizione;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+
+   //foreing key
+  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_ateco"))
   private AtecoQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
+  //
+
 
   @Column(name = "flg_cancellato")
   private String flgCancellato;
