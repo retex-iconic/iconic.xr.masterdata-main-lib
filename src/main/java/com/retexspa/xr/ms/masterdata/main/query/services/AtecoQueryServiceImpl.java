@@ -4,10 +4,12 @@ import com.retexspa.xr.ms.main.core.helpers.NativeQueryHelper;
 import com.retexspa.xr.ms.main.core.queries.BaseSort;
 import com.retexspa.xr.ms.main.core.queries.GenericSearchRequest;
 import com.retexspa.xr.ms.main.core.responses.Pagination;
+import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.core.entities.AtecoQueryDTO;
 import com.retexspa.xr.ms.masterdata.main.core.responses.AtecoResponse;
 import com.retexspa.xr.ms.masterdata.main.core.filterRequest.AtecoFilter;
 import com.retexspa.xr.ms.masterdata.main.query.entities.AtecoQueryEntity;
+import com.retexspa.xr.ms.masterdata.main.query.entities.RepartoQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.query.mappers.AtecoQueryMapper;
 import com.retexspa.xr.ms.masterdata.main.query.repositories.AtecoRepository;
 
@@ -19,6 +21,9 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -113,11 +118,37 @@ public class AtecoQueryServiceImpl implements AtecoQueryService {
           .setParameter("gerarchiaid", filter.getGerarchiaId());
       List<String> hierarchiaRootsIds = hierarchiaRoots.getResultList();
 
+      specifications.add(
+          (root, criteriaQuery, criteriaBuilder) -> {
+            // Define the subquery
+            Subquery<AtecoQueryEntity> subquery = criteriaQuery.subquery(AtecoQueryEntity.class);
+            Root<AtecoQueryEntity> subRoot = subquery.from(AtecoQueryEntity.class);
+
+            subquery.select(subRoot);
+            subquery.where(
+                criteriaBuilder.and(
+                    criteriaBuilder.equal(subRoot.get("padre").get("id"), root.get("id")),
+                    subRoot.get("gerarchia").get("id").in(hierarchiaRootsIds)));
+            // Integrate the subquery into the main query using criteriaBuilder
+            return criteriaBuilder.and(
+                criteriaBuilder.not(criteriaBuilder.exists(subquery)),
+                root.get("gerarchia").get("id").in(hierarchiaRootsIds));
+          });
+
     }
 
     Specification<AtecoQueryEntity> specification = specifications.stream().reduce(Specification::and).orElse(null);
 
     Page<AtecoQueryEntity> page = this.atecoRepository.findAll(specification, pageable);
+
+    AtecoResponse atecoResponse = new AtecoResponse();
+    List<AtecoQueryDTO> list = page.getContent().stream()
+        .map(entity -> atecoQueryMapper.toDTO(entity))
+        .collect(Collectors.toList());
+    atecoResponse.setRecords(list);
+
+    atecoResponse.setPagination(Pagination.buildPagination(page));
+
     return page;
   }
 
