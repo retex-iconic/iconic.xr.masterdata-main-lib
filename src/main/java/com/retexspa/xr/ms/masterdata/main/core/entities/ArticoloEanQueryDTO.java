@@ -28,9 +28,9 @@ public class ArticoloEanQueryDTO {
   private String flgCancellato;
   private LocalDateTime dataCancellazione;
 
-  private ArticoloEanQueryDTO padre;
-  private GerarchiaQueryDTO gerarchia;
-  private ArticoloQueryDTO articolo;
+  private String padreId;
+  private String gerarchiaId;
+  private String articoloId;
   private String codiceMoltiplicatoreId;
   private String statoId;
   private String tipoEanId;

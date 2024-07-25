@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 
 public class ArticoloEanFilter {
@@ -97,13 +98,22 @@ public class ArticoloEanFilter {
         filter.setPrezzoCodiceVendita((Double) map.get("prezzoCodiceVendita"));
         filter.setAnagBil((String) map.get("anagBil"));
         filter.setFlgCancellato((String) map.get("flgCancellato"));
-        filter.setDataCancellazione((LocalDateTime) map.get("setDataCancellazione"));
         filter.setCodiceMoltiplicatoreId((String) map.get("codiceMoltiplicatoreId"));
+        filter.setArticoloId((String)map.get("articoloId"));
         filter.setStatoId((String) map.get("statoId"));
         filter.setTipoEanId((String) map.get("tipoEanId"));
         filter.setGerarchiaId((String) map.get("gerarchiaId"));
         filter.setPadreId((String) map.get("padreId"));
-
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        Object dataCancellazione = map.get("dataCancellazione");
+        if (dataCancellazione != null) {
+          if (dataCancellazione instanceof String) {
+            filter.setDataCancellazione(
+                    LocalDateTime.parse((String) map.get("dataCancellazione"), formatter));
+          } else if (dataCancellazione instanceof LocalDateTime) {
+            filter.setDataCancellazione((LocalDateTime) dataCancellazione);
+          }
+        }
         Object version = map.get("version");
         if (version != null) {
           if (version instanceof Integer) {

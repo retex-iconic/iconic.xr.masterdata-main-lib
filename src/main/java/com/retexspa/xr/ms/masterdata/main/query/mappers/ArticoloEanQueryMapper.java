@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface ArticoloEanQueryMapper {
   ArticoloEanQueryMapper INSTANCE = Mappers.getMapper(ArticoloEanQueryMapper.class);
-
+  @Mapping(target = "id", source = "id")
   @Mapping(target = "codice", source = "codice")
   @Mapping(target = "descrizione", source = "descrizione")
   @Mapping(target = "moltiplicatore", source = "moltiplicatore")
@@ -22,16 +22,12 @@ public interface ArticoloEanQueryMapper {
   @Mapping(target = "anagBil", source = "anagBil")
   @Mapping(target = "flgCancellato", source = "flgCancellato")
   @Mapping(target = "dataCancellazione", source = "dataCancellazione")
-  @Mapping(target = "padre", qualifiedByName = "padreMapper")
-  @Mapping(target = "gerarchia", source = "gerarchia")
-  @Mapping(target = "articolo", source = "articolo", ignore = true)
+  @Mapping(target = "padreId", source = "padre.id")
+  @Mapping(target = "gerarchiaId", source = "gerarchia.id")
+  @Mapping(target = "articoloId", source = "articolo.id")
   @Mapping(target = "codiceMoltiplicatoreId", source = "codiceMoltiplicatore.id")
   @Mapping(target = "statoId", source = "stato.id")
   @Mapping(target = "tipoEanId", source = "tipoEan.id")
   @Mapping(target = "version", source = "version")
   ArticoloEanQueryDTO toDTO(ArticoloEanQueryEntity entity);
-
-  @Mapping(target = "padre", source = "padre", ignore = true)
-  @Named("padreMapper")
-  ArticoloEanQueryDTO padreMapper(ArticoloEanQueryDTO articoloEanQueryDTO);
 }
