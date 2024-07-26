@@ -11,6 +11,8 @@ public interface TassonomiaRepository
 
   List<TassonomiaQueryEntity> findAllByCodice(String codice);
 
+  List<TassonomiaQueryEntity> findAllByTipoTassonomiaId(String tipoTassonomiaId);
+
   List<TassonomiaQueryEntity> findAllByCodiceAndTipoTassonomiaId(
       String codice, String tipoTassonomiaId);
 
