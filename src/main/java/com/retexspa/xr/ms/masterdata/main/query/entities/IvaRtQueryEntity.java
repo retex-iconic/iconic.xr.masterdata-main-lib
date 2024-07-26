@@ -6,7 +6,9 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -62,6 +64,7 @@ public class IvaRtQueryEntity {
   private Long version;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "ateco_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_iva_rt_ateco"))
   private AtecoQueryEntity ateco;
 
   @ManyToOne(fetch = FetchType.LAZY)

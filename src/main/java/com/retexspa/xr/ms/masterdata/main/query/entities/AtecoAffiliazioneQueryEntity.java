@@ -4,6 +4,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -19,7 +20,7 @@ import org.springframework.lang.NonNull;
 @Entity
 @Table(
     name = "ateco_affiliazioni",
-    uniqueConstraints = {@UniqueConstraint(columnNames = {"negozio_id", "ateco_nr"})},
+    uniqueConstraints = {@UniqueConstraint(name = "ateco_affiliazione_uk", columnNames = {"negozio_id", "ateco_nr"})},
     indexes = {
       @Index(name = "index_ateco_affiliazioni_ateco_id", columnList = "ateco_id"),
       @Index(name = "index_ateco_affiliazioni_atecoNr", columnList = "ateco_nr"),
@@ -40,18 +41,18 @@ public class AtecoAffiliazioneQueryEntity {
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_affiliazione_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+  @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_affiliazione_negozio"))
   private NegozioQueryEntity negozio;
 
   // @Column(name = "ateco_id")
   // private String atecoId;
   // aggregato_id
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "ateco_id", referencedColumnName = "id")
+  @JoinColumn(name = "ateco_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_affiliazione_ateco"))
   private AtecoQueryEntity ateco;
 
   @Column(name = "ateco_nr")
