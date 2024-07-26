@@ -1,6 +1,6 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.retexspa.xr.ms.main.core.dto.Enums;
 import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
@@ -12,10 +12,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "tipo_tassonomie")
+@Table(name = "tipo_tassonomie", uniqueConstraints = {
+    @UniqueConstraint(name = "tipoTassonomie_uk", columnNames = { "codice" })
+})
+
 public class TipoTassonomiaQueryEntity {
 
-  @Id private String id;
+  @Id
+  private String id;
 
   @Column(name = "nome")
   private String nome;
@@ -36,30 +40,36 @@ public class TipoTassonomiaQueryEntity {
   @EnumValidator(enumClazz = Enums.CheckSN.class, message = "flgNonCancellabile not valid")
   private String flgNonCancellabile;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  private Set<TipoTassonomiaQueryEntity> figli;
-
-  @ManyToOne(fetch = FetchType.LAZY)
+  // fk
+  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "nodo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_nodo"))
   private TipoTassonomiaQueryEntity nodo;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_padre"))
   private TipoTassonomiaQueryEntity padre;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoTassonomia")
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  // master detail
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "nodo")
+  @JsonIgnore
+  private Set<TipoTassonomiaQueryEntity> figli;
+
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipoTassonomia")
+  @JsonIgnore
   private Set<TassonomiaQueryEntity> tassonomie;
 
   @Column(name = "version")
   private Long version;
 
-  public TipoTassonomiaQueryEntity() {}
+  public TipoTassonomiaQueryEntity() {
+  }
 
   public TipoTassonomiaQueryEntity(
-          @NotNull String tipoTassonomiaId, TipoTassonomiaBaseDTO tipoTassonomiaDTO, Long version)
+      @NotNull String tipoTassonomiaId, TipoTassonomiaBaseDTO tipoTassonomiaDTO, Long version)
       throws IOException {
     this.id = tipoTassonomiaId;
     this.nome = tipoTassonomiaDTO.getNome();
@@ -102,14 +112,6 @@ public class TipoTassonomiaQueryEntity {
   public void setDescrizione(String descrizione) {
     this.descrizione = descrizione;
   }
-
-  // public Integer getLivello() {
-  //   return livello;
-  // }
-
-  // public void setLivello(Integer livello) {
-  //   this.livello = livello;
-  // }
 
   public String getGruppoTassonomia() {
     return gruppoTassonomia;
