@@ -4,6 +4,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
@@ -17,20 +18,17 @@ import com.retexspa.xr.ms.main.query.entities.NegozioQueryEntity;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(
-    name = "tipo_tassonomie_affiliazioni",
-    uniqueConstraints = {
-      @UniqueConstraint(
-          name = "tipo_tassonomie_affiliazioni_uk",
-          columnNames = {"negozio_id", "codice"})
-    },
-    indexes = {
-      @Index(name = "tipo_tassonomie_affiliazioni_codice", columnList = "codice"),
-      @Index(name = "tipo_tassonomie_affiliazioni_index_negozio_id", columnList = "negozio_id")
-    })
+@Table(name = "tipo_tassonomie_affiliazioni", uniqueConstraints = {
+    @UniqueConstraint(name = "tipo_tassonomie_affiliazioni_uk", columnNames = { "negozio_id", "codice" })
+}, indexes = {
+    @Index(name = "tipo_tassonomie_affiliazioni_codice", columnList = "codice"),
+    @Index(name = "tipo_tassonomie_affiliazioni_index_negozio_id", columnList = "negozio_id")
+})
 public class TipoTassonomiaAffiliazioneQueryEntity {
 
-  @Id @NonNull private String id;
+  @Id
+  @NonNull
+  private String id;
 
   @PrePersist
   public void generateId() {
@@ -40,21 +38,22 @@ public class TipoTassonomiaAffiliazioneQueryEntity {
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id")
+  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_affiliazione_negozio_tipotassonomia"))
   private TipoTassonomiaQueryEntity tipoTassonomia;
 
   @Column(name = "codice")
   private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_affiliazione_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+  @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_affiliazione_negozio"))
   private NegozioQueryEntity negozio;
 
-  public TipoTassonomiaAffiliazioneQueryEntity() {}
+  public TipoTassonomiaAffiliazioneQueryEntity() {
+  }
 
   public TipoTassonomiaAffiliazioneQueryEntity(
       String id,

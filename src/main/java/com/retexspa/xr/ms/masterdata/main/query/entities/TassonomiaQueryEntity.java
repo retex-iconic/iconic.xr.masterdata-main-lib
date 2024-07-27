@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ForeignKey;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -48,16 +49,13 @@ public class TassonomiaQueryEntity {
   private TassonomiaQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id")
+  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomia_tipotassonomia"))
   private TipoTassonomiaQueryEntity tipoTassonomia;
 
   @Column(name = "version")
   private Long version;
 
-  // @OneToMany(fetch = FetchType.LAZY, mappedBy = "tassonomia")
-  // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-  // private Set<ArticoloTassonomiaQueryEntity> articoliTassonomia;
-
+  
   public TassonomiaQueryEntity() {}
 
   public TassonomiaQueryEntity(
