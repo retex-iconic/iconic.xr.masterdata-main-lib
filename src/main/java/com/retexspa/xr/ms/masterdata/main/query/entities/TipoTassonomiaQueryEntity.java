@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tipo_tassonomie", uniqueConstraints = {
-    @UniqueConstraint(name = "tipoTassonomie_uk", columnNames = { "codice" })
+    @UniqueConstraint(name = "tipoTassonomie_uk", columnNames = { "codice","gerarchia_id" })
 })
 
 public class TipoTassonomiaQueryEntity {
