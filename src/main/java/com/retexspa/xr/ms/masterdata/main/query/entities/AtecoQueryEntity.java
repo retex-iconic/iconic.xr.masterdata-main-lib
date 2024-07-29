@@ -10,8 +10,8 @@ import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "ateco", uniqueConstraints = {
-    @UniqueConstraint(name = "ateco_uk", columnNames = { "codice" }),
-    @UniqueConstraint(name = "ateco_nr_uk", columnNames = { "ateco_nr" })
+    @UniqueConstraint(name = "ateco_uk", columnNames = { "codice","gerarchia_id" }),
+    @UniqueConstraint(name = "ateco_nr_uk", columnNames = { "ateco_nr","gerarchia_id" })
 })
 public class AtecoQueryEntity {
 
