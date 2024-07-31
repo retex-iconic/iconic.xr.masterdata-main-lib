@@ -14,7 +14,12 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.variazioniRegoleMonitoraggio.
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "variazioni_regole_monitoraggio")
+@Table(name = "",  uniqueConstraints = {
+  @UniqueConstraint(name = "schema", columnNames = { "schema" }),
+  @UniqueConstraint(name = "nome_tabella", columnNames = { "nomeTabella" }),
+  @UniqueConstraint(name = "nome_campo", columnNames = { "nomeCampo" }),
+  @UniqueConstraint(name = "regola_confronto", columnNames = { "regolaConfronto" })
+})
 public class VariazioniRegoleMonitoraggioQueryEntity {
 
   @Id @NonNull private String id;

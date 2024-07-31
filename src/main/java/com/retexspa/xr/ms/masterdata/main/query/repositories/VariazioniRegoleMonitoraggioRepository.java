@@ -14,4 +14,6 @@ public interface VariazioniRegoleMonitoraggioRepository
   List<VariazioniRegoleMonitoraggioQueryEntity>
       findAllBySchemaAndNomeTabellaAndNomeCampoAndRegolaConfronto(
           String schema, String nomeTabella, String nomeCampo, String regolaConfronto);
+    // find by padre id
+    List<VariazioniRegoleMonitoraggioQueryEntity> findAllByPadreId(String id);
 }
