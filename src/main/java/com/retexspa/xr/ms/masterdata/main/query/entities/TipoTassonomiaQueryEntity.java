@@ -1,15 +1,25 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
+import java.io.IOException;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.retexspa.xr.ms.main.core.dto.Enums;
 import com.retexspa.xr.ms.main.core.helpers.EnumValidator;
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.core.dto.tassonomia.TipoTassonomiaBaseDTO;
-
-import java.io.IOException;
-import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tipo_tassonomie", uniqueConstraints = {
@@ -41,24 +51,24 @@ public class TipoTassonomiaQueryEntity {
   private String flgNonCancellabile;
 
   // fk
-  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
-  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "nodo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_nodo"))
   private TipoTassonomiaQueryEntity nodo;
 
-  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_padre"))
   private TipoTassonomiaQueryEntity padre;
 
   // master detail
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "nodo")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
   @JsonIgnore
   private Set<TipoTassonomiaQueryEntity> figli;
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "tipoTassonomia")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoTassonomia")
   @JsonIgnore
   private Set<TassonomiaQueryEntity> tassonomie;
 

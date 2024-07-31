@@ -1,12 +1,22 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
 import java.time.LocalDateTime;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.NonNull;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.core.dto.ateco.AtecoBaseDTO;
-import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "ateco", uniqueConstraints = {
@@ -32,7 +42,7 @@ public class AtecoQueryEntity {
   private String descrizione;
 
   // foreing key
-  @ManyToOne(optional = true, fetch = FetchType.EAGER)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_padre"))
   private AtecoQueryEntity padre;
 
