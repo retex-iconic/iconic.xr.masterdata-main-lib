@@ -15,16 +15,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.core.dto.tassonomia.TassonomiaBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "tassonomie")
+@Table(name = "tassonomie", uniqueConstraints = {
+    @UniqueConstraint(name = "tassonomie_uk", columnNames = { "gerarchia_id", "codice", "nodo_id" })
+
+})
+
 public class TassonomiaQueryEntity {
 
-  @Id @NonNull private String id;
+  @Id
+  @NonNull
+  private String id;
 
   @Column(name = "nome")
   private String nome;
@@ -40,12 +47,15 @@ public class TassonomiaQueryEntity {
   private Set<TassonomiaQueryEntity> figli;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomie_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "nodo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomie_nodo"))
   private TassonomiaQueryEntity nodo;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomie_padre"))
   private TassonomiaQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -57,6 +67,7 @@ public class TassonomiaQueryEntity {
 
   
   public TassonomiaQueryEntity() {}
+
 
   public TassonomiaQueryEntity(
       String tassonomiaId,

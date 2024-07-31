@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.persistence.ForeignKey;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.main.query.entities.NegozioQueryEntity;
@@ -38,18 +39,18 @@ public class TipoTassonomiaAffiliazioneQueryEntity {
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_affiliazione_negozio_tipotassonomia"))
+  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id",foreignKey = @ForeignKey(name = "fk_tipoTassonomia_affiliazione_tipoTassonomia"))
   private TipoTassonomiaQueryEntity tipoTassonomia;
 
   @Column(name = "codice")
   private String codice;
 
-  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_affiliazione_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipotassonomia_affiliazione_negozio"))
+
   private NegozioQueryEntity negozio;
 
   public TipoTassonomiaAffiliazioneQueryEntity() {
