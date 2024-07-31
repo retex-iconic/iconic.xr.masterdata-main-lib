@@ -9,10 +9,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tipi_cassa")
+@Table(name = "tipi_cassa", uniqueConstraints = {
+    @UniqueConstraint(name = "tipiCassa_uk", columnNames = { "codice"})
+})
+
 @Getter
 @Setter
 public class TipiCassaQueryEntity {

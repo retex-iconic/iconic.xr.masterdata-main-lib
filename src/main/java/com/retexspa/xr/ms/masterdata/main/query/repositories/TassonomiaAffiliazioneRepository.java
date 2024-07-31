@@ -2,6 +2,9 @@ package com.retexspa.xr.ms.masterdata.main.query.repositories;
 
 import com.retexspa.xr.ms.masterdata.main.query.entities.TassonomiaAffiliazioneQueryEntity;
 import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -23,5 +26,7 @@ public interface TassonomiaAffiliazioneRepository
   List<TassonomiaAffiliazioneQueryEntity> findByTipoTassonomiaCodiceAndNegozioId(
       String codiceTipoTassonomia, String negozioId);
 
-  List<TassonomiaAffiliazioneQueryEntity> deleteByTassonomiaId(String id);
+  //List<TassonomiaAffiliazioneQueryEntity> deleteByTassonomiaId(String id);
+  @Transactional
+  void deleteByTassonomiaId(String tassonomiaId);
 }

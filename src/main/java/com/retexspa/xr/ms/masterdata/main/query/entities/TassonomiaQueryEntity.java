@@ -1,5 +1,6 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -29,9 +30,7 @@ import org.springframework.lang.NonNull;
 
 public class TassonomiaQueryEntity {
 
-  @Id
-  @NonNull
-  private String id;
+  @Id @NonNull private String id;
 
   @Column(name = "nome")
   private String nome;
@@ -44,17 +43,18 @@ public class TassonomiaQueryEntity {
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "nodo")
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @JsonIgnore
   private Set<TassonomiaQueryEntity> figli;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomie_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "nodo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomie_nodo"))
   private TassonomiaQueryEntity nodo;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(optional = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomie_padre"))
   private TassonomiaQueryEntity padre;
 
@@ -90,12 +90,21 @@ public class TassonomiaQueryEntity {
     } else {
       this.codice = tassonomiaDTO.getCodice();
     }
-    if (padreEntity.isPresent()) {
+
+    if (padreEntity  != null)
+    //if (padreEntity.isPresent() ) 
+    {
       this.padre = padreEntity.get();
     }
-    if (nodoEntity.isPresent()) {
+
+
+    if (nodoEntity  != null)
+    //if (nodoEntity.isPresent() )
+     {
       this.nodo = nodoEntity.get();
     }
+
+
     this.gerarchia = gerarchiaQueryEntity;
     this.tipoTassonomia = tipoTassonomiaEntity;
     this.version = version;

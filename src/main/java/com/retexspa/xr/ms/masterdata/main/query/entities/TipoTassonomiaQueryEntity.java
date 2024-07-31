@@ -79,7 +79,9 @@ public class TipoTassonomiaQueryEntity {
   }
 
   public TipoTassonomiaQueryEntity(
-      @NotNull String tipoTassonomiaId, TipoTassonomiaBaseDTO tipoTassonomiaDTO, Long version)
+      @NotNull String tipoTassonomiaId, 
+      TipoTassonomiaBaseDTO tipoTassonomiaDTO, 
+      Long version)
       throws IOException {
     this.id = tipoTassonomiaId;
     this.nome = tipoTassonomiaDTO.getNome();
