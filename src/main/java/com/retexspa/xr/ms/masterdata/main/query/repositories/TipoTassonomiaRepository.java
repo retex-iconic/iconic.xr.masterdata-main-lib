@@ -10,4 +10,6 @@ public interface TipoTassonomiaRepository
         JpaSpecificationExecutor<TipoTassonomiaQueryEntity> {
 
   List<TipoTassonomiaQueryEntity> findAllByCodice(String codice);
+  List<TipoTassonomiaQueryEntity> findAllByPadreId(String id);
+  List<TipoTassonomiaQueryEntity> findAllByNodoId(String id);
 }

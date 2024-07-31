@@ -15,19 +15,15 @@ public interface TassonomiaRepository
 
         List<TassonomiaQueryEntity> findAllByTipoTassonomiaId(String tipoTassonomiaId);
 
-        List<TassonomiaQueryEntity> findAllByCodiceAndTipoTassonomiaId(
-                        String codice, String tipoTassonomiaId);
+        List<TassonomiaQueryEntity> findAllByCodiceAndTipoTassonomiaId( String codice, String tipoTassonomiaId);
 
-        List<TassonomiaQueryEntity> findAllByCodiceAndTipoTassonomiaIdAndNodoId(
-                        String codice, String tipoTassonomiaId, String nodoId);
+        List<TassonomiaQueryEntity> findAllByCodiceAndTipoTassonomiaIdAndNodoId( String codice, String tipoTassonomiaId, String nodoId);
 
-        List<TassonomiaQueryEntity> findAllById(
-                        String tassonomiaId);
+        List<TassonomiaQueryEntity> findAllById(  String tassonomiaId);
 
         Optional<TassonomiaQueryEntity> findById(String id);
 
         List<TassonomiaQueryEntity> findAllByPadreId(String id);
 
-        List<TassonomiaQueryEntity> findAllByNodoId(
-                        String id);
+        List<TassonomiaQueryEntity> findAllByNodoId(String id);
 }

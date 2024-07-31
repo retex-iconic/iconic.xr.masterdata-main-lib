@@ -59,14 +59,15 @@ public class TassonomiaQueryEntity {
   private TassonomiaQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id")
+  @JoinColumn(name = "tipo_tassonomia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tassonomia_tipotassonomia"))
   private TipoTassonomiaQueryEntity tipoTassonomia;
 
   @Column(name = "version")
   private Long version;
 
-  public TassonomiaQueryEntity() {
-  }
+  
+  public TassonomiaQueryEntity() {}
+
 
   public TassonomiaQueryEntity(
       String tassonomiaId,
