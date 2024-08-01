@@ -26,4 +26,6 @@ public interface TassonomiaRepository
         List<TassonomiaQueryEntity> findAllByPadreId(String id);
 
         List<TassonomiaQueryEntity> findAllByNodoId(String id);
+
+        List<TassonomiaQueryEntity> findAllByGerarchiaIdAndCodice(String gerarchiaId, String  codice);
 }
