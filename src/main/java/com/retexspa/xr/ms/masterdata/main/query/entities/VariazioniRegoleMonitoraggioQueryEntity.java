@@ -15,7 +15,10 @@ import org.springframework.lang.NonNull;
 
 @Entity
 @Table(name = "variazioni",  uniqueConstraints = {
-  @UniqueConstraint(name = "variazioni_uk", columnNames = { "schema", "nome_tabella", "nome_campo", "regola_confronto" })
+  @UniqueConstraint(name = "schema_uk", columnNames = { "schema" }),
+  @UniqueConstraint(name = "nome_tabella_uk", columnNames = { "nome_tabella" }),
+  @UniqueConstraint(name = "nome_campo_uk", columnNames = { "nome_campo" }),
+  @UniqueConstraint(name = "regola_confronto_uk", columnNames = { "regola_confronto" })
 })
 public class VariazioniRegoleMonitoraggioQueryEntity {
 
@@ -33,17 +36,17 @@ public class VariazioniRegoleMonitoraggioQueryEntity {
   @Column(name = "schema")
   private String schema;
 
-  @Column(name = "nomeTabella")
+  @Column(name = "nome_tabella")
   private String nomeTabella;
 
-  @Column(name = "nomeCampo")
+  @Column(name = "nome_campo")
   private String nomeCampo;
 
-  @Column(name = "regolaConfronto")
+  @Column(name = "regola_confronto")
   private String regolaConfronto;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "causale_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_variazioni_causali"))
+  @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_variazioni_causali"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   @ManyToOne(fetch = FetchType.LAZY)
