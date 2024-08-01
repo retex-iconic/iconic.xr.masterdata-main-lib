@@ -64,15 +64,15 @@ public class VariazioniRegoleMonitoraggioAffiliazioneQueryEntity {
 
   // aggregato_id
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "variazioni_regole_monitoraggio_id", referencedColumnName = "id")
+  @JoinColumn(name = "variazioni_regole_monitoraggio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_affiliazione_variazioniRegoleMonitoraggio"))
   private VariazioniRegoleMonitoraggioQueryEntity variazioniRegoleMonitoraggio;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_affiliazione_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+  @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_affiliazione_negozio"))
   private NegozioQueryEntity negozio;
 
   public VariazioniRegoleMonitoraggioAffiliazioneQueryEntity() {}

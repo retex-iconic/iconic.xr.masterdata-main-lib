@@ -14,7 +14,9 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.variazioniRegoleMonitoraggio.
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "variazioni_regole_monitoraggio")
+@Table(name = "variazioni",  uniqueConstraints = {
+  @UniqueConstraint(name = "variazioni_uk", columnNames = { "schema", "nome_tabella", "nome_campo", "regola_confronto" })
+})
 public class VariazioniRegoleMonitoraggioQueryEntity {
 
   @Id @NonNull private String id;
@@ -41,9 +43,11 @@ public class VariazioniRegoleMonitoraggioQueryEntity {
   private String regolaConfronto;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "causale_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_variazioni_causali"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @EnumValidator(enumClazz = Enums.CheckSN.class)
@@ -56,6 +60,7 @@ public class VariazioniRegoleMonitoraggioQueryEntity {
   private String flgSalvaCancellazione;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_padre"))
   private VariazioniRegoleMonitoraggioQueryEntity padre;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "padre")
