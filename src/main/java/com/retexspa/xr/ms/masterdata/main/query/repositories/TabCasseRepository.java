@@ -10,4 +10,7 @@ public interface TabCasseRepository extends JpaRepository<TabCasseQueryEntity, S
     TabCasseQueryEntity findByCodice(String codice);
 
     List<TabCasseQueryEntity> findAllByCodice(String codice);
+
+    List<TabCasseQueryEntity> findAllByTipoCassa(String id);
+
 }
