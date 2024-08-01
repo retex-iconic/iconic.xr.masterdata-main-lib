@@ -20,8 +20,4 @@ public interface VariazioniRegoleMonitoraggioAffiliazioneRepository
           String nomeCampo,
           String regolaConfronto,
           String negozioId);
-    
-    // remove by Variazioni Causali
-    @Transactional
-    void deleteByVariazioniCausaliId(String variazioniCausaliId);
 }
