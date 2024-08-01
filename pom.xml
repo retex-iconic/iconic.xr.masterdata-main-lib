@@ -12,7 +12,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
 		<xr-springboot-bom.version>0.12.3</xr-springboot-bom.version>
-		<xr-shared-main-lib.version>1.4.1</xr-shared-main-lib.version>
+		<xr-shared-main-lib.version>1.5.0</xr-shared-main-lib.version>
 		<!-- -->
     <jackson-datatype-jsr310.version>2.12.5</jackson-datatype-jsr310.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version> 
