@@ -43,7 +43,7 @@ public class VariazioniRegoleMonitoraggioQueryEntity {
   private String regolaConfronto;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_padre"))
+  @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_variazioni_causali"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   @ManyToOne(fetch = FetchType.LAZY)
