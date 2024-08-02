@@ -12,6 +12,8 @@ public interface VariazioniCausaliRepository
         JpaSpecificationExecutor<VariazioniCausaliQueryEntity> {
   List<VariazioniCausaliQueryEntity> findAllByCodice(String codice);
 
+  List<VariazioniCausaliQueryEntity> findAllByPadreId(String padreId);
+
   List<VariazioniCausaliQueryEntity> findAllByTipologiaVariazione(String codice);
   
   List<VariazioniCausaliQueryEntity> findAllByCodiceAndTipologiaVariazione(
