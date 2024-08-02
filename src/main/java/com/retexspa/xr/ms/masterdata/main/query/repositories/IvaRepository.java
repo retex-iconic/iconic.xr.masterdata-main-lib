@@ -10,4 +10,6 @@ public interface IvaRepository
   IvaQueryEntity findByCodice(String codice);
 
   List<IvaQueryEntity> findAllByCodice(String codice);
+
+  List<IvaQueryEntity> findAllByPadreId(String id);
 }

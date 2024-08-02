@@ -7,11 +7,13 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
@@ -19,7 +21,10 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.iva.IvaBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "iva")
+@Table(name = "iva",uniqueConstraints = {
+  @UniqueConstraint(name = "iva_uk", columnNames = { "codice","gerarchia_id" })
+})
+
 public class IvaQueryEntity {
 
   @Id @NonNull private String id;
@@ -54,16 +59,18 @@ public class IvaQueryEntity {
   @Column(name = "codiceE_commerce")
   private String codiceECommerce;
 
+  // foreing key
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_iva_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_iva_padre"))
   private IvaQueryEntity padre;
 
-  @OneToMany(mappedBy = "iva")
-  @JsonManagedReference
-  private Set<RepartoQueryEntity> reparto;
+  // @OneToMany(mappedBy = "iva")
+  // @JsonManagedReference
+  // private Set<RepartoQueryEntity> reparto;
 
   @Column(name = "flg_cancellato")
   private String flgCancellato;
@@ -204,13 +211,13 @@ public class IvaQueryEntity {
     this.descrizione = descrizione;
   }
 
-  public Set<RepartoQueryEntity> getReparto() {
-    return reparto;
-  }
+  // public Set<RepartoQueryEntity> getReparto() {
+  //   return reparto;
+  // }
 
-  public void setReparto(Set<RepartoQueryEntity> reparto) {
-    this.reparto = reparto;
-  }
+  // public void setReparto(Set<RepartoQueryEntity> reparto) {
+  //   this.reparto = reparto;
+  // }
 
   public Set<IvaQueryEntity> getFigli() {
     return figli;
