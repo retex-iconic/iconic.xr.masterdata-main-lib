@@ -4,24 +4,24 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.casse.TipiCassaBaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tipi_cassa", uniqueConstraints = {
-    @UniqueConstraint(name = "tipiCassa_uk", columnNames = { "codice"})
+        @UniqueConstraint(name = "tipiCassa_uk", columnNames = { "codice" })
 })
 
 @Getter
 @Setter
 public class TipiCassaQueryEntity {
-    @Id @NonNull private String id;
+    @Id
+    @NonNull
+    private String id;
     @Column(name = "codice")
     private String codice;
     @Column(name = "nome")
