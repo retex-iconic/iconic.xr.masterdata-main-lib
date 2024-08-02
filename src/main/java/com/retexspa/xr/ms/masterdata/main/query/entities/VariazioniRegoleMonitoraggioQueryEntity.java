@@ -43,9 +43,11 @@ public class VariazioniRegoleMonitoraggioQueryEntity {
   private String regolaConfronto;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_padre"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @EnumValidator(enumClazz = Enums.CheckSN.class)
@@ -58,6 +60,7 @@ public class VariazioniRegoleMonitoraggioQueryEntity {
   private String flgSalvaCancellazione;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniRegoleMonitoraggio_padre"))
   private VariazioniRegoleMonitoraggioQueryEntity padre;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "padre")
