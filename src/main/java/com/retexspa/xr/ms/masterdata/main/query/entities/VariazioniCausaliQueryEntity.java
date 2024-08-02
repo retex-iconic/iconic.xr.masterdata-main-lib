@@ -13,7 +13,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "variazioni_causali")
+@Table(name = "variazioni_causali", uniqueConstraints = {
+  @UniqueConstraint(name = "variazioni_causali_uk", columnNames = { "codice", "tipologia_variazione", "gerarchia_id" }),
+})
 public class VariazioniCausaliQueryEntity {
   @Id private String id;
 
@@ -40,6 +42,7 @@ public class VariazioniCausaliQueryEntity {
   private Set<VariazioniCausaliQueryEntity> figli;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "variazioniCausali")
@@ -51,6 +54,7 @@ public class VariazioniCausaliQueryEntity {
   private Set<VariazioniRegoleMonitoraggioQueryEntity> variazioniRegoleMonitoraggioQueryEntities;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_padre"))
   private VariazioniCausaliQueryEntity padre;
 
   @Column(name = "flg_cancellato")

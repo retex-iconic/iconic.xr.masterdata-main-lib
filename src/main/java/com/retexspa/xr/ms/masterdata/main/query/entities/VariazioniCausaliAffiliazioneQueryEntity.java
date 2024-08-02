@@ -37,20 +37,21 @@ public class VariazioniCausaliAffiliazioneQueryEntity {
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+  @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_negozio"))
   private NegozioQueryEntity negozio;
 
   // aggregato_id
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "id")
+  @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_variazioniCausali"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   // UK
   @Column(name = "codice")
+  @JoinColumn(name = "codice", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_codice"))
   private String codice;
 
   @Column(name = "tipologia_variazione")
@@ -61,16 +62,16 @@ public class VariazioniCausaliAffiliazioneQueryEntity {
 
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumns({
-    @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "variazioni_causali_id"),
-    @JoinColumn(name = "negozio_id", referencedColumnName = "negozio_id")
+    @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "variazioni_causali_id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_variazioniCausali")),
+    @JoinColumn(name = "negozio_id", referencedColumnName = "negozio_id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_negozio"))
   })
   private List<VariazioniCausaliOperazioniAffiliazioneQueryEntity>
       variazioniCausaliOperazioniAffiliazioneQueryEntities;
 
   @OneToMany(fetch = FetchType.LAZY)
   @JoinColumns({
-    @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "variazioni_causali_id"),
-    @JoinColumn(name = "negozio_id", referencedColumnName = "negozio_id")
+    @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "variazioni_causali_id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_variazioniCausali")),
+    @JoinColumn(name = "negozio_id", referencedColumnName = "negozio_id", foreignKey = @ForeignKey(name = "fk_variazioniCausali_affiliazione_negozio"))
   })
   private List<VariazioniRegoleMonitoraggioAffiliazioneQueryEntity>
       variazioniRegoleMonitoraggioAffiliazioneQueryEntities;
