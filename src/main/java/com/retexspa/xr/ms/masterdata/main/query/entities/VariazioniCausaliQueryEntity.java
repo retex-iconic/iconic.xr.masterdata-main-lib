@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "variazioni_causali", uniqueConstraints = {
-  @UniqueConstraint(name = "variazioni_causali_uk", columnNames = { "codice", "tipologia_variazione", "gerarchia_id" }),
+  @UniqueConstraint(name = "variazioni_causali_uk", columnNames = { "codice", "tipologiaVariazione", "gerarchia_id" }),
 })
 public class VariazioniCausaliQueryEntity {
   @Id private String id;
