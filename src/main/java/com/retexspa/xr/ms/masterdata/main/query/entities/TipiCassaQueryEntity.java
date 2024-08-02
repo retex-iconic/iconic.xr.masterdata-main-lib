@@ -1,31 +1,27 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.retexspa.xr.ms.masterdata.main.core.dto.casse.TipiCassaBaseDTO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Entity
 @Table(name = "tipi_cassa", uniqueConstraints = {
-    @UniqueConstraint(name = "tipiCassa_uk", columnNames = {"codice"})
+        @UniqueConstraint(name = "tipiCassa_uk", columnNames = { "codice" })
 })
 
 @Getter
 @Setter
 public class TipiCassaQueryEntity {
-    @Id @NonNull private String id;
+    @Id
+    @NonNull
+    private String id;
     @Column(name = "codice")
     private String codice;
     @Column(name = "nome")
@@ -41,14 +37,6 @@ public class TipiCassaQueryEntity {
 
     @Column(name = "version")
     private Long version;
-
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipoCassa")
-    // @JsonIgnore
-    // private Set<TabCasseQueryEntity> tabCasse;
-
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipiCassa")
-    // @JsonIgnore
-    // private Set<TipoCassaEstesoQueryEntity> tipoCasseEsteso;
 
     public TipiCassaQueryEntity() {
     }
