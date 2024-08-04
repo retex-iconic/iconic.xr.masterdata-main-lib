@@ -7,12 +7,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.List;
 
 public interface TabCasseAttributoRepository extends JpaRepository<TabCasseAttributoQueryEntity, String>,
-        JpaSpecificationExecutor<TabCasseAttributoQueryEntity> {
+                JpaSpecificationExecutor<TabCasseAttributoQueryEntity> {
 
+        List<TabCasseAttributoQueryEntity> findByTabCasseIdAndAttributoId(
 
-    List<TabCasseAttributoQueryEntity> findByTabCasseIdAndAttributoId(
-            String id, String attributoId);
+                        String id, String attributoId);
 
-    void deleteByTabCasseIdAndAttributoId(String id, String attributoId);
+        void deleteByTabCasseIdAndAttributoId(String id, String attributoId);
 }
-
