@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 public interface TabCasseAttributoRepository extends JpaRepository<TabCasseAttributoQueryEntity, String>,
                 JpaSpecificationExecutor<TabCasseAttributoQueryEntity> {
 
@@ -13,5 +15,6 @@ public interface TabCasseAttributoRepository extends JpaRepository<TabCasseAttri
 
                         String id, String attributoId);
 
+        @Transactional
         void deleteByTabCasseIdAndAttributoId(String id, String attributoId);
 }

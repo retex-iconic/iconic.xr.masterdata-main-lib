@@ -38,18 +38,18 @@ public class TabCasseAffiliazioneQueryEntity  implements Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tab_casse_id", referencedColumnName = "id")
+    @JoinColumn(name = "tab_casse_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcasse_affiliazione_tabcasse"))
     private TabCasseQueryEntity tabCasse;
 
     @Column(name = "codice")
     private String codice;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+    @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcasse_affiliazione_gerarchia"))
     private GerarchiaQueryEntity gerarchia;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+    @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcasse_affiliazione_negozio"))
     private NegozioQueryEntity negozio;
 
     @Column(name = "flg_cancellato")
