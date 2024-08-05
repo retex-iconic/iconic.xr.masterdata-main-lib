@@ -10,4 +10,6 @@ public interface ArticoloVenditaRepository
         JpaSpecificationExecutor<ArticoloVenditaQueryEntity> {
 
   List<ArticoloVenditaQueryEntity> findAllByArticoloId(String articoloId);
+
+  List<ArticoloVenditaQueryEntity> findAllByIvaId(String Id);
 }

@@ -9,4 +9,7 @@ public interface RepartoRepository
     extends JpaRepository<RepartoQueryEntity, String>,
         JpaSpecificationExecutor<RepartoQueryEntity> {
   List<RepartoQueryEntity> findAllByCodice(String codice);
+
+
+  List<RepartoQueryEntity> findAllByIvaId(String id);
 }
