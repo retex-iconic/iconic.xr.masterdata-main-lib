@@ -16,4 +16,6 @@ public interface IvaRtRepository
   List<IvaRtQueryEntity> findAllByAtecoId(String id);
 
   List<IvaRtQueryEntity> findAllByIvaId(String id);
+
+  List<IvaRtQueryEntity> findAllByPadreId(String id);
 }
