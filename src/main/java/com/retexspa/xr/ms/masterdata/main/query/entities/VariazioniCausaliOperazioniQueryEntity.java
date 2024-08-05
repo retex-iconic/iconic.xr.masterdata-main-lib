@@ -9,7 +9,9 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.variazioniCausaliOperazioni.V
 import lombok.NonNull;
 
 @Entity
-@Table(name = "variazioni_causali_operazioni")
+@Table(name = "variazioni_causali_operazioni", uniqueConstraints = {
+  @UniqueConstraint(name = "variazioni_causali_operazioni_uk", columnNames = { "gerarchia_id", "causale_id", "operazione" }),
+})
 public class VariazioniCausaliOperazioniQueryEntity {
   @Id @NonNull private String id;
 
@@ -23,10 +25,11 @@ public class VariazioniCausaliOperazioniQueryEntity {
   private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "variazioni_causali", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_variazioni_causali"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   @Column(name = "operazione")
@@ -49,6 +52,7 @@ public class VariazioniCausaliOperazioniQueryEntity {
   private Set<VariazioniCausaliOperazioniQueryEntity> figli;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_padre"))
   private VariazioniCausaliOperazioniQueryEntity padre;
 
   public VariazioniCausaliOperazioniQueryEntity() {}

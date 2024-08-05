@@ -40,22 +40,22 @@ public class VariazioniCausaliOperazioniAffiliazioneQueryEntity {
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "variazioni_causali_operazioni_id", referencedColumnName = "id")
+  @JoinColumn(name = "variazioni_causali_operazioni_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_affiliazione_variazioniCausaliOperazioni"))
   private VariazioniCausaliOperazioniQueryEntity variazioniCausaliOperazioni;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_affiliazione_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+  @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_affiliazione_negozio"))
   private NegozioQueryEntity negozio;
 
   @Column(name = "operazione")
   private String operazione;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "id")
+  @JoinColumn(name = "variazioni_causali_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_variazioniCausaliOperazioni_affiliazione_variazioniCausali"))
   private VariazioniCausaliQueryEntity variazioniCausali;
 
   public VariazioniCausaliOperazioniAffiliazioneQueryEntity() {}
