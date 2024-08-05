@@ -4,12 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
@@ -17,7 +12,8 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.articolo.ArticoloInfoServizio
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "articoli_info_servizio")
+@Table(name = "articoli_info_servizio", uniqueConstraints = {
+        @UniqueConstraint(name = "articoli_info_servizio_uk", columnNames = { "articolo_id","gerarchia_id" })})
 public class ArticoloInfoServizioQueryEntity implements Serializable {
 
   @Id @NonNull private String id;
@@ -26,13 +22,16 @@ public class ArticoloInfoServizioQueryEntity implements Serializable {
   private String flgCancellato;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_info_servizio_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "articolo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_info_servizio_articolo"))
   private ArticoloQueryEntity articolo;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "servizio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_info_servizio_servizio"))
   private AnagraficaServizioQueryEntity servizio;
   @Column(name = "version")
   private Long version;
