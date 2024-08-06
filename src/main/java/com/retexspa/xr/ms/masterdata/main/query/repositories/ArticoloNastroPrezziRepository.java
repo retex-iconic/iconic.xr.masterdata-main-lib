@@ -11,7 +11,7 @@ public interface ArticoloNastroPrezziRepository
         JpaSpecificationExecutor<ArticoloNastroPrezziQueryEntity> {
 
   void deleteByArticoloNastroPrezziId(String articoloNastroPrezziId);
-
+  List<ArticoloNastroPrezziQueryEntity> findAllByPadreId(String id);
   List<ArticoloNastroPrezziQueryEntity> findAllByArticoloIdAndDataOraInizio(
       String articoloId, LocalDateTime localDateTime);
 }

@@ -9,18 +9,22 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.articolo.ArticoloNastroPrezzi
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "articoli_nastro_prezzi")
+@Table(name = "articoli_nastro_prezzi", uniqueConstraints = {
+        @UniqueConstraint(name = "articoli_nastro_prezzi_uk", columnNames = { "articolo_id","gerarchia_id", "dataOraInizio" })})
 public class ArticoloNastroPrezziQueryEntity implements Serializable {
 
   @Id @NonNull private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_nastro_prezzi_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "articolo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_nastro_prezzi_articolo"))
   private ArticoloQueryEntity articolo;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_nastro_prezzi_padre"))
   private ArticoloNastroPrezziQueryEntity padre;
 
   @Column(name = "prezzoVendita")
