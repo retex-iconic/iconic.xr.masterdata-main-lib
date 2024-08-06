@@ -1,6 +1,6 @@
 package com.retexspa.xr.ms.masterdata.main.query.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.Set;
