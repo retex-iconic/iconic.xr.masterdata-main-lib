@@ -10,7 +10,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tab_casse_estesa")
+@Table(name = "tab_casse_estesa", uniqueConstraints = {
+        @UniqueConstraint(name = "tab_casse_estesa_uk", columnNames = { "tipoCassaEstesoId", "dataInizio" })
+})
+
 @Getter
 @Setter
 public class TabCasseEstesaQueryEntity {
@@ -20,12 +23,14 @@ public class TabCasseEstesaQueryEntity {
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tab_casse_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcassaestesa_tabcassa"))
     private TabCasseQueryEntity tabCasse;
 
     @Column(name = "dataInizio")
     private LocalDate dataInizio;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_cassa_esteso_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcassaestesa_tipocassaesteso"))
     private TipoCassaEstesoQueryEntity tipoCassaEsteso;
 
     @Column(name = "flg_cancellato")
