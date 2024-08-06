@@ -10,7 +10,7 @@ import lombok.NonNull;
 
 @Entity
 @Table(name = "variazioni_causali_operazioni", uniqueConstraints = {
-  @UniqueConstraint(name = "variazioni_causali_operazioni_uk", columnNames = { "gerarchia_id", "causale_id", "operazione" }),
+  @UniqueConstraint(name = "variazioni_causali_operazioni_uk", columnNames = { "gerarchia_id", "variazioni_causali", "operazione" }),
 })
 public class VariazioniCausaliOperazioniQueryEntity {
   @Id @NonNull private String id;
