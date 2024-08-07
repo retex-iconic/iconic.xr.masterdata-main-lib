@@ -10,7 +10,10 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.servizi.TipologiaServizioBase
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "tipologiaServizio")
+@Table(name = "tipologiaServizio", uniqueConstraints = {
+  @UniqueConstraint(name = "tipologiaServizio_uk", columnNames = { "codice","gerarchia_id" })
+})
+
 public class TipologiaServizioQueryEntity {
 
   @Id @NonNull private String id;
