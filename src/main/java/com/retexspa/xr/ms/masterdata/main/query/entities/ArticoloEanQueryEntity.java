@@ -10,15 +10,18 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.articolo.ArticoloEanBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "articoli_ean")
+@Table(name = "articoli_ean", uniqueConstraints = {
+        @UniqueConstraint(name = "articoli_ean_uk", columnNames = { "codice","gerarchia_id" })})
 public class ArticoloEanQueryEntity implements Serializable {
 
   @Id @NonNull private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_ean_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "articolo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_ean_articolo"))
   private ArticoloQueryEntity articolo;
 
   @Column(name = "codice")
@@ -28,6 +31,7 @@ public class ArticoloEanQueryEntity implements Serializable {
   private String descrizione;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "codiceMoltiplicatore", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_ean_codiceMoltiplicatore"))
   private ConfigQueryEntity codiceMoltiplicatore;
 
   @Column(name = "moltiplicatore")
@@ -49,12 +53,15 @@ public class ArticoloEanQueryEntity implements Serializable {
   private Double prezzoCodiceVendita;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "stato", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_ean_stato"))
   private ConfigQueryEntity stato;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "tipoEan", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_ean_tipoEan"))
   private ConfigQueryEntity tipoEan;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_ean_padre"))
   private ArticoloEanQueryEntity padre;
 
   // @Type(type = "json")
