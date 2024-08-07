@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tab_casse_estesa", uniqueConstraints = {
-        @UniqueConstraint(name = "tab_casse_estesa_uk", columnNames = { "tipoCassaEstesoId", "dataInizio" })
+        @UniqueConstraint(name = "tab_casse_estesa_uk", columnNames = { "tipo_cassa_esteso_id", "data_inizio" })
 })
 
 @Getter
@@ -26,7 +26,7 @@ public class TabCasseEstesaQueryEntity {
     @JoinColumn(name = "tab_casse_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcassaestesa_tabcassa"))
     private TabCasseQueryEntity tabCasse;
 
-    @Column(name = "dataInizio")
+    @Column(name = "data_inizio")
     private LocalDate dataInizio;
 
     @ManyToOne(fetch = FetchType.LAZY)
