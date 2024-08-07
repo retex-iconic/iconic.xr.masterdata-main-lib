@@ -10,9 +10,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tab_casse")
 @Getter
 @Setter
+
+@Table(name = "tab_casse", uniqueConstraints = {
+    @UniqueConstraint(name = "tab_casse_uk", columnNames = { "codice","gerarchia_id" })})
+
+
 public class TabCasseQueryEntity {
     @Id @NonNull
     private String id;
@@ -24,12 +28,16 @@ public class TabCasseQueryEntity {
     private String descrizione;
     @Column(name = "attiva")
     private Boolean attiva;
+
+    //Foreign key
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+    @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcasse_gerarchia"))
     private GerarchiaQueryEntity gerarchia;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tipoCassa_id", referencedColumnName = "id")
+    @JoinColumn(name = "tipoCassa_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tabcasse_tipocassa"))
     private TipiCassaQueryEntity tipoCassa;
+
+
     @Column(name = "flg_cancellato")
     private String flgCancellato;
     @Column(name = "data_cancellazione")

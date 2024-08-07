@@ -4,6 +4,7 @@ import com.retexspa.xr.ms.masterdata.main.query.entities.TabCasseAffiliazioneQue
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
+import javax.transaction.Transactional;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public interface TabCasseAffiliazioneRepository extends JpaRepository<TabCasseAf
 
     TabCasseAffiliazioneQueryEntity findByTabCasseIdAndNegozioId(String ivaId, String negozioId);
 
-        List<TabCasseAffiliazioneQueryEntity> deleteByTabCasseId(String tabCasseId);
+    @Transactional
+    List<TabCasseAffiliazioneQueryEntity> deleteByTabCasseId(String tabCasseId);
 
-        List<TabCasseAffiliazioneQueryEntity> findAllByTabCasseId(String tabCasseId);
+    List<TabCasseAffiliazioneQueryEntity> findAllByTabCasseId(String tabCasseId);
 }

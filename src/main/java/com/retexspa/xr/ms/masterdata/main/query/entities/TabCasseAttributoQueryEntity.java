@@ -41,8 +41,8 @@ public class TabCasseAttributoQueryEntity {
 
     public TabCasseAttributoQueryEntity(
             @NotNull String id,
-            TabCasseQueryEntity tabCasse,
-            AttributoQueryEntity attributo,
+             TabCasseQueryEntity tabCasse,
+             AttributoQueryEntity attributo,
             String valore) {
         this.id = id;
         this.tabCasse = tabCasse;

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
@@ -19,7 +20,10 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.iva.IvaRtBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "ivaRt")
+@Table(name = "ivaRt", uniqueConstraints = {
+  @UniqueConstraint(name = "ivaRt_uk", columnNames = { "gerarchia_id","codice", "iva_id"})
+})
+
 public class IvaRtQueryEntity {
 
   @Id @NonNull private String id;
@@ -64,7 +68,7 @@ public class IvaRtQueryEntity {
   private Long version;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "ateco_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_iva_rt_ateco"))
+  @JoinColumn(name = "ateco_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ivart_ateco"))
   private AtecoQueryEntity ateco;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -74,6 +78,7 @@ public class IvaRtQueryEntity {
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ivart_padre"))
   private IvaRtQueryEntity padre;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "padre")
