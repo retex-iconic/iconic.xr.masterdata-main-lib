@@ -229,6 +229,11 @@ public class RepartoQueryServiceImpl implements RepartoQueryService {
       specifications.add((r, q, c) -> c.equal(r.get("version"), filter.getVersion()));
     }
 
+    if (filter.getFlgCancellato() != null) {
+      specifications.add(
+          (r, q, c) -> c.like(c.upper(r.get("flgCancellato")), "%" + filter.getFlgCancellato().toUpperCase() + "%"));
+    }
+
     NativeQueryHelper NativeQueryHelper = new NativeQueryHelper();
     if (filter.getGerarchiaId() != null) {
       String gerarchNativeQuery = NativeQueryHelper.gerarchiaNativeQuery();

@@ -48,6 +48,7 @@ public class RepartoFilter {
   private String dataOraUpd;
   private String bloccoPre;
   private Long version;
+  private String flgCancellato;
 
   public RepartoFilter() {
   }
@@ -91,7 +92,8 @@ public class RepartoFilter {
       String idSendEcr,
       String dataOraUpd,
       String bloccoPre,
-      Long version) {
+      Long version,
+      String flgCancellato) {
 
     this.id = id;
     this.nome = nome;
@@ -132,6 +134,7 @@ public class RepartoFilter {
     this.gerarchiaId = gerarchiaId;
     this.padreId = padreId;
     this.version = version;
+    this.flgCancellato = flgCancellato;
   }
 
   public String getId() {
@@ -164,6 +167,14 @@ public class RepartoFilter {
 
   public void setDescrizione(String descrizione) {
     this.descrizione = descrizione;
+  }
+
+  public String getFlgCancellato() {
+    return this.flgCancellato;
+  }
+
+  public void setFlgCancellato(String flgCancellato) {
+    this.flgCancellato = flgCancellato;
   }
 
   public BigDecimal getScontoPercentuale() {
