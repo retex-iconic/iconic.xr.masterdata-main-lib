@@ -11,4 +11,6 @@ public interface TabCasseEstesaRepository extends JpaRepository<TabCasseEstesaQu
 
 
     List<TabCasseEstesaQueryEntity> findAllByTipoCassaEstesoId(String id);
+
+    List<TabCasseEstesaQueryEntity> findAllByTabCasseId(String id);
 }
