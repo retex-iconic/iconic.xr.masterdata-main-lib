@@ -3,21 +3,15 @@ package com.retexspa.xr.ms.masterdata.main.query.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
 import com.retexspa.xr.ms.masterdata.main.core.dto.articolo.ArticoloVenditaBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "articoli_vendita")
+@Table(name = "articoli_vendita", uniqueConstraints = {
+        @UniqueConstraint(name = "articoli_vendita_uk", columnNames = { "articolo_id","gerarchia_id" })})
 public class ArticoloVenditaQueryEntity {
 
   @Id @NonNull private String id;
@@ -27,12 +21,15 @@ public class ArticoloVenditaQueryEntity {
       targetEntity = ArticoloQueryEntity.class,
       cascade = {CascadeType.PERSIST})
   @JsonIgnore
+  @JoinColumn(name = "articolo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_articolo"))
   private ArticoloQueryEntity articolo;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_padre"))
   private ArticoloVenditaQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @Column(name = "nome")
@@ -45,17 +42,24 @@ public class ArticoloVenditaQueryEntity {
   private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "stato_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_stato"))
   private ConfigQueryEntity stato;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "tipoArticoloVendita_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_tipoArticoloVendita"))
   private ConfigQueryEntity tipoArticoloVendita;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "sottotipoArticoloVendita_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_sottotipoArticoloVendita"))
   private ConfigQueryEntity sottotipoArticoloVendita;
 
-  @ManyToOne private RepartoQueryEntity reparto;
+  @ManyToOne
+  @JoinColumn(name = "reparto_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_reparto"))
+  private RepartoQueryEntity reparto;
 
-  @ManyToOne private IvaQueryEntity iva;
+  @ManyToOne
+  @JoinColumn(name = "iva_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_vendita_iva"))
+  private IvaQueryEntity iva;
 
   @Column(name = "costo")
   private Double costo;
