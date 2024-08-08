@@ -9,9 +9,14 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.servizi.AnagraficaServizioBas
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "anagraficaServizio")
+@Table(name = "anagraficaServizio", uniqueConstraints = {
+    @UniqueConstraint(name = "anagraficaServizio_uk", columnNames = { "codice", "gerarchia_id" })
+})
+
 public class AnagraficaServizioQueryEntity {
-  @Id @NonNull private String id;
+  @Id
+  @NonNull
+  private String id;
 
   @Column(name = "codice")
   private String codice;
@@ -23,9 +28,11 @@ public class AnagraficaServizioQueryEntity {
   private String nome;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_anagraficaservizio_padre"))
   private AnagraficaServizioQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_anagraficaservizio_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @Column(name = "collocazione")
@@ -35,6 +42,7 @@ public class AnagraficaServizioQueryEntity {
   private String providerId;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "tipologia_servizio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_anagraficaservizio_tipologiaservizio"))
   private TipologiaServizioQueryEntity tipologiaServizio;
 
   @Column(name = "fiduciaria")
@@ -56,10 +64,11 @@ public class AnagraficaServizioQueryEntity {
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private Set<AnagraficaServizioQueryEntity> figli;
 
-  public AnagraficaServizioQueryEntity() {}
+  public AnagraficaServizioQueryEntity() {
+  }
 
   public AnagraficaServizioQueryEntity(
-          String id, AnagraficaServizioBaseDTO anagraficaServizioDTO, Long version) {
+      String id, AnagraficaServizioBaseDTO anagraficaServizioDTO, Long version) {
     this.id = id;
     this.collocazione = anagraficaServizioDTO.getCollocazione();
     this.fiduciaria = anagraficaServizioDTO.getFiduciaria();

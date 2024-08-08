@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface EsclusioniFpServizioRepository
     extends JpaRepository<EsclusioniFpServizioQueryEntity, String>,
-        JpaSpecificationExecutor<EsclusioniFpServizioQueryEntity> {
+    JpaSpecificationExecutor<EsclusioniFpServizioQueryEntity> {
   List<EsclusioniFpServizioQueryEntity> findAllByCodice(String codice);
+
+  List<EsclusioniFpServizioQueryEntity> findAllByServizioId(String Id);
 }
