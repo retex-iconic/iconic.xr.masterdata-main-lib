@@ -4,9 +4,16 @@ import com.retexspa.xr.ms.masterdata.main.query.entities.AnagraficaServizioQuery
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface AnagraficaServizioRepository
     extends JpaRepository<AnagraficaServizioQueryEntity, String>,
-        JpaSpecificationExecutor<AnagraficaServizioQueryEntity> {
+    JpaSpecificationExecutor<AnagraficaServizioQueryEntity> {
   List<AnagraficaServizioQueryEntity> findAllByCodice(String codice);
+
+  List<AnagraficaServizioQueryEntity> findAllByPadreId(String Id);
+
+  @Transactional
+  //List<AnagraficaServizioQueryEntity> deleteByPadreId(String Id);
+  void  deleteByPadreId(String Id);
 }

@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface CommissioneServizioRepository
-    extends JpaRepository<CommissioneServizioQueryEntity, String>,
+        extends JpaRepository<CommissioneServizioQueryEntity, String>,
         JpaSpecificationExecutor<CommissioneServizioQueryEntity> {
-  List<CommissioneServizioQueryEntity> findAllByAnagraficaServizioIdAndProfilo(
-      String anagraficaServizioId, String profilo);
+    List<CommissioneServizioQueryEntity> findAllByAnagraficaServizioIdAndProfilo(
+            String anagraficaServizioId, String profilo);
+
+    List<CommissioneServizioQueryEntity> findAllByAnagraficaServizioId(String Id);
+
 }
