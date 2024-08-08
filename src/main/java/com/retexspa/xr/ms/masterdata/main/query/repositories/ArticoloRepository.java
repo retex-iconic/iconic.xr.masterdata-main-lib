@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface ArticoloRepository
     extends JpaRepository<ArticoloQueryEntity, String>,
         JpaSpecificationExecutor<ArticoloQueryEntity> {
-
+  List<ArticoloQueryEntity> findAllByPadreId(String id);
   List<ArticoloQueryEntity> findAllByCodice(String codice);
 }

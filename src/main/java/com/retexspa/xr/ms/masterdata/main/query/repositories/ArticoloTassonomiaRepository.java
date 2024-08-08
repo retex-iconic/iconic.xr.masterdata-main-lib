@@ -2,7 +2,6 @@ package com.retexspa.xr.ms.masterdata.main.query.repositories;
 
 import com.retexspa.xr.ms.masterdata.main.query.entities.ArticoloTassonomiaQueryEntity;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -17,5 +16,6 @@ public interface ArticoloTassonomiaRepository
       List<ArticoloTassonomiaQueryEntity> findAllByTassonomiaId(
       String tassonomiaId);
 
-     
+    List<ArticoloTassonomiaQueryEntity> findAllByArticoloId(
+            String articoloId);
 }

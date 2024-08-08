@@ -14,4 +14,5 @@ public interface ArticoloNastroPrezziRepository
   List<ArticoloNastroPrezziQueryEntity> findAllByPadreId(String id);
   List<ArticoloNastroPrezziQueryEntity> findAllByArticoloIdAndDataOraInizio(
       String articoloId, LocalDateTime localDateTime);
+  List<ArticoloNastroPrezziQueryEntity> findAllByArticoloId(String articoloId);
 }
