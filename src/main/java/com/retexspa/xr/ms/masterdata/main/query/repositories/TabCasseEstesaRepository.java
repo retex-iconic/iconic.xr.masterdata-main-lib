@@ -9,5 +9,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface TabCasseEstesaRepository extends JpaRepository<TabCasseEstesaQueryEntity, String>, JpaSpecificationExecutor<TabCasseEstesaQueryEntity> {
 
+
     List<TabCasseEstesaQueryEntity> findAllByTabCasseId(String id);
+
+    List<TabCasseEstesaQueryEntity> findAllByTipoCassaEstesoId(String id);
 }

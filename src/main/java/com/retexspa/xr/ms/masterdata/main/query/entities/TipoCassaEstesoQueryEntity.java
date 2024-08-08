@@ -9,7 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tipo_cassa_esteso")
+@Table(name = "tipo_cassa_esteso", uniqueConstraints = {
+    @UniqueConstraint(name = "tipo_cassa_esteso_uk", columnNames = { "codice"})
+})
+
 @Getter
 @Setter
 public class TipoCassaEstesoQueryEntity {
@@ -23,8 +26,11 @@ public class TipoCassaEstesoQueryEntity {
     private String nome;
     @Column(name = "descrizione")
     private String descrizione;
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipi_cassa_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_tipocassaesteso_tipocassa"))
     private TipiCassaQueryEntity tipiCassa;
+
     @Column(name = "data_cancellazione")
     private LocalDateTime dataCancellazione;
     @Column(name = "version")
