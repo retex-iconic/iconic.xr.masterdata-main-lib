@@ -57,6 +57,7 @@ public class RepartoQueryDTO {
   private String IdSendEcr;
   private String DataOraUpd;
   private String BloccoPre;
+  private String FlgCancellato;
   private Long version;
 
 

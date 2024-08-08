@@ -44,6 +44,7 @@ public interface RepartoQueryMapper {
   @Mapping(target = "padreId", source = "padre.id")
   @Mapping(target = "ivaId", source = "iva.id")
   @Mapping(target = "gerarchiaId", source = "gerarchia.id")
+  @Mapping(target = "flgCancellato", source = "flgCancellato")
   @Mapping(target = "version", source = "version")
   RepartoQueryDTO toDTO(RepartoQueryEntity entity);
 }

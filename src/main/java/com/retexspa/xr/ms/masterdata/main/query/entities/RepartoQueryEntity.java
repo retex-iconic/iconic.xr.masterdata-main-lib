@@ -121,7 +121,7 @@ public class RepartoQueryEntity {
   @Column(name = "bloccoPre")
   private String bloccoPre;
 
-  @Column(name = "flg_cancellato")
+  @Column(name = "flgcancellato")
   private String flgCancellato;
 
   @Column(name = "data_cancellazione")
@@ -184,7 +184,7 @@ public class RepartoQueryEntity {
     this.dataOraUpd = repartoDTO.getDataOraUpd();
     this.bloccoPre = repartoDTO.getBloccoPre();
     this.version = version;
-    this.flgCancellato = flgCancellato;
+    this.flgCancellato = repartoDTO.getFlgCancellato();
   }
 
   public String getId() {
