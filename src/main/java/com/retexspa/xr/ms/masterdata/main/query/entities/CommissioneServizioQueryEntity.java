@@ -7,17 +7,26 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.servizi.CommissioneServizioBa
 import lombok.NonNull;
 
 @Entity
-@Table(name = "commissioneServizio")
+@Table(name = "commissioneServizio", uniqueConstraints = {
+    @UniqueConstraint(name = "commissioneservizio_uk", columnNames = { "gerarchia_id", "anagrafica_servizio_id",
+        "profilo" })
+})
+
 public class CommissioneServizioQueryEntity {
-  @Id @NonNull private String id;
+  @Id
+  @NonNull
+  private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_commissioneservizio_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "anagrafica_servizio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_commissioneservizio_anagraficaservizio"))
   private AnagraficaServizioQueryEntity anagraficaServizio;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "articolo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_commissioneservizio_articoli"))
   private ArticoloQueryEntity articolo;
 
   @Column(name = "flgDefault")
@@ -29,10 +38,11 @@ public class CommissioneServizioQueryEntity {
   @Column(name = "version")
   private Long version;
 
-  public CommissioneServizioQueryEntity() {}
+  public CommissioneServizioQueryEntity() {
+  }
 
   public CommissioneServizioQueryEntity(
-          String id, CommissioneServizioBaseDTO commissioneServizioBaseDTO, Long version) {
+      String id, CommissioneServizioBaseDTO commissioneServizioBaseDTO, Long version) {
     this.id = id;
     this.flgDefault = commissioneServizioBaseDTO.getFlgDefault();
     this.profilo = commissioneServizioBaseDTO.getProfilo();
