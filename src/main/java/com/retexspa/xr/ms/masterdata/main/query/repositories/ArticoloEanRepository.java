@@ -10,4 +10,5 @@ public interface ArticoloEanRepository
         JpaSpecificationExecutor<ArticoloEanQueryEntity> {
 
   List<ArticoloEanQueryEntity> findAllByCodice(String codice);
+  List<ArticoloEanQueryEntity> findAllByArticoloId(String articoloId);
 }

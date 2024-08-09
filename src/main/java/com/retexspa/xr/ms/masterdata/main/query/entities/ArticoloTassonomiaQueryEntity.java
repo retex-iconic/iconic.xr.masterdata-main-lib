@@ -10,28 +10,28 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.articolo.ArticoloTassonomiaBa
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "articoli_tassonomie")
+@Table(name = "articoli_tassonomie", uniqueConstraints = {
+        @UniqueConstraint(name = "articoli_tassonomie_uk", columnNames = { "articolo_id","tassonomia_id","gerarchia_id" })})
 public class ArticoloTassonomiaQueryEntity {
 
   @Id @NonNull private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_tassonomie_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   /*@ManyToOne(
       fetch = FetchType.LAZY,
       targetEntity = ArticoloQueryEntity.class,
       cascade = {CascadeType.PERSIST})*/
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "articolo_id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "articolo_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_tassonomie_articolo"))
   @JsonIgnore
   private ArticoloQueryEntity articolo;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "tassonomia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_tassonomie_tassonomia"))
   private TassonomiaQueryEntity tassonomia;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  private ArticoloTassonomiaQueryEntity padre;
 
   public ArticoloTassonomiaQueryEntity() {}
 
@@ -72,13 +72,5 @@ public class ArticoloTassonomiaQueryEntity {
 
   public void setTassonomia(TassonomiaQueryEntity tassonomia) {
     this.tassonomia = tassonomia;
-  }
-
-  public ArticoloTassonomiaQueryEntity getPadre() {
-    return padre;
-  }
-
-  public void setPadre(ArticoloTassonomiaQueryEntity padre) {
-    this.padre = padre;
   }
 }

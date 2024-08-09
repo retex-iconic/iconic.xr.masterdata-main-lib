@@ -10,4 +10,5 @@ public interface CommissioneServizioRepository
         JpaSpecificationExecutor<CommissioneServizioQueryEntity> {
   List<CommissioneServizioQueryEntity> findAllByAnagraficaServizioIdAndProfilo(
       String anagraficaServizioId, String profilo);
+  List<CommissioneServizioQueryEntity> findAllByArticoloId(String articoloId);
 }

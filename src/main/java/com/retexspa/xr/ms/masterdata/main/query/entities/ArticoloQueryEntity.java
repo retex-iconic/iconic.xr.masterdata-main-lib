@@ -7,14 +7,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import com.retexspa.xr.ms.main.query.entities.GerarchiaQueryEntity;
@@ -22,7 +15,8 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.articolo.ArticoloBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "articoli")
+@Table(name = "articoli", uniqueConstraints = {
+        @UniqueConstraint(name = "articoli_uk", columnNames = { "codice","gerarchia_id" })})
 public class ArticoloQueryEntity {
 
   @Id @NonNull private String id;
@@ -41,9 +35,11 @@ public class ArticoloQueryEntity {
   private Set<ArticoloQueryEntity> figli;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_articoli_padre"))
   private ArticoloQueryEntity padre;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "articolo")
