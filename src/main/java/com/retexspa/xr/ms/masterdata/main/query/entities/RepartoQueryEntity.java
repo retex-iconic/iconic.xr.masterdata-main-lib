@@ -12,7 +12,9 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.reparto.RepartoBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "reparto")
+@Table(name = "reparto", uniqueConstraints = {
+  @UniqueConstraint(name = "reparto_uk", columnNames = { "codice","gerarchia_id" })
+})
 public class RepartoQueryEntity {
 
   @Id @NonNull private String id;
@@ -119,7 +121,7 @@ public class RepartoQueryEntity {
   @Column(name = "bloccoPre")
   private String bloccoPre;
 
-  @Column(name = "flg_cancellato")
+  @Column(name = "flgcancellato")
   private String flgCancellato;
 
   @Column(name = "data_cancellazione")
@@ -134,10 +136,11 @@ public class RepartoQueryEntity {
   private IvaQueryEntity iva;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  // @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ateco_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_reparto_padre"))
   private RepartoQueryEntity padre;
 
   public RepartoQueryEntity() {}
@@ -181,6 +184,7 @@ public class RepartoQueryEntity {
     this.dataOraUpd = repartoDTO.getDataOraUpd();
     this.bloccoPre = repartoDTO.getBloccoPre();
     this.version = version;
+    this.flgCancellato = repartoDTO.getFlgCancellato();
   }
 
   public String getId() {

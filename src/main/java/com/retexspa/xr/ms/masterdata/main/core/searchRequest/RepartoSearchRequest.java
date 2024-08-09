@@ -45,7 +45,8 @@ public class RepartoSearchRequest extends BaseSortPagination {
   private LocalDateTime dataCas;
   private String idSendEcr;
   private String dataOraUpd;
-  private String bloccoPre;
+  private String bloccoPre;  
+  private String flgCancellato;
   private Long version;
 
   public RepartoSearchRequest(Integer page, Integer limit, List<BaseSort> sort, String id, String nome, String codice,

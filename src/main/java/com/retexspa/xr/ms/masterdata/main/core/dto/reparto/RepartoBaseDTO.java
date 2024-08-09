@@ -58,8 +58,18 @@ public class RepartoBaseDTO extends BaseDTO {
   private String dataOraUpd;
   private String bloccoPre;
 
+  private String flgCancellato;
+
   public String getIvaId() {
     return ivaId;
+  }
+
+  public String getFlgCancellato() {
+    return this.flgCancellato;
+  }
+
+  public void setFlgCancellato(String flgCancellato) {
+    this.flgCancellato = flgCancellato;
   }
 
   public void setIvaId(String ivaId) {
