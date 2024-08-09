@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface AnagraficaServizioRepository
     extends JpaRepository<AnagraficaServizioQueryEntity, String>,
-        JpaSpecificationExecutor<AnagraficaServizioQueryEntity> {
+    JpaSpecificationExecutor<AnagraficaServizioQueryEntity> {
   List<AnagraficaServizioQueryEntity> findAllByCodice(String codice);
+
+  List<AnagraficaServizioQueryEntity> findAllByTipologiaServizioId(String id);
 }

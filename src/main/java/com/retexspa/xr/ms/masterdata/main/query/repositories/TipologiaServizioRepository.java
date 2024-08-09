@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface TipologiaServizioRepository
     extends JpaRepository<TipologiaServizioQueryEntity, String>,
-        JpaSpecificationExecutor<TipologiaServizioQueryEntity> {
+    JpaSpecificationExecutor<TipologiaServizioQueryEntity> {
   List<TipologiaServizioQueryEntity> findAllByCodice(String codice);
+
+  List<TipologiaServizioQueryEntity> findAllByPadreId(String id);
+
 }
