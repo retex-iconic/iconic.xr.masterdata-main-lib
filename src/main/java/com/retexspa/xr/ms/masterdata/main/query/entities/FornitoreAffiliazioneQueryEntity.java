@@ -32,18 +32,18 @@ public class FornitoreAffiliazioneQueryEntity implements Serializable {
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "fornitore_id", referencedColumnName = "id")
+  @JoinColumn(name = "fornitore_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_fornitore_fornitore"))
   private FornitoreQueryEntity fornitore;
 
   @Column(name = "codice")
   private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id")
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_fornitore_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "negozio_id", referencedColumnName = "id")
+  @JoinColumn(name = "negozio_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_fornitore_variazioni_negozio"))
   private NegozioQueryEntity negozio;
 
   public FornitoreAffiliazioneQueryEntity() {}

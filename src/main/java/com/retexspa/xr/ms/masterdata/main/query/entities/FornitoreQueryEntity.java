@@ -16,7 +16,9 @@ import com.retexspa.xr.ms.masterdata.main.core.dto.fornitore.FornitoreBaseDTO;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "fornitori")
+@Table(name = "fornitori",  uniqueConstraints = {
+  @UniqueConstraint(name = "fornitore_uk", columnNames = { "gerarchia_id", "codice" }),
+})
 public class FornitoreQueryEntity {
 
   @Id @NonNull private String id;
@@ -29,9 +31,11 @@ public class FornitoreQueryEntity {
   // private String codice;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "padre_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_fornitore_padre"))
   private FornitoreQueryEntity padre;
 
   @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "gerarchia_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_fornitore_gerarchia"))
   private GerarchiaQueryEntity gerarchia;
 
   @Column(name = "codice")
